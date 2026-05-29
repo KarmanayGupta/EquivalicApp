@@ -1,0 +1,1118 @@
+/* ============================================================
+   Analysis Health page logic
+   Contains this page's bootstrap, renderers, handlers, and data only.
+============================================================ */
+window.EQUIVALIC_INITIAL_PAGE = window.EQUIVALIC_INITIAL_PAGE || 'Analysis Health';
+
+/* ============================================================
+   Page bootstrap and shared shell utilities
+============================================================ */
+const appState = { product: "Product Suite", section: "Analysis Engine", page: "Project Summary", view: "Overview" };
+function renderHeader() {
+  const el = document.getElementById("appBreadcrumb");
+  if (el) el.innerHTML = `${appState.product} > ${appState.section} > ${appState.page}`;
+}
+function setState(newState) { Object.assign(appState, newState); renderHeader(); }
+
+let charts = [];
+function destroyCharts() { charts.forEach(c => c.destroy()); charts = []; }
+let isWikiMode = false, isConvertMode = false;
+const leftPanel = document.querySelector(".left-panel");
+const displayPanel = document.querySelector(".display-panel");
+const originalLeftPanel = leftPanel ? leftPanel.innerHTML : "";
+
+function restoreDashboard() {
+  window.location.href = "../Overview/project%20summary.html";
+}
+
+function activateMode(sectionName, pageName, leftHTML, displayHTML, afterFn, instant) {
+  isWikiMode = false;
+  isConvertMode = false;
+  setState({ section: "Analysis Engine", page: pageName, view: "Overview" });
+  if (document.querySelector('.workspace')) document.querySelector('.workspace').style.gridTemplateColumns = '';
+  if (leftPanel) leftPanel.style.display = '';
+  if (instant) {
+    leftPanel.innerHTML = leftHTML;
+    displayPanel.innerHTML = displayHTML;
+    document.getElementById("backToDashboard")?.addEventListener("click", restoreDashboard);
+    if (afterFn) afterFn();
+    return;
+  }
+  leftPanel.classList.add("fade-transition", "fade-out");
+  displayPanel.classList.add("fade-transition", "fade-out");
+  setTimeout(() => {
+    leftPanel.innerHTML = leftHTML;
+    displayPanel.innerHTML = displayHTML;
+    leftPanel.classList.remove("fade-out");
+    displayPanel.classList.remove("fade-out");
+    document.getElementById("backToDashboard")?.addEventListener("click", restoreDashboard);
+    if (afterFn) afterFn();
+  }, 200);
+}
+
+function syncSidebarActive(pageName) {
+  document.querySelectorAll('.nav-child').forEach(child => {
+    child.classList.toggle('active', child.dataset.page === pageName);
+  });
+  document.querySelectorAll('.nav-row').forEach(row => row.classList.remove('active'));
+  document.querySelectorAll('.nav-children').forEach(group => group.classList.remove('open'));
+  const activeChild = document.querySelector(`.nav-child[data-page="${pageName}"]`);
+  const group = activeChild?.closest('.nav-children');
+  if (group) {
+    group.classList.add('open');
+    const navKey = group.id.replace('children-', '');
+    document.querySelector(`.nav-row[data-nav="${navKey}"]`)?.classList.add('active');
+  }
+}
+
+document.querySelectorAll(".nav-row").forEach(row => {
+  row.addEventListener("click", () => {
+    const navKey = row.dataset.nav;
+    const childrenEl = document.getElementById("children-" + navKey);
+    const isOpen = childrenEl && childrenEl.classList.contains("open");
+    document.querySelectorAll(".nav-row").forEach(r => r.classList.remove("active"));
+    document.querySelectorAll(".nav-children").forEach(c => c.classList.remove("open"));
+    if (!isOpen) {
+      row.classList.add("active");
+      if (childrenEl) childrenEl.classList.add("open");
+    }
+  });
+});
+
+renderHeader();
+
+
+    function activateAnalysisHealthMode() {
+      leftPanel.style.display = 'none';
+      if (document.querySelector('.workspace')) {
+        document.querySelector('.workspace').style.gridTemplateColumns = '1fr';
+      }
+      const displayHTML = `
+      <div class="scroll-container" style="display:flex; flex-direction:column; padding:32px; height:100%; overflow-y:auto; background:var(--bg-main);">
+        
+        <!-- Header -->
+        <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:24px;">
+            <div>
+                <div style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:4px; letter-spacing:0.5px;">COBOL Analysis Readiness</div>
+                <h2 style="font-size:32px; font-weight:700; color:#fff; margin:0 0 8px 0;">Analysis Health</h2>
+                <div style="font-size:14px; color:var(--text-muted);">A deterministic pipeline view from repo upload through AST, IR generation, IR accuracy, dependencies, artifacts, optional AI, and conversion readiness.</div>
+            </div>
+            <div style="display:flex; gap:12px;">
+                <button style="background:#6c5ce7; color:#fff; border:none; padding:10px 20px; border-radius:6px; font-size:13px; font-weight:600; cursor:pointer;">Refresh</button>
+                <button style="background:#2d3748; color:#fff; border:1px solid rgba(255,255,255,0.1); padding:10px 20px; border-radius:6px; font-size:13px; font-weight:600; cursor:pointer;">Download health bundle</button>
+                <button style="background:#2d3748; color:#fff; border:1px solid rgba(255,255,255,0.1); padding:10px 20px; border-radius:6px; font-size:13px; font-weight:600; cursor:pointer;">Project DNA</button>
+            </div>
+        </div>
+
+        <!-- Alert Banner -->
+        <div style="background:rgba(241,196,15,0.1); border:1px solid rgba(241,196,15,0.3); color:#f1c40f; padding:16px 20px; border-radius:8px; font-size:14px; font-weight:600; margin-bottom:24px;">
+            Ready with warnings: review partial parses, graph references, project artifact findings, or post-IR warnings before conversion.
+        </div>
+    <div style="display:grid; grid-template-columns:repeat(5, 1fr); gap:16px; margin-bottom:32px;">
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Timeline Stages</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">10</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Parser Failures</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Partial Parses</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">1</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">IR Warnings</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">1</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Graph Unresolved</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Artifact Validation Fails</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Artifact I/O Reads</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">14</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Large Artifacts</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">I/O Cache Hits</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">13</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Skipped Files</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">AI Calls</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">AI Cache Hits</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Post-IR Blockers</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Initial IR Score</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">-</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Post-Fix IR Score</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">-</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">IR Readiness</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">not_checked</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Resource Nodes</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Evidence Edges</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    </div><div class="dashboard-tabs" id="healthTabs"><button class="tab active" data-view="health-tab-0" style="font-size:12px; padding:0 8px 12px 8px;">Upload, Discovery, Preprocess & IR Generation</button><button class="tab" data-view="health-tab-1" style="font-size:12px; padding:0 8px 12px 8px;">Parser & AST</button><button class="tab" data-view="health-tab-2" style="font-size:12px; padding:0 8px 12px 8px;">IR Accuracy Lifecycle</button><button class="tab" data-view="health-tab-3" style="font-size:12px; padding:0 8px 12px 8px;">Dependency Graph Audit</button><button class="tab" data-view="health-tab-4" style="font-size:12px; padding:0 8px 12px 8px;">Project-Level Artifact Health</button><button class="tab" data-view="health-tab-5" style="font-size:12px; padding:0 8px 12px 8px;">Post-IR Readiness</button><button class="tab" data-view="health-tab-6" style="font-size:12px; padding:0 8px 12px 8px;">AI Assistance Health</button><button class="tab" data-view="health-tab-7" style="font-size:12px; padding:0 8px 12px 8px;">Run Timeline & Performance</button><button class="tab" data-view="health-tab-8" style="font-size:12px; padding:0 8px 12px 8px;">Persistence & Artifact I/O Health</button><button class="tab" data-view="health-tab-9" style="font-size:12px; padding:0 8px 12px 8px;">Review Queue & Downloads</button></div>
+    <div id="health-tab-0" class="health-section" style="display:block; background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:24px; margin-bottom:32px;">
+        <h3 style="font-size:16px; font-weight:600; color:#fff; margin-top:0; margin-bottom:20px;">Upload, Discovery, Preprocess & IR Generation</h3>
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin-bottom:24px;"><div style='flex:1; min-width:140px;'>
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Uploaded files</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">1</div>
+        
+    </div>
+    </div><div style='flex:1; min-width:140px;'>
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Parsed programs</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">1</div>
+        
+    </div>
+    </div><div style='flex:1; min-width:140px;'>
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Dependency context</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    </div><div style='flex:1; min-width:140px;'>
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Unsupported skipped</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    </div><div style='flex:1; min-width:180px;'>
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Discovery cache</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">hit=0, miss=1</div>
+        
+    </div>
+    </div><div style='flex:1; min-width:180px;'>
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Copybooks</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">reg=0, dup=0</div>
+        
+    </div>
+    </div><div style='flex:1; min-width:180px;'>
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Missing copybooks</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">app=0, sys=0</div>
+        
+    </div>
+    </div><div style='flex:1; min-width:180px;'>
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Copybook policy</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">app=warn</div>
+        
+    </div>
+    </div><div style='flex:1; min-width:180px;'>
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">IR quality</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">pass=0, warn=1, fail=0</div>
+        
+    </div>
+    </div><div style='flex:1; min-width:180px;'>
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">IR certification</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">cert=0, warn=1, block=0</div>
+        
+    </div>
+    </div><div style='flex:1; min-width:180px;'>
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Conversion risk</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">low=1, med=0, high=0</div>
+        
+    </div>
+    </div><div style='flex:1; min-width:140px;'>
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Preprocess warnings</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">1</div>
+        
+    </div>
+    </div></div><h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Deterministic IR Quality</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Program</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Status</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Score</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Issues</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">temp</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">passed_with_warnings</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">72</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">partial_parse, parse_errors, preprocessing_warnings</td></tr>
+        </table>
+    </div>
+    <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>IR Certification</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Program</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Status</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Score</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Risk</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Blocking</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">temp</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">certified_with_warnings</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">99</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">LOW</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">0</td></tr>
+        </table>
+    </div>
+    <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Preprocessing Warnings</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Program</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Severity</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Type</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Message</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">temp</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">INFO</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">DEBUG_INDICATOR_LINE_COMMENTED</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">Commented debug indicator line from column 7 for parser compatibility.</td></tr>
+        </table>
+    </div>
+    <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>SQL/CICS Mapping Audit</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Program</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Extracted</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Mapped</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Unmapped</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Warnings</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">temp</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">0</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">0</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">0</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td></tr>
+        </table>
+    </div>
+    <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Copybook Resolution</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Program</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Copybook</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Status</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Severity</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Selected</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Reason</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">No copybook references recorded.</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td></tr>
+        </table>
+    </div>
+    <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>File Classification</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">File</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Type</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Disposition</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Confidence</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Reason</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">cobol files/temp.cbl</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">program</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">parsed_program</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">0.98</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">program_by_extension</td></tr>
+        </table>
+    </div>
+    
+    </div>
+    
+    <div id="health-tab-1" class="health-section" style="display:none; background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:24px; margin-bottom:32px;">
+        <h3 style="font-size:16px; font-weight:600; color:#fff; margin-top:0; margin-bottom:20px;">Parser & AST</h3>
+        <div style="display:grid; grid-template-columns:repeat(5, 1fr); gap:12px; margin-bottom:24px;">
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Programs</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">1</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Success</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;"><span style='color:#2ecc71'>0</span></div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Partial</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;"><span style='color:#f1c40f'>1</span></div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Failed</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;"><span style='color:#e74c3c'>0</span></div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Total parser time</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">233ms</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Failure triage</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">1</div>
+        
+    </div>
+    </div><h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Slowest Parses</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Program</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Status</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Total Time</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Errors</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">temp</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">partial</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">233ms</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">1</td></tr>
+        </table>
+    </div>
+    <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Largest ASTs</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Program</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">AST Size</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">AST Nodes</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">temp</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">35.1 KB</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">291</td></tr>
+        </table>
+    </div>
+    <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Parse Failure Triage</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Program</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Classification</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Errors</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Suggested Fix</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">temp</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">unknown_parser_failure</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">1</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">Review parser errors and source context, then add preprocessing or grammar support for the failing construct.</td></tr>
+        </table>
+    </div>
+    
+    </div>
+    
+    <div id="health-tab-2" class="health-section" style="display:none; background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:24px; margin-bottom:32px;">
+        <h3 style="font-size:16px; font-weight:600; color:#fff; margin-top:0; margin-bottom:20px;">IR Accuracy Lifecycle</h3>
+        <div style="display:grid; grid-template-columns:repeat(6, 1fr); gap:12px; margin-bottom:16px;">
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Initial IR score</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">not captured</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Initial chunks</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">pass=0, warn=0, fail=0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Fix proposals</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Applicable patches</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Applied fixes</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Post-fix IR score</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">not captured</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Post-fix chunks</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">pass=0, warn=0, fail=0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Conversion readiness</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">not_checked</div>
+        
+    </div>
+    </div>
+    <div style="background:rgba(255,255,255,0.05); padding:8px 12px; border-radius:4px; font-size:13px; color:var(--text-muted); margin-bottom:16px; border:1px solid rgba(255,255,255,0.1); display:inline-block;">Pass/warn/fail delta: post-fix not captured. Readiness: IR quality has not been captured.</div>
+    <div style="display:flex; gap:12px; margin-bottom:24px;">
+        <button style="background:transparent; border:1px solid #6c5ce7; color:#6c5ce7; padding:8px 16px; border-radius:4px; font-size:13px; cursor:pointer;">Create Fix Review</button>
+        <button style="background:transparent; border:1px solid #6c5ce7; color:#6c5ce7; padding:8px 16px; border-radius:4px; font-size:13px; cursor:pointer;">Approve selected fixes</button>
+        <button style="background:transparent; border:1px solid #6c5ce7; color:#6c5ce7; padding:8px 16px; border-radius:4px; font-size:13px; cursor:pointer;">Rerun Post-Fix Quality</button>
+        <button style="background:transparent; border:1px solid #6c5ce7; color:#6c5ce7; padding:8px 16px; border-radius:4px; font-size:13px; cursor:pointer;">Download Lifecycle</button>
+    </div>
+    <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Before / After Quality</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Phase</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Status</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Score</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Pass</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Warn</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Fail</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Semantic Warnings</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">Initial</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">not captured</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">0</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">0</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">0</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">0</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">Post-fix</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">not captured</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">0</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">0</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">0</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">0</td></tr>
+        </table>
+    </div>
+    <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Fix Review</h4><div style='border:1px dashed rgba(255,255,255,0.2); padding:20px; color:var(--text-muted); font-size:13px; border-radius:4px;'>No fix proposals yet. Run Check IR Quality, then Create Fix Review.</div>
+    </div>
+    
+    <div id="health-tab-3" class="health-section" style="display:none; background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:24px; margin-bottom:32px;">
+        <h3 style="font-size:16px; font-weight:600; color:#fff; margin-top:0; margin-bottom:20px;">Dependency Graph Audit</h3>
+        <div style="display:grid; grid-template-columns:repeat(7, 1fr); gap:12px; margin-bottom:16px;">
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Schema</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;"><span style='color:#2ecc71'>yes</span></div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Nodes</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">1</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Edges</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Edge evidence</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Unresolved refs</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Missing IR edges</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Resource nodes</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">DB2 nodes</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">CICS map nodes</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Dataset nodes</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">DB2 usage</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">JCL lineage</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    </div><div style='background:rgba(255,255,255,0.05); padding:8px 12px; border-radius:4px; font-size:13px; color:var(--text-muted); margin-bottom:16px; border:1px solid rgba(255,255,255,0.1); display:inline-block;'>Edge types: -</div><h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Unresolved References</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Source</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Type</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Target</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Evidence</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">No unresolved graph references recorded.</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td></tr>
+        </table>
+    </div>
+    <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>DB2 Table Usage</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Table</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Program</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Modes</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">No DB2 table usage captured.</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td></tr>
+        </table>
+    </div>
+    <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>JCL Program Dataset Lineage</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">JCL</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Step</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Program</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Datasets</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">No JCL lineage captured.</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td></tr>
+        </table>
+    </div>
+    <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>CICS Binding Audit</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Program</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Verb</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Map</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Link Program</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Resource</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">No CICS bindings captured.</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td></tr>
+        </table>
+    </div>
+    
+    </div>
+    
+    <div id="health-tab-4" class="health-section" style="display:none; background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:24px; margin-bottom:32px;">
+        <h3 style="font-size:16px; font-weight:600; color:#fff; margin-top:0; margin-bottom:20px;">Project-Level Artifact Health</h3>
+        <div style="display:grid; grid-template-columns:repeat(7, 1fr); gap:12px; margin-bottom:24px;">
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Status</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">passed_with_warnings</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Artifacts</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">7</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Validated</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">6</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Validation fails</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Stamped</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">7</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Manifest warnings</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Contract findings</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">1</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Preview warnings</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">1</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Artifact graph nodes</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">7</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Artifact graph edges</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">20</div>
+        
+    </div>
+    </div><h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Artifact Schema Validation</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Artifact</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Schema</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Status</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Errors</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">project_dependency_graph</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">passed</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">generation_manifest</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">generation_manifest</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">passed</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">enriched_manifest</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">enriched_manifest</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">passed</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">classification_report</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">classification_report</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">passed</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">source_architecture_preview</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">source_architecture_preview</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">passed</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">target_preview</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">target_preview</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">passed</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">post_ir_traceability_report</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">post_ir_traceability_report</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">passed</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td></tr>
+        </table>
+    </div>
+    <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Manifest Enrichment Diff</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Class</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Before Fields</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">After Fields</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Added Keys</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">EmpRecord</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">0</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">3</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">field_enrichment, fields, program_name, source_category</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">TempService</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">0</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">0</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">source_category</td></tr>
+        </table>
+    </div>
+    <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Program Contract Consistency</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Severity</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Code</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Program(s)</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Message</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">warn</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">ir_programs_missing_from_classification</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">READ_FILE_EXAMPLE</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">IR programs are missing from classification</td></tr>
+        </table>
+    </div>
+    <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Preview Traceability</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Program</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Source Preview</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Target Preview</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">READ_FILE_EXAMPLE</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">yes</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">no</td></tr>
+        </table>
+    </div>
+    <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Artifact Dependency Graph</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Artifact</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Producer</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Validation</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Size</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">project_dependency_graph</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">CrossFileDependencyResolver</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">passed</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">2.3 KB</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">generation_manifest</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">GenerationManifestGenerator</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">passed</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">11.2 KB</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">enriched_manifest</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">FieldEnrichmentService</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">passed</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">16.7 KB</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">classification_report</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">ClassificationReportGenerator</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">passed</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">1.2 KB</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">source_architecture_preview</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">SourceArchitecturePreviewBuilder</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">passed</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">6.7 KB</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">target_preview</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">TargetPreviewBuilder</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">passed</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">5.4 KB</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">post_ir_traceability_report</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">PostIrHealth</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">passed</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">6.2 KB</td></tr>
+        </table>
+    </div>
+    <div style='background:rgba(255,255,255,0.05); padding:12px; border-radius:4px; font-size:13px; color:var(--text-muted); border:1px solid rgba(255,255,255,0.1);'>Manifest: classes=2, programs=2. Program contract: services=1, domain classes=1. Preview: source=1, target=0.</div>
+    </div>
+    
+    <div id="health-tab-5" class="health-section" style="display:none; background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:24px; margin-bottom:32px;">
+        <h3 style="font-size:16px; font-weight:600; color:#fff; margin-top:0; margin-bottom:20px;">Post-IR Readiness</h3>
+        <div style="display:grid; grid-template-columns:repeat(7, 1fr); gap:12px; margin-bottom:24px;">
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Status</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">passed</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">IR programs</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">1</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Graph nodes</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">1</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Manifest programs</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">2</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Manifest services</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">1</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Blocking issues</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Warnings</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    </div><h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Artifact Contracts</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Artifact</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Status</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Missing Keys</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">project_dependency_graph</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">passed</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">generation_manifest</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">passed</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">enriched_manifest</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">passed</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">classification_report</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">passed</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">source_architecture_preview</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">passed</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">target_preview</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">passed</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td></tr>
+        </table>
+    </div>
+    <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Program Traceability</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Program</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Graph</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Manifest</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Classification</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Program Contract</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Previews</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">READ_FILE_EXAMPLE</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">yes</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">yes</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">yes</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">yes</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">source=yes, target=yes</td></tr>
+        </table>
+    </div>
+    <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Readiness Findings</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Severity</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Code</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Program/Ref</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Message</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">No post-IR readiness findings.</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td></tr>
+        </table>
+    </div>
+    
+    </div>
+    
+    <div id="health-tab-6" class="health-section" style="display:none; background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:24px; margin-bottom:32px;">
+        <h3 style="font-size:16px; font-weight:600; color:#fff; margin-top:0; margin-bottom:20px;">AI Assistance Health</h3>
+        <div style="display:grid; grid-template-columns:repeat(6, 1fr); gap:12px; margin-bottom:16px;">
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Layer</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">AI-generated / optional</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Optional layer</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;"><span style='color:#2ecc71'>yes</span></div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Deterministic separate</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;"><span style='color:#2ecc71'>yes</span></div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Total calls</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Cache hits</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Budget blocks</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Est. tokens</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Est. cost</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">$0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Timeout</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">180s</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Retries</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">5</div>
+        
+    </div>
+    </div><div style='background:rgba(255,255,255,0.05); padding:8px 12px; border-radius:4px; font-size:13px; color:var(--text-muted); margin-bottom:24px; border:1px solid rgba(255,255,255,0.1); display:inline-block;'>Deterministic vs AI-generated: deterministic AST, IR, graph, and artifact health are authoritative; AI checks are advisory enhancement jobs.</div><h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Feature Budgets</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Feature</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Calls</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Est. Tokens</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Max Calls</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Max Prompt Tokens</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">No LLM feature budgets configured.</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td></tr>
+        </table>
+    </div>
+    <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Recent AI Calls</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Feature</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Model</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Status</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Cache</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Est. Tokens</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">No LLM calls recorded for this project.</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td></tr>
+        </table>
+    </div>
+    <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>LLM Background / Queue Status</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Job</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Kind</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Status</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Retry Policy</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">8b69c4d2-977f-40ab-b8c6-874f7498b54c</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">analysis</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">COMPLETED</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">analysis job owns deterministic retry; LLM calls use llm_governance retry/timeout policy</td></tr>
+        </table>
+    </div>
+    
+    </div>
+    
+    <div id="health-tab-7" class="health-section" style="display:none; background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:24px; margin-bottom:32px;">
+        <h3 style="font-size:16px; font-weight:600; color:#fff; margin-top:0; margin-bottom:20px;">Run Timeline & Performance</h3>
+        <div style="display:grid; grid-template-columns:repeat(7, 1fr); gap:12px; margin-bottom:16px;">
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Status</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">warnings</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Live run</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">COMPLETED</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Current stage</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">analysis</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Timeline stages</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">10</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Artifacts</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">66</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Total artifact size</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">275.1 KB</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Parse time</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">233ms</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Slow I/O ops</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Failed / partial</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">2</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Skipped files</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Run comparison</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">no</div>
+        
+    </div>
+    </div><div style='background:rgba(255,255,255,0.05); padding:8px 12px; border-radius:4px; font-size:13px; color:var(--text-muted); margin-bottom:24px; border:1px solid rgba(255,255,255,0.1); display:inline-block;'>This view answers what happened, what failed or skipped, what changed, and what took time using deterministic health APIs and persisted run metadata.</div><h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Live Stage Progress</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Stage</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Status</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Completed</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Failed</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Duration</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">Upload</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">completed</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">yes</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">no</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">Discovery</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">completed</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">yes</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">no</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">Preprocess</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">warnings</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">yes</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">no</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">Parse</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">warnings</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">yes</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">no</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">IR</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">warnings</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">yes</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">no</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">Dependency</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">completed</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">yes</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">no</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">Manifest</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">completed</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">yes</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">no</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">Program Contract</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">warnings</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">yes</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">no</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">Previews</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">completed</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">yes</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">no</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td></tr>
+        </table>
+    </div>
+    <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Recent Analysis Events</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Stage</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Status</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Event</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Time</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">ANALYSIS</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">COMPLETED</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">Analysis run completed</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">2026-05-28T14:48:34.538084+00:00</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">ARTIFACT_INDEX</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">COMPLETED</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">Indexed 62 analysis artifact(s)</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">2026-05-28T14:48:34.513174+00:00</td></tr>
+        </table>
+    </div>
+    <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Stage Timeline</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Stage</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Status</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Duration</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Artifacts</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Metrics</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">Analysis Run</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">completed</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">739ms</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">0</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">run_id=8b69c4d2... requested_by=analysis@ss.com</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">Upload</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">completed</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">1</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">uploaded_files=1, parsed_program=1...</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">Parse</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">warnings</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">5</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">programs=1, profile_available=yes...</td></tr>
+        </table>
+    </div>
+    <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Failed / Partial Program Dashboard</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Program</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Stage</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Status</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Class</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Message</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">temp</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">parse</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">failed_or_partial</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">unknown_parser_failure</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">Review parser errors...</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">temp</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">ir</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">passed_with_warnings</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">ir_quality</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">AST was produced from a partial parse...</td></tr>
+        </table>
+    </div>
+    
+    </div>
+    
+    <div id="health-tab-8" class="health-section" style="display:none; background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:24px; margin-bottom:32px;">
+        <h3 style="font-size:16px; font-weight:600; color:#fff; margin-top:0; margin-bottom:20px;">Persistence & Artifact I/O Health</h3>
+        <div style="display:grid; grid-template-columns:repeat(7, 1fr); gap:12px; margin-bottom:16px;">
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Status</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">passed</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Artifacts indexed</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">66</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Total size</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">275.1 KB</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">JSON reads</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">14</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">JSON writes</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">3</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Cache hits</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">13</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Cache misses</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">1</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Slow ops</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Large warnings</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Compact AST candidates</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        
+    </div>
+    </div><div style='background:rgba(255,255,255,0.05); padding:8px 12px; border-radius:4px; font-size:13px; color:var(--text-muted); margin-bottom:24px; border:1px solid rgba(255,255,255,0.1); display:inline-block;'>Centralized artifact helper tracks JSON I/O timing, write-through IR cache activity, size budgets, compact AST companions, and compressed large AST/IR artifacts.</div><h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Artifact Types</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Type</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Count</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Total Size</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">ast</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">4</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">39.9 KB</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">ir</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">6</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">58.4 KB</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">json</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">50</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">170.2 KB</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">other</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">6</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">6.6 KB</td></tr>
+        </table>
+    </div>
+    <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Largest Artifacts</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Artifact</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Type</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Size</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Warnings</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">analysis/batch_temp/ast/temp_ast.json</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">ast</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">35.1 KB</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">analysis/batch_temp/ir/IR.json</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">ir</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">28.0 KB</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">analysis/batch_temp/ir/IR.compact.json</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">ir</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">26.8 KB</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td></tr><tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">analysis/unified/project_artifact_health_report.json</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">json</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">23.0 KB</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td></tr>
+        </table>
+    </div>
+    <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Slowest JSON I/O Operations</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Operation</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Artifact</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Duration</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Cache</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Warnings</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">write_json</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">analysis/batch_temp/ast/temp_ast.json</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">1ms</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">write-through</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">-</td></tr>
+        </table>
+    </div>
+    <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Large I/O Operation Warnings</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Operation</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Artifact</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Size</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Warnings</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">No large read/write operations recorded.</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td></tr>
+        </table>
+    </div>
+    
+    </div>
+    
+    <div id="health-tab-9" class="health-section" style="display:none; background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:24px; margin-bottom:32px;">
+        <h3 style="font-size:16px; font-weight:600; color:#fff; margin-top:0; margin-bottom:20px;">Review Queue & Downloads</h3>
+        
+    <div style="display:flex; justify-content:space-between; margin-bottom:16px;">
+        <div style="font-size:13px; color:var(--text-muted);">Filter the evidence a reviewer needs first, then download the exact report behind it.</div>
+        <div style="display:flex; gap:8px;">
+            <button style="background:var(--accent-1); color:#fff; border:none; padding:4px 12px; border-radius:4px; font-size:12px;">All evidence</button>
+            <button style="background:transparent; color:var(--text-muted); border:1px solid rgba(255,255,255,0.2); padding:4px 12px; border-radius:4px; font-size:12px;">Only blockers</button>
+            <button style="background:transparent; color:var(--text-muted); border:1px solid rgba(255,255,255,0.2); padding:4px 12px; border-radius:4px; font-size:12px;">Only skipped files</button>
+        </div>
+    </div>
+    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:24px;">
+        <span style="border:1px solid #3498db; color:#3498db; padding:4px 12px; border-radius:12px; font-size:11px;">Performance</span>
+        <span style="border:1px solid #3498db; color:#3498db; padding:4px 12px; border-radius:12px; font-size:11px;">Parser</span>
+        <span style="border:1px solid #3498db; color:#3498db; padding:4px 12px; border-radius:12px; font-size:11px;">IR Process</span>
+        <span style="border:1px solid #3498db; color:#3498db; padding:4px 12px; border-radius:12px; font-size:11px;">IR Accuracy Lifecycle</span>
+        <span style="border:1px solid #3498db; color:#3498db; padding:4px 12px; border-radius:12px; font-size:11px;">Dependency Graph</span>
+        <span style="border:1px solid #3498db; color:#3498db; padding:4px 12px; border-radius:12px; font-size:11px;">Project Artifacts</span>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; margin-bottom:24px;">
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">BLOCKERS</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">1</div>
+        <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">Findings that can stop or materially weaken conversion readiness.</div>
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">SKIPPED FILES</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">0</div>
+        <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">Uploaded files that were intentionally skipped or rejected.</div>
+    </div>
+    
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">PROGRAM EVIDENCE</div>
+        <div style="font-size:24px; font-weight:700; color:#fff;">4</div>
+        <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">Expandable per-program parse, IR, and traceability findings.</div>
+    </div>
+    </div><h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Blocker Findings</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Area</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Severity</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Program/Ref</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Message</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">Parse</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">failed</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">temp</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">Review parser errors and source context, then add preprocessing or grammar support for the failing construct.</td></tr>
+        </table>
+    </div>
+    <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Skipped Files</h4>
+    <div style="overflow-x:auto; margin-bottom:24px;">
+        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+            <tr><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">File</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Type</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Disposition</th><th style="padding:12px; font-weight:600; text-align:left; border-bottom:1px solid rgba(255,255,255,0.05); color:var(--text-muted);">Reason</th></tr>
+            <tr><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;">No skipped files found.</td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td><td style="padding:12px; border-bottom:1px solid rgba(255,255,255,0.02); color:#cbd5e1;"></td></tr>
+        </table>
+    </div>
+    <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Expandable Program Evidence</h4>
+        <div style="background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.05); padding:12px 16px; border-radius:6px; margin-bottom:8px; display:flex; align-items:center;">
+            <div style="background:#e67e22; color:#fff; font-size:10px; font-weight:700; padding:2px 6px; border-radius:4px; margin-right:12px;">WARNING</div>
+            <div style="font-size:13px; font-weight:600; color:#fff; width:300px;">Parser evidence: temp</div>
+            <div style="font-size:13px; color:var(--text-muted);">unknown_parser_failure</div>
+        </div>
+        
+        <div style="background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.05); padding:12px 16px; border-radius:6px; margin-bottom:8px; display:flex; align-items:center;">
+            <div style="background:#e67e22; color:#fff; font-size:10px; font-weight:700; padding:2px 6px; border-radius:4px; margin-right:12px;">WARNING</div>
+            <div style="font-size:13px; font-weight:600; color:#fff; width:300px;">IR quality: temp</div>
+            <div style="font-size:13px; color:var(--text-muted);">score : 72 ; issues : 3</div>
+        </div>
+        
+        <div style="background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.05); padding:12px 16px; border-radius:6px; margin-bottom:8px; display:flex; align-items:center;">
+            <div style="background:#e67e22; color:#fff; font-size:10px; font-weight:700; padding:2px 6px; border-radius:4px; margin-right:12px;">WARNING</div>
+            <div style="font-size:13px; font-weight:600; color:#fff; width:300px;">IR certification: temp</div>
+            <div style="font-size:13px; color:var(--text-muted);">status : certified_with_warnings, risk : LOW</div>
+        </div>
+        
+        <div style="background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.05); padding:12px 16px; border-radius:6px; margin-bottom:8px; display:flex; align-items:center;">
+            <div style="background:#e67e22; color:#fff; font-size:10px; font-weight:700; padding:2px 6px; border-radius:4px; margin-right:12px;">WARNING</div>
+            <div style="font-size:13px; font-weight:600; color:#fff; width:300px;">Traceability: READ_FILE_EXAMPLE</div>
+            <div style="font-size:13px; color:var(--text-muted);">graph:yes, manifest:yes, blueprint:no</div>
+        </div>
+        
+    </div>
+    </div>`;
+      activateMode('Analysis Health', 'Analysis Health', '', displayHTML, () => {
+          const healthTabsContainer = document.getElementById('healthTabs');
+          if (healthTabsContainer) {
+              const tabs = healthTabsContainer.querySelectorAll('.tab');
+              tabs.forEach(tab => {
+                  tab.addEventListener('click', (e) => {
+                      tabs.forEach(t => t.classList.remove('active'));
+                      e.target.classList.add('active');
+                      const viewId = e.target.getAttribute('data-view');
+                      document.querySelectorAll('.health-section').forEach(sec => sec.style.display = 'none');
+                      const targetSec = document.getElementById(viewId);
+                      if (targetSec) targetSec.style.display = 'block';
+                  });
+              });
+          }
+      });
+    }
+
+
+syncSidebarActive(window.EQUIVALIC_INITIAL_PAGE);
+activateAnalysisHealthMode();

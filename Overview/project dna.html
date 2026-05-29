@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>EquiValic | Project DNA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="project dna.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  </head>
+  <body>
+    <script>
+      window.EQUIVALIC_INITIAL_PAGE = "Project DNA";
+    </script>
+    <script src="../components/navbar.js"></script>
+    <script>
+      document.write(window.renderNavbar(window.EQUIVALIC_INITIAL_PAGE));
+    </script>
+
+    <div class="app">
+      <div class="continuity" id="appBreadcrumb"></div>
+
+      <div class="workspace">
+        <div class="left-panel">
+          <div class="sub-nav active" id="leftNavDashboard">Dashboard</div>
+          <div class="sub-nav" id="codeWikiTrigger">Code Wiki</div>
+          <div class="sub-nav">System Diagnostics</div>
+          <div class="sub-nav">Conversion Status</div>
+          <div class="sub-nav">Risk Assessment</div>
+          <div class="sub-nav">Project Summary</div>
+          <div class="sub-nav">Parser Improvement</div>
+          <div class="convert-cta"><span>Convert Code</span></div>
+        </div>
+
+        <div class="display-panel">
+          <div class="dashboard-tabs">
+            <button class="tab active" data-view="overview">Overview</button>
+            <button class="tab" data-view="anatomy">Anatomy</button>
+            <button class="tab" data-view="graph">Dependency Graph</button>
+            <button class="tab" data-view="risk">Risk Mitigation</button>
+            <div class="tab-indicator"></div>
+          </div>
+          <div id="previewContent" class="scroll-container"></div>
+        </div>
+      </div>
+
+      <div class="system-bar">
+        <div class="system-meta">All Systems Operational</div>
+        <div class="footer-brand">EquiValic&#8482;</div>
+        <div class="system-meta">v1.0.0</div>
+      </div>
+    </div>
+    <script src="project dna.js"></script>
+  </body>
+</html>
