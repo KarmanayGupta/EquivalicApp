@@ -1,5 +1,6 @@
-/* ============================================================
+﻿/* ============================================================
    Project DNA page logic
+   Source: ChangedAnalysisEngine (2).html
    Contains this page's bootstrap, renderers, handlers, and data only.
 ============================================================ */
 window.EQUIVALIC_INITIAL_PAGE = window.EQUIVALIC_INITIAL_PAGE || 'Project DNA';
@@ -29,8 +30,6 @@ function activateMode(sectionName, pageName, leftHTML, displayHTML, afterFn, ins
   isWikiMode = false;
   isConvertMode = false;
   setState({ section: "Analysis Engine", page: pageName, view: "Overview" });
-  if (document.querySelector('.workspace')) document.querySelector('.workspace').style.gridTemplateColumns = '';
-  if (leftPanel) leftPanel.style.display = '';
   if (instant) {
     leftPanel.innerHTML = leftHTML;
     displayPanel.innerHTML = displayHTML;
@@ -82,7 +81,7 @@ document.querySelectorAll(".nav-row").forEach(row => {
 renderHeader();
 
 
-    const irChunkData = [
+const irChunkData = [
       { chunk: "0000-MAIN-PROCESS", sub: "para_0000-MAIN-PROCESS_1", expected: "ACCTINQ", irName: "ACCTINQ", status: "fail", score: "—", reason: "verifier exception: LLM budget exceeded for feature 'ir_verification'", suggestion: "Category: unknown" },
       { chunk: "END-EVALUATE", sub: "para_END-EVALUATE_2", expected: "ACCTINQ", irName: "ACCTINQ", status: "fail", score: "—", reason: "verifier exception: LLM budget exceeded", suggestion: "Category: unknown" },
       { chunk: "1000-FIRST-TIME-PROCESS", sub: "para_1000-FIRST-TIME-PROCESS_3", expected: "ACCTINQ", irName: "ACCTINQ", status: "fail", score: "—", reason: "verifier exception: LLM budget exceeded", suggestion: "Category: unknown" },
@@ -97,6 +96,7 @@ renderHeader();
       { chunk: "EXEC_SQL", sub: "exec_sql_2", expected: "ORDINV", irName: "ORDINV", status: "fail", score: "—", reason: "verifier exception: LLM budget exceeded", suggestion: "Category: unknown" }
     ];
 
+// Project DNA mode (IR Workbench)
     function activateProjectDNAMode() {
       const irRows = irChunkData.map(row => {
         const statusHtml = row.status === "fail" ? `<span class="ir-wb-status-fail">&#x2715; Not matching</span>` : `<span class="ir-wb-status-pass">&#x2713; Matching</span>`;
@@ -1367,7 +1367,6 @@ renderHeader();
         canvas.scrollLeft = 0;
       });
     }
-
 
 syncSidebarActive(window.EQUIVALIC_INITIAL_PAGE);
 activateProjectDNAMode();

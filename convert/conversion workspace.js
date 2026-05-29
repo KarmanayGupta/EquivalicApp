@@ -1,5 +1,6 @@
-/* ============================================================
+﻿/* ============================================================
    Conversion Workspace page logic
+   Source: ChangedAnalysisEngine (2).html
    Contains this page's bootstrap, renderers, handlers, and data only.
 ============================================================ */
 window.EQUIVALIC_INITIAL_PAGE = window.EQUIVALIC_INITIAL_PAGE || 'Conversion Workspace';
@@ -29,8 +30,6 @@ function activateMode(sectionName, pageName, leftHTML, displayHTML, afterFn, ins
   isWikiMode = false;
   isConvertMode = false;
   setState({ section: "Analysis Engine", page: pageName, view: "Overview" });
-  if (document.querySelector('.workspace')) document.querySelector('.workspace').style.gridTemplateColumns = '';
-  if (leftPanel) leftPanel.style.display = '';
   if (instant) {
     leftPanel.innerHTML = leftHTML;
     displayPanel.innerHTML = displayHTML;
@@ -82,7 +81,7 @@ document.querySelectorAll(".nav-row").forEach(row => {
 renderHeader();
 
 
-    function activateConvertMode() {
+function activateConvertMode() {
       if (isConvertMode) return;
       isConvertMode = true;
       setState({ section: "Analysis", page: "Summary Overview", view: "Overview" });
@@ -116,7 +115,9 @@ renderHeader();
       }, 200);
     }
 
-    function renderConvertOverview() {
+    
+
+function renderConvertOverview() {
       document.getElementById("convertContent").innerHTML += `
         <div class="stats-grid">
           <div class="stat-card"><div class="stat-value">2</div><div class="stat-label">Total Programs</div></div>
@@ -125,7 +126,9 @@ renderHeader();
           <div class="stat-card"><div class="stat-value">0</div><div class="stat-label">DB2 Programs</div></div>
         </div>`;
     }
-    function renderConvertClassification() {
+    
+
+function renderConvertClassification() {
       document.getElementById("convertContent").innerHTML += `
         <div class="chart-wrapper dark"><h4>Classification Breakdown</h4>
           <div class="convert-row"><span>Execution Environment</span><span class="pill">Batch (2)</span></div>
@@ -133,13 +136,16 @@ renderHeader();
           <div class="convert-row"><span>Programming Model</span><span class="pill orange">Structured COBOL (2)</span></div>
         </div>`;
     }
-    function renderConvertInsights() {
+    
+
+function renderConvertInsights() {
       document.getElementById("convertContent").innerHTML += `
         <div class="chart-wrapper dark"><h4>SQL Analysis</h4><div class="empty">No SQL data available</div></div>
         <div class="chart-wrapper dark"><h4>Table Usage</h4><div class="empty">No table usage data available</div></div>
         <div class="chart-wrapper dark"><h4>Recommendations &amp; Insights</h4><div class="empty">No recommendations available</div></div>`;
     }
 
+    
 
 syncSidebarActive(window.EQUIVALIC_INITIAL_PAGE);
 activateConvertMode();

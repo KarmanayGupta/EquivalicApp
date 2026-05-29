@@ -1,5 +1,6 @@
-/* ============================================================
+﻿/* ============================================================
    Analysis Health page logic
+   Source: ChangedAnalysisEngine (2).html
    Contains this page's bootstrap, renderers, handlers, and data only.
 ============================================================ */
 window.EQUIVALIC_INITIAL_PAGE = window.EQUIVALIC_INITIAL_PAGE || 'Analysis Health';
@@ -29,8 +30,6 @@ function activateMode(sectionName, pageName, leftHTML, displayHTML, afterFn, ins
   isWikiMode = false;
   isConvertMode = false;
   setState({ section: "Analysis Engine", page: pageName, view: "Overview" });
-  if (document.querySelector('.workspace')) document.querySelector('.workspace').style.gridTemplateColumns = '';
-  if (leftPanel) leftPanel.style.display = '';
   if (instant) {
     leftPanel.innerHTML = leftHTML;
     displayPanel.innerHTML = displayHTML;
@@ -82,7 +81,7 @@ document.querySelectorAll(".nav-row").forEach(row => {
 renderHeader();
 
 
-    function activateAnalysisHealthMode() {
+function activateAnalysisHealthMode() {
       leftPanel.style.display = 'none';
       if (document.querySelector('.workspace')) {
         document.querySelector('.workspace').style.gridTemplateColumns = '1fr';
@@ -1113,6 +1112,7 @@ renderHeader();
       });
     }
 
+    
 
 syncSidebarActive(window.EQUIVALIC_INITIAL_PAGE);
 activateAnalysisHealthMode();

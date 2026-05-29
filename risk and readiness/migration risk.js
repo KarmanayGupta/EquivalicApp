@@ -1,5 +1,6 @@
-/* ============================================================
+﻿/* ============================================================
    Migration Risk Assessment page logic
+   Source: ChangedAnalysisEngine (2).html
    Contains this page's bootstrap, renderers, handlers, and data only.
 ============================================================ */
 window.EQUIVALIC_INITIAL_PAGE = window.EQUIVALIC_INITIAL_PAGE || 'Migration Risk Assessment';
@@ -29,8 +30,6 @@ function activateMode(sectionName, pageName, leftHTML, displayHTML, afterFn, ins
   isWikiMode = false;
   isConvertMode = false;
   setState({ section: "Analysis Engine", page: pageName, view: "Overview" });
-  if (document.querySelector('.workspace')) document.querySelector('.workspace').style.gridTemplateColumns = '';
-  if (leftPanel) leftPanel.style.display = '';
   if (instant) {
     leftPanel.innerHTML = leftHTML;
     displayPanel.innerHTML = displayHTML;
@@ -82,7 +81,7 @@ document.querySelectorAll(".nav-row").forEach(row => {
 renderHeader();
 
 
-    function activateRiskAssessmentMode() {
+function activateRiskAssessmentMode() {
       const leftHTML = `<div class="sub-nav active">Risk Assessment Report</div>`;
       const displayHTML = `
         <div class="dashboard-tabs" id="riskTabs" style="flex-shrink:0;">
@@ -109,7 +108,9 @@ renderHeader();
       });
     }
 
-    function updateRiskView(view) {
+    
+
+function updateRiskView(view) {
       const el = document.getElementById("riskPreviewContent");
       if (!el) return;
       const map = {
@@ -121,7 +122,9 @@ renderHeader();
       if (map[view]) { el.innerHTML = map[view](); setTimeout(initRiskCharts, 50); }
     }
 
-    function renderRiskOverview() {
+    
+
+function renderRiskOverview() {
       return `<div style="display:flex;flex-direction:column;gap:20px;padding:0 4px 32px;">
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
           <div style="background:linear-gradient(135deg,#6c5ce7,#4a3f9e);border-radius:12px;padding:22px;text-align:center;color:#fff;border:1px solid rgba(108,92,231,0.5);"><div style="font-size:44px;font-weight:800;line-height:1;">100</div><div style="font-size:13px;margin-top:6px;opacity:0.9;">System Score</div></div>
@@ -134,7 +137,9 @@ renderHeader();
       </div>`;
     }
 
-    function renderAssessmentTrending() {
+    
+
+function renderAssessmentTrending() {
       return `<div style="display:flex;flex-direction:column;gap:20px;padding:0 4px 32px;">
         <div style="display:flex;gap:20px;">
           <div class="chart-wrapper dark" style="flex:2;margin-bottom:0;padding:16px;"><div style="height:220px;position:relative;"><canvas id="trendingChart"></canvas></div></div>
@@ -146,7 +151,9 @@ renderHeader();
       </div>`;
     }
 
-    function renderComplexityDistribution() {
+    
+
+function renderComplexityDistribution() {
       return `<div style="display:flex;flex-direction:column;gap:20px;padding:0 4px 32px;">
         <div style="display:flex;gap:20px;">
           <div class="chart-wrapper dark" style="flex:1;margin-bottom:0;padding:16px;"><div style="height:180px;position:relative;"><canvas id="complexityDistChart2"></canvas></div></div>
@@ -161,7 +168,9 @@ renderHeader();
       </div>`;
     }
 
-    function renderMigrationRoadmap() {
+    
+
+function renderMigrationRoadmap() {
       return `<div style="display:flex;flex-direction:column;gap:20px;padding:0 4px 32px;">
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
           <div style="background:var(--panel-bg);border-radius:12px;padding:18px;border:1px solid rgba(46,204,113,0.4);border-top:4px solid #2ecc71;"><div style="display:flex;justify-content:space-between;margin-bottom:14px;"><h4 style="font-size:13px;">Safe-to-Migrate: Fast</h4><span style="background:rgba(46,204,113,0.2);color:#2ecc71;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;">100%</span></div><div style="font-size:12px;color:var(--text-muted);">Count: <span style="color:#fff;">3 programs</span></div><p style="font-size:11px;color:var(--text-muted);border-top:1px solid var(--border);padding-top:10px;margin-top:10px;">Low complexity (CC &lt; 5) with no DB dependencies.</p></div>
@@ -171,7 +180,9 @@ renderHeader();
       </div>`;
     }
 
-    function renderClassificationSummary() {
+    
+
+function renderClassificationSummary() {
       return `<div style="display:flex;flex-direction:column;gap:20px;padding:0 4px 32px;">
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
           <div class="chart-wrapper dark" style="margin-bottom:0;text-align:center;padding:14px;"><h4 style="font-size:12px;color:var(--text-muted);margin-bottom:10px;">Execution Environment</h4><div style="height:140px;position:relative;"><canvas id="classPie1"></canvas></div></div>
@@ -181,7 +192,9 @@ renderHeader();
       </div>`;
     }
 
-    function renderDependencyHealth() {
+    
+
+function renderDependencyHealth() {
       return `<div style="display:flex;flex-direction:column;gap:20px;padding:0 4px 32px;">
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
           ${[['1','Nodes'],['0','Edges'],['0','Circular Dependencies']].map(([v,l])=>`<div class="stat-card" style="padding:22px;border:1px solid var(--border);background:var(--panel-bg);"><div style="font-size:28px;font-weight:700;color:#00d4ff;">${v}</div><div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;">${l}</div></div>`).join('')}
@@ -191,7 +204,9 @@ renderHeader();
       </div>`;
     }
 
-    function renderPerProgramMetrics() {
+    
+
+function renderPerProgramMetrics() {
       return `<div style="display:flex;flex-direction:column;gap:20px;padding:0 4px 32px;">
         <div class="chart-wrapper dark" style="margin-bottom:0;overflow-x:auto;padding:14px;">
           <table style="width:100%;border-collapse:collapse;font-size:12px;white-space:nowrap;">
@@ -206,7 +221,9 @@ renderHeader();
       </div>`;
     }
 
-    function renderWavePlan() {
+    
+
+function renderWavePlan() {
       return `<div style="display:flex;flex-direction:column;gap:20px;padding:0 4px 32px;">
         <div class="chart-wrapper dark" style="margin-bottom:0;padding:14px;">
           ${[['Wave 1: Sub-System A','1 programs','100%','#2ecc71'],['Wave 2: (No label)','0 programs','0%','var(--text-muted)'],['Wave 3: (No label)','0 programs','0%','var(--text-muted)'],['Wave 4: (No label)','0 programs','0%','var(--text-muted)']].map(([name,count,pct,color])=>`
@@ -223,7 +240,9 @@ renderHeader();
       </div>`;
     }
 
-    function renderValidationFramework() {
+    
+
+function renderValidationFramework() {
       return `<div style="display:flex;flex-direction:column;gap:20px;padding:0 4px 32px;">
         <div style="display:flex;gap:20px;">
           <div class="chart-wrapper dark" style="flex:1;margin-bottom:0;padding:14px;"><h4>Validation Insights</h4><div style="display:flex;justify-content:space-around;margin-bottom:20px;"><div style="text-align:center;"><div style="font-size:22px;font-weight:700;color:#2ecc71;">100%</div><div style="font-size:11px;color:var(--text-muted);">Total Pass Rate</div></div><div style="text-align:center;"><div style="font-size:22px;font-weight:700;color:#6c5ce7;">100%</div><div style="font-size:11px;color:var(--text-muted);">Execution Rate</div></div></div></div>
@@ -238,7 +257,9 @@ renderHeader();
       </div>`;
     }
 
-    function initRiskCharts() {
+    
+
+function initRiskCharts() {
       const opts = { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } };
       const t = document.getElementById("trendingChart");
       if (t) new Chart(t, { type: "line", data: { labels: ["Day 1","Day 2","Day 3","Day 4","Day 5"], datasets: [{ data: [100,100,100,100,100], borderColor: "#6c5ce7", backgroundColor: "rgba(108,92,231,.1)", fill: true, tension: 0.4 }] }, options: { ...opts, plugins: { legend: { display: false } }, scales: { y: { min: 0, max: 100 } } } });
@@ -251,7 +272,7 @@ renderHeader();
       const p3 = document.getElementById("classPie3");
       if (p3) new Chart(p3, { type: "doughnut", data: { labels: ["Main"], datasets: [{ data: [1], backgroundColor: ["rgba(255,255,255,0.05)"] }] }, options: opts });
     }
-
+    
 
 syncSidebarActive(window.EQUIVALIC_INITIAL_PAGE);
 activateRiskAssessmentMode();

@@ -1,5 +1,6 @@
-/* ============================================================
+﻿/* ============================================================
    Parser Improvement page logic
+   Source: ChangedAnalysisEngine (2).html
    Contains this page's bootstrap, renderers, handlers, and data only.
 ============================================================ */
 window.EQUIVALIC_INITIAL_PAGE = window.EQUIVALIC_INITIAL_PAGE || 'Parser Improvement';
@@ -29,8 +30,6 @@ function activateMode(sectionName, pageName, leftHTML, displayHTML, afterFn, ins
   isWikiMode = false;
   isConvertMode = false;
   setState({ section: "Analysis Engine", page: pageName, view: "Overview" });
-  if (document.querySelector('.workspace')) document.querySelector('.workspace').style.gridTemplateColumns = '';
-  if (leftPanel) leftPanel.style.display = '';
   if (instant) {
     leftPanel.innerHTML = leftHTML;
     displayPanel.innerHTML = displayHTML;
@@ -82,7 +81,7 @@ document.querySelectorAll(".nav-row").forEach(row => {
 renderHeader();
 
 
-    const irChunkData = [
+const irChunkData = [
       { chunk: "0000-MAIN-PROCESS", sub: "para_0000-MAIN-PROCESS_1", expected: "ACCTINQ", irName: "ACCTINQ", status: "fail", score: "—", reason: "verifier exception: LLM budget exceeded for feature 'ir_verification'", suggestion: "Category: unknown" },
       { chunk: "END-EVALUATE", sub: "para_END-EVALUATE_2", expected: "ACCTINQ", irName: "ACCTINQ", status: "fail", score: "—", reason: "verifier exception: LLM budget exceeded", suggestion: "Category: unknown" },
       { chunk: "1000-FIRST-TIME-PROCESS", sub: "para_1000-FIRST-TIME-PROCESS_3", expected: "ACCTINQ", irName: "ACCTINQ", status: "fail", score: "—", reason: "verifier exception: LLM budget exceeded", suggestion: "Category: unknown" },
@@ -97,7 +96,7 @@ renderHeader();
       { chunk: "EXEC_SQL", sub: "exec_sql_2", expected: "ORDINV", irName: "ORDINV", status: "fail", score: "—", reason: "verifier exception: LLM budget exceeded", suggestion: "Category: unknown" }
     ];
 
-    function activateParserImprovementMode() {
+function activateParserImprovementMode() {
       leftPanel.style.display = 'none';
       if (document.querySelector('.workspace')) {
         document.querySelector('.workspace').style.gridTemplateColumns = '1fr';
@@ -285,6 +284,20 @@ renderHeader();
       activateMode('Parser Improvement', 'Parser Improvement', leftHTML, displayHTML);
     }
 
+    
+
+function toggleEvidenceRow(btn) {
+      const row = btn.closest('tr').nextElementSibling;
+      if (row && row.classList.contains('evidence-details-row')) {
+        if (row.style.display === 'none') {
+          row.style.display = 'table-row'; btn.innerText = 'Hide';
+          btn.style.background = 'rgba(231,76,60,0.1)'; btn.style.color = '#e74c3c'; btn.style.borderColor = 'rgba(231,76,60,0.3)';
+        } else {
+          row.style.display = 'none'; btn.innerText = 'View';
+          btn.style.background = 'rgba(108,92,231,0.1)'; btn.style.color = '#a29bfe'; btn.style.borderColor = 'rgba(108,92,231,0.3)';
+        }
+      }
+    }
 
 syncSidebarActive(window.EQUIVALIC_INITIAL_PAGE);
 activateParserImprovementMode();

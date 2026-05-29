@@ -1,5 +1,6 @@
-/* ============================================================
+﻿/* ============================================================
    Conversion Status page logic
+   Source: ChangedAnalysisEngine (2).html
    Contains this page's bootstrap, renderers, handlers, and data only.
 ============================================================ */
 window.EQUIVALIC_INITIAL_PAGE = window.EQUIVALIC_INITIAL_PAGE || 'Conversion Status';
@@ -29,8 +30,6 @@ function activateMode(sectionName, pageName, leftHTML, displayHTML, afterFn, ins
   isWikiMode = false;
   isConvertMode = false;
   setState({ section: "Analysis Engine", page: pageName, view: "Overview" });
-  if (document.querySelector('.workspace')) document.querySelector('.workspace').style.gridTemplateColumns = '';
-  if (leftPanel) leftPanel.style.display = '';
   if (instant) {
     leftPanel.innerHTML = leftHTML;
     displayPanel.innerHTML = displayHTML;
@@ -82,7 +81,7 @@ document.querySelectorAll(".nav-row").forEach(row => {
 renderHeader();
 
 
-    function activateConversionStatusMode() {
+function activateConversionStatusMode() {
       const leftHTML = `<div class="sub-nav active">Conversion Overview</div>`;
       const displayHTML = `<div class="scroll-container" style="gap:16px;">
         <div class="chart-wrapper dark" style="margin-bottom:0;padding:16px;">
@@ -110,7 +109,7 @@ renderHeader();
       </div>`;
       activateMode('Conversion Status', 'Conversion Status', leftHTML, displayHTML);
     }
-
+    
 
 syncSidebarActive(window.EQUIVALIC_INITIAL_PAGE);
 activateConversionStatusMode();

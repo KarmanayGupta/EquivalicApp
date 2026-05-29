@@ -1,5 +1,6 @@
-/* ============================================================
+﻿/* ============================================================
    Project Summary page logic
+   Source: ChangedAnalysisEngine (2).html
    Contains this page's bootstrap, renderers, handlers, and data only.
 ============================================================ */
 window.EQUIVALIC_INITIAL_PAGE = window.EQUIVALIC_INITIAL_PAGE || 'Project Summary';
@@ -29,8 +30,6 @@ function activateMode(sectionName, pageName, leftHTML, displayHTML, afterFn, ins
   isWikiMode = false;
   isConvertMode = false;
   setState({ section: "Analysis Engine", page: pageName, view: "Overview" });
-  if (document.querySelector('.workspace')) document.querySelector('.workspace').style.gridTemplateColumns = '';
-  if (leftPanel) leftPanel.style.display = '';
   if (instant) {
     leftPanel.innerHTML = leftHTML;
     displayPanel.innerHTML = displayHTML;
@@ -82,7 +81,7 @@ document.querySelectorAll(".nav-row").forEach(row => {
 renderHeader();
 
 
-    function activateProjectSummaryMode(instant) {
+function activateProjectSummaryMode(instant) {
       const leftHTML = `
         <div id="repositorySummaryContent" style="overflow-y: auto; flex: 1; min-height: 0; padding-right: 14px; padding-bottom: 60px;">
           <div class="sub-nav active" style="margin-bottom: 24px; cursor: default; pointer-events: none;">REPOSITORY SUMMARY</div>
@@ -102,7 +101,9 @@ renderHeader();
     }
 
 
-    function renderProjectSummary() {
+    
+
+function renderProjectSummary() {
       return `
       <div style="display:flex;flex-direction:column;height:100%;overflow:hidden;">
         <!-- Fixed Header -->
@@ -431,6 +432,8 @@ renderHeader();
       `;
     }
 
+
+    
 
 syncSidebarActive(window.EQUIVALIC_INITIAL_PAGE);
 activateProjectSummaryMode(true);
