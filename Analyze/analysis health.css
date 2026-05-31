@@ -204,7 +204,7 @@ body::before {
         min-height: 0;
       }
 
-.left-panel { background: var(--panel-bg); border-radius: var(--radius); padding: 32px 28px; border: 1px solid var(--border); display: flex; flex-direction: column; gap: 12px; position: relative; height: 100%; min-height: 0; margin-bottom: 10px !important; }
+.left-panel { background: var(--panel-bg); border-radius: var(--radius); padding: 32px 28px; border: 1px solid var(--border); display: flex; flex-direction: column; gap: 12px; position: relative; height: 104%; min-height: 0; margin-bottom: 10px !important; }
 
 .sub-nav { font-family: "Inter", sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 14px 16px 14px 13px; border-left: 3px solid transparent; border-radius: 10px; color: var(--text-muted); cursor: pointer; position: relative; transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease; box-sizing: border-box; }
 
@@ -212,7 +212,7 @@ body::before {
 
 .sub-nav.active:hover { transform: none; background: linear-gradient(90deg, rgba(108,92,231,0.18), transparent); }
 
-.display-panel { background: var(--panel-bg-light); border-radius: var(--radius); padding: 32px 48px; border: 1px solid var(--border); box-shadow: 0 0 60px rgba(0,0,0,0.25); display: flex; flex-direction: column; overflow: hidden; height: 100%; min-height: 0; }
+.display-panel { background: var(--panel-bg-light); border-radius: var(--radius); padding: 32px 48px; border: 1px solid var(--border); box-shadow: 0 0 60px rgba(0,0,0,0.25); display: flex; flex-direction: column; overflow: hidden; height: 104%; min-height: 0; }
 
 .dashboard-tabs { display: flex; flex-wrap: wrap; gap: 28px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 22px; padding-bottom: 4px; }
 
@@ -262,7 +262,11 @@ body::before {
         -ms-overflow-style: auto !important;
         scrollbar-width: thin !important;
         scrollbar-color: rgba(255, 255, 255, 0.12) transparent !important;
-      }
+}
+
+.graph-btn { background: linear-gradient(145deg, rgba(108,92,231,0.12), rgba(0,212,255,0.04)); border: 1px solid var(--accent-1); color: var(--text-primary); padding: 6px 12px; border-radius: 10px; font-size: 12px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: all 0.2s ease; }
+.graph-btn:hover { background: linear-gradient(145deg, rgba(108,92,231,0.22), rgba(0,212,255,0.12)); border-color: var(--accent-2); }
+.graph-btn:active { opacity: 0.85; }
 
 @media (max-width: 1024px) {
         .workspace {
