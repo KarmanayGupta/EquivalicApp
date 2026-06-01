@@ -110,16 +110,16 @@ const irChunkData = [
         </tr>`;
       }).join('');
 
-      const leftHTML = `<div style="display:flex;flex-direction:column;gap:20px;max-height:100%;overflow-y:auto;overflow-x:hidden;">
+      const leftHTML = `<div style="display:flex;flex-direction:column;gap:20px;max-height:100%;overflow-y:auto;overflow-x:hidden;padding-right:8px;">
         <div>
           <div class="sub-nav active" style="margin-bottom: 24px; cursor: default; pointer-events: none;">IR QUALITY</div>
-          <p style="color:#94a3b8;line-height:1.6;margin-bottom:12px;font-size:13px;">Runs only when you click the button. No automatic LLM calls on tab load.</p>
+          <p style="color:#94a3b8;line-height:1.6;margin-bottom:12px;font-size:13px;padding-right:4px;">Runs only when you click the button. No automatic LLM calls on tab load.</p>
           <div style="background:rgba(59,130,246,0.1);padding:12px;border-radius:8px;border-left:3px solid #3b82f6;margin:12px 0;">
             <p style="margin:0;color:#60a5fa;line-height:1.6;font-size:13px;">Parser, AST, upload-to-IR, dependency graph audit, and post-IR readiness metrics now live in <a href="#" id="analysisHealthLink" style="color:#60a5fa;text-decoration:underline;">Analysis Health</a>.</p>
           </div>
-          <p style="color:#94a3b8;line-height:1.8;margin-bottom:14px;font-size:14px;font-family:'Inter',sans-serif;font-weight:500;"><strong style="color:#94a3b8;font-weight:600;">Check IR Quality</strong> runs the LLM verifier (per chunk) and writes reports. <strong style="color:#94a3b8;font-weight:600;">Improve / Update (Draft)</strong> aggregates suggestions from those reports. <strong style="color:#94a3b8;font-weight:600;">Apply</strong> is available only when <span style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;font-size:13px;color:#94a3b8;">ir_verification_assisted_apply_enabled</span> is true in server config; it writes <span style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;font-size:13px;color:#94a3b8;">IR.json</span> with a timestamped backup.</p>
+          <p style="color:#94a3b8;line-height:1.8;margin-bottom:14px;font-size:14px;font-family:'Inter',sans-serif;font-weight:500;padding-right:4px;"><strong style="color:#94a3b8;font-weight:600;">Check IR Quality</strong> runs the LLM verifier (per chunk) and writes reports. <strong style="color:#94a3b8;font-weight:600;">Improve / Update (Draft)</strong> aggregates suggestions from those reports. <strong style="color:#94a3b8;font-weight:600;">Apply</strong> is available only when <span style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;font-size:13px;color:#94a3b8;">ir_verification_assisted_apply_enabled</span> is true in server config; it writes <span style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;font-size:13px;color:#94a3b8;">IR.json</span> with a timestamped backup.</p>
           <button id="checkIRQualityBtn" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px 16px;border-radius:20px;font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;text-align:center;cursor:pointer;background:#0f141b;border:1px solid transparent;background-image:linear-gradient(#0f141b, #0f141b),linear-gradient(90deg, #6c5ce7, #00d4ff);background-origin:border-box;background-clip:padding-box, border-box;color:var(--accent-2);box-shadow:0 0 16px rgba(0, 212, 255, 0.08);transition:all 0.25s ease;margin-bottom:16px;" onmousedown="this.style.background='linear-gradient(90deg, rgba(108, 92, 231, 0.22), rgba(0, 212, 255, 0.18))';this.style.color='#ffffff';this.style.border='1px solid rgba(0, 212, 255, 0.45)'" onmouseup="this.style.background='#0f141b';this.style.border='1px solid transparent';this.style.backgroundImage='linear-gradient(#0f141b, #0f141b),linear-gradient(90deg, #6c5ce7, #00d4ff)';this.style.color='var(--accent-2)'" onmouseleave="this.style.background='#0f141b';this.style.border='1px solid transparent';this.style.backgroundImage='linear-gradient(#0f141b, #0f141b),linear-gradient(90deg, #6c5ce7, #00d4ff)';this.style.color='var(--accent-2)'">Check IR Quality</button>
-          <p style="color:#94a3b8;line-height:1.8;margin-bottom:16px;font-size:14px;font-family:'Inter',sans-serif;font-weight:500;">Label: deterministic pipeline health is authoritative. AI-generated verifier findings are optional advisory enhancements with budget, cache, and usage reporting in Analysis Health.</p>
+          <p style="color:#94a3b8;line-height:1.8;margin-bottom:16px;font-size:14px;font-family:'Inter',sans-serif;font-weight:500;padding-right:4px;">Label: deterministic pipeline health is authoritative. AI-generated verifier findings are optional advisory enhancements with budget, cache, and usage reporting in Analysis Health.</p>
           <div style="background:rgba(16,185,129,0.08);padding:12px;border-radius:8px;border-left:3px solid #10b981;margin-bottom:16px;">
             <p style="margin:0;font-size:13px;color:#6ee7b7;line-height:1.6;">Safe repair mode: safe_repair. Assisted apply is on for validated structured draft patches; advisory findings remain non-mutating.</p>
           </div>
@@ -273,7 +273,7 @@ const irChunkData = [
           </div>
         </div>
         
-        <div id="dependencyContent" style="display:none;height:100%;display:flex;flex-direction:column;">
+        <div id="dependencyContent" style="display:none;flex-direction:column;height:100%;overflow:hidden;">
           <div style="display:flex;justify-content:center;gap:12px;padding:12px 0;flex-wrap:wrap;flex-shrink:0;background:var(--panel-bg);position:sticky;top:0;z-index:10;">
             <button id="zoomInBtn" style="background:linear-gradient(145deg,rgba(108,92,231,0.12),rgba(0,212,255,0.04));border:1px solid var(--accent-1);color:var(--text-primary);padding:6px 12px;border-radius:10px;font-size:12px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:4px;transition:all 0.2s ease;font-family:'Inter',sans-serif;" onmouseover="this.style.background='linear-gradient(145deg,rgba(108,92,231,0.22),rgba(0,212,255,0.12))';this.style.borderColor='var(--accent-2)'" onmouseout="this.style.background='linear-gradient(145deg,rgba(108,92,231,0.12),rgba(0,212,255,0.04))';this.style.borderColor='var(--accent-1)'">+ Zoom In</button>
             <button id="zoomOutBtn" style="background:linear-gradient(145deg,rgba(108,92,231,0.12),rgba(0,212,255,0.04));border:1px solid var(--accent-1);color:var(--text-primary);padding:6px 12px;border-radius:10px;font-size:12px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:4px;transition:all 0.2s ease;font-family:'Inter',sans-serif;" onmouseover="this.style.background='linear-gradient(145deg,rgba(108,92,231,0.22),rgba(0,212,255,0.12))';this.style.borderColor='var(--accent-2)'" onmouseout="this.style.background='linear-gradient(145deg,rgba(108,92,231,0.12),rgba(0,212,255,0.04))';this.style.borderColor='var(--accent-1)'">- Zoom Out</button>
@@ -316,6 +316,7 @@ const irChunkData = [
           setTimeout(() => initAnatomyCharts(), 50);
         } else if (view === 'dependency' && dependencyContent) {
           dependencyContent.style.display = 'flex';
+          dependencyContent.style.height = '100%';
           initGraphControls();
         }
       });

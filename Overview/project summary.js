@@ -83,7 +83,7 @@ renderHeader();
 
 function activateProjectSummaryMode(instant) {
       const leftHTML = `
-        <div id="repositorySummaryContent" style="overflow-y: auto; flex: 1; min-height: 0; padding-right: 14px; padding-bottom: 60px;">
+        <div id="repositorySummaryContent" style="overflow-y: auto; flex: 1; min-height: 0; padding-right: 8px;">
           <div class="sub-nav active" style="margin-bottom: 24px; cursor: default; pointer-events: none;">REPOSITORY SUMMARY</div>
 
 
@@ -381,6 +381,46 @@ function renderProjectSummary() {
               </div>
               <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin: 0;">
                 Consider migrating batch file processing to a microservices architecture with REST APIs. This will improve scalability and enable real-time data processing capabilities.
+              </p>
+            </div>
+
+            <div style="padding: 16px; background: linear-gradient(135deg, rgba(46, 204, 113, 0.1), rgba(46, 204, 113, 0.05)); border-left: 4px solid #2ecc71; border-radius: 8px;">
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                <span style="font-size: 20px;">⚡</span>
+                <strong style="color: #2ecc71; font-size: 14px;">Performance Optimization</strong>
+              </div>
+              <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin: 0;">
+                Implement connection pooling for database operations and add caching layer for frequently accessed employee records. Expected performance improvement: 40-60%.
+              </p>
+            </div>
+
+            <div style="padding: 16px; background: linear-gradient(135deg, rgba(243, 156, 18, 0.1), rgba(243, 156, 18, 0.05)); border-left: 4px solid #f39c12; border-radius: 8px;">
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                <span style="font-size: 20px;">🔒</span>
+                <strong style="color: #f39c12; font-size: 14px;">Security Enhancement</strong>
+              </div>
+              <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin: 0;">
+                Add encryption for sensitive employee data fields (SSN, salary information) and implement role-based access control (RBAC) for database operations.
+              </p>
+            </div>
+
+            <div style="padding: 16px; background: linear-gradient(135deg, rgba(155, 89, 182, 0.1), rgba(155, 89, 182, 0.05)); border-left: 4px solid #9b59b6; border-radius: 8px;">
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                <span style="font-size: 20px;">📊</span>
+                <strong style="color: #9b59b6; font-size: 14px;">Code Quality</strong>
+              </div>
+              <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin: 0;">
+                Refactor EMPPROC module to reduce cyclomatic complexity (currently 42). Break down into smaller, testable functions following single responsibility principle.
+              </p>
+            </div>
+
+            <div style="padding: 16px; background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(255, 107, 107, 0.05)); border-left: 4px solid #ff6b6b; border-radius: 8px;">
+              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                <span style="font-size: 20px;">⚠️</span>
+                <strong style="color: #ff6b6b; font-size: 14px;">Technical Debt</strong>
+              </div>
+              <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6; margin: 0;">
+                Replace hardcoded file paths and database connection strings with environment variables. Add comprehensive error handling and logging framework for production monitoring.
               </p>
             </div>
 
