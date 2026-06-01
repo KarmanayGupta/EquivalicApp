@@ -197,7 +197,7 @@ body::before {
 .workspace { 
         flex: 1; 
         display: grid; 
-        grid-template-columns: 340px 1fr; 
+        grid-template-columns: 1fr; 
         grid-template-rows: minmax(0, 1fr); 
         gap: 40px; 
         padding: 40px 48px 30px 48px; 
@@ -213,7 +213,7 @@ body::before {
 
 .sub-nav.active:hover { transform: none; background: linear-gradient(90deg, rgba(108,92,231,0.18), transparent); }
 
-.display-panel { background: var(--panel-bg-light); border-radius: var(--radius); padding: 32px 48px; border: 1px solid var(--border); box-shadow: 0 0 60px rgba(0,0,0,0.25); display: flex; flex-direction: column; overflow: hidden; height: 100%; min-height: 0; }
+.display-panel { background: var(--panel-bg-light); border-radius: var(--radius); padding: 0; border: 1px solid var(--border); box-shadow: 0 0 60px rgba(0,0,0,0.25); display: flex; flex-direction: column; overflow: hidden; height: 100%; min-height: 0; }
 
 .dashboard-tabs { display: flex; flex-wrap: wrap; gap: 28px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 22px; padding-bottom: 4px; }
 
@@ -619,3 +619,31 @@ body::before {
 .nav-child:visited { color: var(--text-muted); }
 
 .nav-child.active:visited, .nav-child:hover:visited { color: var(--text-primary); }
+
+
+/* Custom scrollbar styling for data mapping table */
+.display-panel ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.display-panel ::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.display-panel ::-webkit-scrollbar-thumb {
+  background: rgba(108, 92, 231, 0.4);
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.display-panel ::-webkit-scrollbar-thumb:hover {
+  background: rgba(108, 92, 231, 0.6);
+}
+
+/* Firefox scrollbar */
+.display-panel {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(108, 92, 231, 0.4) rgba(255, 255, 255, 0.05);
+}
