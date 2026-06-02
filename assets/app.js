@@ -1,10 +1,10 @@
-﻿/* ============================================================
+/* ============================================================
        APP STATE
     ============================================================ */
     const appState = { product: "Product Suite", section: "Analysis Engine", page: "Project Summary", view: "Overview" };
     function renderHeader() {
       const el = document.getElementById("appBreadcrumb");
-      el.innerHTML = `${appState.product} > ${appState.section} > ${appState.page}`;
+      el.innerHTML = `${appState.section} > ${appState.page}`;
     }
     function setState(newState) { Object.assign(appState, newState); renderHeader(); }
 

@@ -52,7 +52,7 @@ function syncSidebarActive(pageName) {
 const appState = { product: "Product Suite", section: "Design", page: "Best Design Practices" };
 function renderHeader() {
   const el = document.getElementById("appBreadcrumb");
-  if (el) el.innerHTML = `${appState.product} > ${appState.section} > ${appState.page}`;
+  if (el) el.innerHTML = `${appState.section} > ${appState.page}`;
 }
 
 document.addEventListener('DOMContentLoaded', () => {

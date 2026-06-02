@@ -1,4 +1,4 @@
-﻿/* ============================================================
+/* ============================================================
    Conversion Workspace page logic
    Source: ChangedAnalysisEngine (2).html
    Contains this page's bootstrap, renderers, handlers, and data only.
@@ -8,10 +8,10 @@ window.EQUIVALIC_INITIAL_PAGE = window.EQUIVALIC_INITIAL_PAGE || 'Conversion Wor
 /* ============================================================
    Page bootstrap and shared shell utilities
 ============================================================ */
-const appState = { product: "Product Suite", section: "Conversion Engine", page: "Conversion Workspace", view: "Overview" };
+const appState = { product: "Product Suite", section: "Convert", page: "Conversion Workspace", view: "Overview" };
 function renderHeader() {
   const el = document.getElementById("appBreadcrumb");
-  if (el) el.innerHTML = `${appState.product} > ${appState.section} > ${appState.page}`;
+  if (el) el.innerHTML = `${appState.section} > ${appState.page}`;
 }
 function setState(newState) { Object.assign(appState, newState); renderHeader(); }
 

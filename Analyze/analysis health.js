@@ -8,10 +8,10 @@ window.EQUIVALIC_INITIAL_PAGE = window.EQUIVALIC_INITIAL_PAGE || 'Analysis Healt
 /* ============================================================
    Page bootstrap and shared shell utilities
 ============================================================ */
-const appState = { product: "Product Suite", section: "Analysis Engine", page: "Project Summary", view: "Overview" };
+const appState = { product: "Product Suite", section: "Analyze", page: "Analysis Health", view: "Overview" };
 function renderHeader() {
   const el = document.getElementById("appBreadcrumb");
-  if (el) el.innerHTML = `${appState.product} > ${appState.section} > ${appState.page}`;
+  if (el) el.innerHTML = `${appState.section} > ${appState.page}`;
 }
 function setState(newState) { Object.assign(appState, newState); renderHeader(); }
 

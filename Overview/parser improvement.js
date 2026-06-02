@@ -1,4 +1,4 @@
-﻿/* ============================================================
+/* ============================================================
    Parser Improvement page logic
    Source: ChangedAnalysisEngine (2).html
    Contains this page's bootstrap, renderers, handlers, and data only.
@@ -8,10 +8,10 @@ window.EQUIVALIC_INITIAL_PAGE = window.EQUIVALIC_INITIAL_PAGE || 'Parser Improve
 /* ============================================================
    Page bootstrap and shared shell utilities
 ============================================================ */
-const appState = { product: "Product Suite", section: "Analysis Engine", page: "Project Summary", view: "Overview" };
+const appState = { product: "Product Suite", section: "Overview", page: "Parser Improvement", view: "Overview" };
 function renderHeader() {
   const el = document.getElementById("appBreadcrumb");
-  if (el) el.innerHTML = `${appState.product} > ${appState.section} > ${appState.page}`;
+  if (el) el.innerHTML = `${appState.section} > ${appState.page}`;
 }
 function setState(newState) { Object.assign(appState, newState); renderHeader(); }
 
