@@ -1659,7 +1659,7 @@ function renderTransformationDetail(mappingId) {
     });
     detailEl.innerHTML =
         '<div class="architecture-detail-head ' + status.className + '">' +
-        '<div><span class="architecture-status-pill ' + status.className + '">' + escapeHtml(status.label) + '</span>' +
+        '<div>' +
         '<div class="architecture-list-title">' + escapeHtml(mapping.transformation || 'Transformation') + '</div></div>' +
         '</div>' +
         '<div class="architecture-list-text">' + escapeHtml(mapping.reason || '') + '</div>' +
