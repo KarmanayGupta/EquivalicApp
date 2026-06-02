@@ -998,9 +998,13 @@ function updateDiagramFocus(nodeId) {
 }
 
 function selectArchitectureNode(nodeId) {
-    selectedArchitectureNodeId = nodeId;
-    updateDiagramFocus(nodeId);
-    renderSelectedNodeDetail(nodeId);
+    if (selectedArchitectureNodeId === nodeId) {
+        selectedArchitectureNodeId = null; // Toggle off if already selected
+    } else {
+        selectedArchitectureNodeId = nodeId;
+    }
+    updateDiagramFocus(selectedArchitectureNodeId);
+    renderSelectedNodeDetail(selectedArchitectureNodeId);
 }
 
 function renderSelectedNodeDetail(nodeId) {
