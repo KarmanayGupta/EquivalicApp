@@ -196,7 +196,7 @@ body::before {
 .workspace { 
         flex: 1; 
         display: grid; 
-        grid-template-columns: 340px 1fr; 
+        grid-template-columns: 1fr; 
         grid-template-rows: minmax(0, 1fr); 
         gap: 40px; 
         padding: 40px 48px 30px 48px; 
@@ -282,7 +282,7 @@ body::before {
 
 @media (max-width: 1024px) {
         .workspace {
-          grid-template-columns: 280px 1fr;
+          grid-template-columns: 1fr;
           gap: 24px;
           padding: 24px 32px;
         }

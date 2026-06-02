@@ -1,4 +1,4 @@
-﻿/* ============================================================
+/* ============================================================
    Migration Risk Assessment page logic
    Source: ChangedAnalysisEngine (2).html
    Contains this page's bootstrap, renderers, handlers, and data only.
@@ -18,9 +18,9 @@ function setState(newState) { Object.assign(appState, newState); renderHeader();
 let charts = [];
 function destroyCharts() { charts.forEach(c => c.destroy()); charts = []; }
 let isWikiMode = false, isConvertMode = false;
-const leftPanel = document.querySelector(".left-panel");
+const leftPanel = null;
 const displayPanel = document.querySelector(".display-panel");
-const originalLeftPanel = leftPanel ? leftPanel.innerHTML : "";
+const originalLeftPanel = "";
 
 function restoreDashboard() {
   window.location.href = "../Overview/project%20summary.html";
@@ -31,19 +31,17 @@ function activateMode(sectionName, pageName, leftHTML, displayHTML, afterFn, ins
   isConvertMode = false;
   setState({ section: "Analysis Engine", page: pageName, view: "Overview" });
   if (instant) {
-    leftPanel.innerHTML = leftHTML;
-    displayPanel.innerHTML = displayHTML;
+    if (displayPanel) displayPanel.innerHTML = displayHTML;
     document.getElementById("backToDashboard")?.addEventListener("click", restoreDashboard);
     if (afterFn) afterFn();
     return;
   }
-  leftPanel.classList.add("fade-transition", "fade-out");
-  displayPanel.classList.add("fade-transition", "fade-out");
+  if (displayPanel) displayPanel.classList.add("fade-transition", "fade-out");
   setTimeout(() => {
-    leftPanel.innerHTML = leftHTML;
-    displayPanel.innerHTML = displayHTML;
-    leftPanel.classList.remove("fade-out");
-    displayPanel.classList.remove("fade-out");
+    if (displayPanel) {
+      displayPanel.innerHTML = displayHTML;
+      displayPanel.classList.remove("fade-out");
+    }
     document.getElementById("backToDashboard")?.addEventListener("click", restoreDashboard);
     if (afterFn) afterFn();
   }, 200);
