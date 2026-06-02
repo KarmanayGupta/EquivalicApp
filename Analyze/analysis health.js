@@ -341,11 +341,11 @@ function activateAnalysisHealthMode() {
     <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Deterministic IR Quality</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">Program</th><th style="padding:16px;">Status</th><th style="padding:16px;">Score</th><th style="padding:16px;">Issues</th></tr>
             </thead>
             <tbody>
-                <tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                <tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">temp</td>
                     <td style="padding:16px; vertical-align:top; color:#cbd5e1;">passed_warnings</td>
                     <td style="padding:16px; vertical-align:top; color:#cbd5e1;">72</td>
@@ -358,11 +358,11 @@ function activateAnalysisHealthMode() {
     <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>IR Certification</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">Program</th><th style="padding:16px;">Status</th><th style="padding:16px;">Score</th><th style="padding:16px;">Risk</th><th style="padding:16px;">Blocking</th></tr>
             </thead>
             <tbody>
-                <tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                <tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">temp</td>
                     <td style="padding:16px; vertical-align:top; color:#cbd5e1;">certified_with_warnings</td>
                     <td style="padding:16px; vertical-align:top; color:#cbd5e1;">99</td>
@@ -376,11 +376,11 @@ function activateAnalysisHealthMode() {
     <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Preprocessing Warnings</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">Program</th><th style="padding:16px;">Severity</th><th style="padding:16px;">Type</th><th style="padding:16px;">Message</th></tr>
             </thead>
             <tbody>
-                <tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                <tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">temp</td>
                     <td style="padding:16px; vertical-align:top; color:#cbd5e1;">INFO</td>
                     <td style="padding:16px; vertical-align:top; color:#cbd5e1;">DEBUG_INDICATOR_LINE_COMMENTED</td>
@@ -393,11 +393,11 @@ function activateAnalysisHealthMode() {
     <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>SQL/CICS Mapping Audit</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">Program</th><th style="padding:16px;">Extracted</th><th style="padding:16px;">Mapped</th><th style="padding:16px;">Unmapped</th><th style="padding:16px;">Warnings</th></tr>
             </thead>
             <tbody>
-                <tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                <tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">temp</td>
                     <td style="padding:16px; vertical-align:top; color:#cbd5e1;">0</td>
                     <td style="padding:16px; vertical-align:top; color:#cbd5e1;">0</td>
@@ -411,11 +411,11 @@ function activateAnalysisHealthMode() {
     <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Copybook Resolution</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">Program</th><th style="padding:16px;">Copybook</th><th style="padding:16px;">Status</th><th style="padding:16px;">Severity</th><th style="padding:16px;">Selected</th><th style="padding:16px;">Reason</th></tr>
             </thead>
             <tbody>
-                <tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                <tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">No copybook references recorded.</td>
                     <td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td>
                     <td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td>
@@ -430,11 +430,11 @@ function activateAnalysisHealthMode() {
     <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>File Classification</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">File</th><th style="padding:16px;">Type</th><th style="padding:16px;">Disposition</th><th style="padding:16px;">Confidence</th><th style="padding:16px;">Reason</th></tr>
             </thead>
             <tbody>
-                <tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                <tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">cobol files/temp.cbl</td>
                     <td style="padding:16px; vertical-align:top; color:#cbd5e1;">program</td>
                     <td style="padding:16px; vertical-align:top; color:#cbd5e1;">parsed_program</td>
@@ -488,11 +488,11 @@ function activateAnalysisHealthMode() {
     </div><h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Slowest Parses</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">Program</th><th style="padding:16px;">Status</th><th style="padding:16px;">Total Time</th><th style="padding:16px;">Errors</th></tr>
             </thead>
             <tbody>
-<tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+<tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">temp</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">partial</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">233ms</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">1</td>
                 </tr>
                     </tbody>
@@ -501,11 +501,11 @@ function activateAnalysisHealthMode() {
     <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Largest ASTs</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">Program</th><th style="padding:16px;">AST Size</th><th style="padding:16px;">AST Nodes</th></tr>
             </thead>
             <tbody>
-<tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+<tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">temp</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">35.1 KB</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">291</td>
                 </tr>
                     </tbody>
@@ -514,11 +514,11 @@ function activateAnalysisHealthMode() {
     <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Parse Failure Triage</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">Program</th><th style="padding:16px;">Classification</th><th style="padding:16px;">Errors</th><th style="padding:16px;">Suggested Fix</th></tr>
             </thead>
             <tbody>
-<tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+<tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">temp</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">unknown_parser_failure</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">1</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">Review parser errors and source context, then add preprocessing or grammar support for the failing construct.</td>
                 </tr>
                     </tbody>
@@ -588,13 +588,13 @@ function activateAnalysisHealthMode() {
     <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Before / After Quality</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">Phase</th><th style="padding:16px;">Status</th><th style="padding:16px;">Score</th><th style="padding:16px;">Pass</th><th style="padding:16px;">Warn</th><th style="padding:16px;">Fail</th><th style="padding:16px;">Semantic Warnings</th></tr>
             </thead>
             <tbody>
-<tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+<tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">Initial</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">not captured</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">0</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">0</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">0</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">0</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">Post-fix</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">not captured</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">0</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">0</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">0</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">0</td>
                 </tr>
                     </tbody>
@@ -680,11 +680,11 @@ function activateAnalysisHealthMode() {
     </div><div style='background:rgba(255,255,255,0.05); padding:8px 12px; border-radius:4px; font-size:13px; color:var(--text-muted); margin-bottom:16px; border:1px solid rgba(255,255,255,0.1); display:inline-block;'>Edge types: -</div><h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Unresolved References</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">Source</th><th style="padding:16px;">Type</th><th style="padding:16px;">Target</th><th style="padding:16px;">Evidence</th></tr>
             </thead>
             <tbody>
-<tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+<tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">No unresolved graph references recorded.</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td>
                 </tr>
                     </tbody>
@@ -693,11 +693,11 @@ function activateAnalysisHealthMode() {
     <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>DB2 Table Usage</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">Table</th><th style="padding:16px;">Program</th><th style="padding:16px;">Modes</th></tr>
             </thead>
             <tbody>
-<tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+<tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">No DB2 table usage captured.</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td>
                 </tr>
                     </tbody>
@@ -706,11 +706,11 @@ function activateAnalysisHealthMode() {
     <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>JCL Program Dataset Lineage</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">JCL</th><th style="padding:16px;">Step</th><th style="padding:16px;">Program</th><th style="padding:16px;">Datasets</th></tr>
             </thead>
             <tbody>
-<tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+<tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">No JCL lineage captured.</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td>
                 </tr>
                     </tbody>
@@ -719,11 +719,11 @@ function activateAnalysisHealthMode() {
     <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>CICS Binding Audit</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">Program</th><th style="padding:16px;">Verb</th><th style="padding:16px;">Map</th><th style="padding:16px;">Link Program</th><th style="padding:16px;">Resource</th></tr>
             </thead>
             <tbody>
-<tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+<tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">No CICS bindings captured.</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td>
                 </tr>
                     </tbody>
@@ -797,23 +797,23 @@ function activateAnalysisHealthMode() {
     </div><h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Artifact Schema Validation</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">Artifact</th><th style="padding:16px;">Schema</th><th style="padding:16px;">Status</th><th style="padding:16px;">Errors</th></tr>
             </thead>
             <tbody>
-<tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+<tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">project_dependency_graph</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">passed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">generation_manifest</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">generation_manifest</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">passed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">enriched_manifest</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">enriched_manifest</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">passed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">classification_report</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">classification_report</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">passed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">source_architecture_preview</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">source_architecture_preview</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">passed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">target_preview</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">target_preview</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">passed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">post_ir_traceability_report</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">post_ir_traceability_report</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">passed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td>
                 </tr>
                     </tbody>
@@ -822,13 +822,13 @@ function activateAnalysisHealthMode() {
     <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Manifest Enrichment Diff</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">Class</th><th style="padding:16px;">Before Fields</th><th style="padding:16px;">After Fields</th><th style="padding:16px;">Added Keys</th></tr>
             </thead>
             <tbody>
-<tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+<tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">EmpRecord</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">0</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">3</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">field_enrichment, fields, program_name, source_category</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">TempService</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">0</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">0</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">source_category</td>
                 </tr>
                     </tbody>
@@ -837,11 +837,11 @@ function activateAnalysisHealthMode() {
     <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Program Contract Consistency</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">Severity</th><th style="padding:16px;">Code</th><th style="padding:16px;">Program(s)</th><th style="padding:16px;">Message</th></tr>
             </thead>
             <tbody>
-<tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+<tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">warn</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">ir_programs_missing_from_classification</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">READ_FILE_EXAMPLE</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">IR programs are missing from classification</td>
                 </tr>
                     </tbody>
@@ -850,11 +850,11 @@ function activateAnalysisHealthMode() {
     <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Preview Traceability</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">Program</th><th style="padding:16px;">Source Preview</th><th style="padding:16px;">Target Preview</th></tr>
             </thead>
             <tbody>
-<tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+<tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">READ_FILE_EXAMPLE</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">yes</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">no</td>
                 </tr>
                     </tbody>
@@ -863,23 +863,23 @@ function activateAnalysisHealthMode() {
     <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Artifact Dependency Graph</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">Artifact</th><th style="padding:16px;">Producer</th><th style="padding:16px;">Validation</th><th style="padding:16px;">Size</th></tr>
             </thead>
             <tbody>
-<tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+<tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">project_dependency_graph</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">CrossFileDependencyResolver</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">passed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">2.3 KB</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">generation_manifest</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">GenerationManifestGenerator</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">passed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">11.2 KB</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">enriched_manifest</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">FieldEnrichmentService</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">passed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">16.7 KB</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">classification_report</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">ClassificationReportGenerator</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">passed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">1.2 KB</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">source_architecture_preview</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">SourceArchitecturePreviewBuilder</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">passed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">6.7 KB</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">target_preview</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">TargetPreviewBuilder</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">passed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">5.4 KB</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">post_ir_traceability_report</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">PostIrHealth</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">passed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">6.2 KB</td>
                 </tr>
                     </tbody>
@@ -935,21 +935,21 @@ function activateAnalysisHealthMode() {
     </div><h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Artifact Contracts</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">Artifact</th><th style="padding:16px;">Status</th><th style="padding:16px;">Missing Keys</th></tr>
             </thead>
             <tbody>
-<tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+<tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">project_dependency_graph</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">passed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">generation_manifest</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">passed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">enriched_manifest</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">passed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">classification_report</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">passed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">source_architecture_preview</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">passed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">target_preview</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">passed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td>
                 </tr>
                     </tbody>
@@ -958,11 +958,11 @@ function activateAnalysisHealthMode() {
     <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Program Traceability</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">Program</th><th style="padding:16px;">Graph</th><th style="padding:16px;">Manifest</th><th style="padding:16px;">Classification</th><th style="padding:16px;">Program Contract</th><th style="padding:16px;">Previews</th></tr>
             </thead>
             <tbody>
-<tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+<tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">READ_FILE_EXAMPLE</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">yes</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">yes</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">yes</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">yes</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">source=yes, target=yes</td>
                 </tr>
                     </tbody>
@@ -971,11 +971,11 @@ function activateAnalysisHealthMode() {
     <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Readiness Findings</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">Severity</th><th style="padding:16px;">Code</th><th style="padding:16px;">Program/Ref</th><th style="padding:16px;">Message</th></tr>
             </thead>
             <tbody>
-<tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+<tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">No post-IR readiness findings.</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td>
                 </tr>
                     </tbody>
@@ -1049,11 +1049,11 @@ function activateAnalysisHealthMode() {
     </div><div style='background:rgba(255,255,255,0.05); padding:8px 12px; border-radius:4px; font-size:13px; color:var(--text-muted); margin-bottom:24px; border:1px solid rgba(255,255,255,0.1); display:inline-block;'>Deterministic vs AI-generated: deterministic AST, IR, graph, and artifact health are authoritative; AI checks are advisory enhancement jobs.</div><h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Feature Budgets</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">Feature</th><th style="padding:16px;">Calls</th><th style="padding:16px;">Est. Tokens</th><th style="padding:16px;">Max Calls</th><th style="padding:16px;">Max Prompt Tokens</th></tr>
             </thead>
             <tbody>
-<tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+<tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">No LLM feature budgets configured.</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td>
                 </tr>
                     </tbody>
@@ -1062,11 +1062,11 @@ function activateAnalysisHealthMode() {
     <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Recent AI Calls</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">Feature</th><th style="padding:16px;">Model</th><th style="padding:16px;">Status</th><th style="padding:16px;">Cache</th><th style="padding:16px;">Est. Tokens</th></tr>
             </thead>
             <tbody>
-<tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+<tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">No LLM calls recorded for this project.</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td>
                 </tr>
                     </tbody>
@@ -1075,11 +1075,11 @@ function activateAnalysisHealthMode() {
     <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>LLM Background / Queue Status</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">Job</th><th style="padding:16px;">Kind</th><th style="padding:16px;">Status</th><th style="padding:16px;">Retry Policy</th></tr>
             </thead>
             <tbody>
-<tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+<tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">8b69c4d2-977f-40ab-b8c6-874f7498b54c</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">analysis</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">COMPLETED</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">analysis job owns deterministic retry; LLM calls use llm_governance retry/timeout policy</td>
                 </tr>
                     </tbody>
@@ -1159,27 +1159,27 @@ function activateAnalysisHealthMode() {
     </div><div style='background:rgba(255,255,255,0.05); padding:8px 12px; border-radius:4px; font-size:13px; color:var(--text-muted); margin-bottom:24px; border:1px solid rgba(255,255,255,0.1); display:inline-block;'>This view answers what happened, what failed or skipped, what changed, and what took time using deterministic health APIs and persisted run metadata.</div><h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Live Stage Progress</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">Stage</th><th style="padding:16px;">Status</th><th style="padding:16px;">Completed</th><th style="padding:16px;">Failed</th><th style="padding:16px;">Duration</th></tr>
             </thead>
             <tbody>
-<tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+<tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">Upload</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">completed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">yes</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">no</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">Discovery</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">completed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">yes</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">no</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">Preprocess</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">warnings</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">yes</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">no</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">Parse</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">warnings</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">yes</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">no</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">IR</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">warnings</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">yes</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">no</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">Dependency</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">completed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">yes</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">no</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">Manifest</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">completed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">yes</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">no</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">Program Contract</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">warnings</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">yes</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">no</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">Previews</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">completed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">yes</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">no</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td>
                 </tr>
                     </tbody>
@@ -1188,13 +1188,13 @@ function activateAnalysisHealthMode() {
     <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Recent Analysis Events</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">Stage</th><th style="padding:16px;">Status</th><th style="padding:16px;">Event</th><th style="padding:16px;">Time</th></tr>
             </thead>
             <tbody>
-<tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+<tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">ANALYSIS</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">COMPLETED</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">Analysis run completed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">2026-05-28T14:48:34.538084+00:00</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">ARTIFACT_INDEX</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">COMPLETED</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">Indexed 62 analysis artifact(s)</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">2026-05-28T14:48:34.513174+00:00</td>
                 </tr>
                     </tbody>
@@ -1203,15 +1203,15 @@ function activateAnalysisHealthMode() {
     <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Stage Timeline</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">Stage</th><th style="padding:16px;">Status</th><th style="padding:16px;">Duration</th><th style="padding:16px;">Artifacts</th><th style="padding:16px;">Metrics</th></tr>
             </thead>
             <tbody>
-<tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+<tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">Analysis Run</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">completed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">739ms</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">0</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">run_id=8b69c4d2... requested_by=analysis@ss.com</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">Upload</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">completed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">1</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">uploaded_files=1, parsed_program=1...</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">Parse</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">warnings</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">5</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">programs=1, profile_available=yes...</td>
                 </tr>
                     </tbody>
@@ -1220,13 +1220,13 @@ function activateAnalysisHealthMode() {
     <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Failed / Partial Program Dashboard</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">Program</th><th style="padding:16px;">Stage</th><th style="padding:16px;">Status</th><th style="padding:16px;">Class</th><th style="padding:16px;">Message</th></tr>
             </thead>
             <tbody>
-<tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+<tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">temp</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">parse</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">failed_or_partial</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">unknown_parser_failure</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">Review parser errors...</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">temp</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">ir</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">passed_warnings</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">ir_quality</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">AST was produced from a partial parse...</td>
                 </tr>
                     </tbody>
@@ -1300,17 +1300,17 @@ function activateAnalysisHealthMode() {
     </div><div style='background:rgba(255,255,255,0.05); padding:8px 12px; border-radius:4px; font-size:13px; color:var(--text-muted); margin-bottom:24px; border:1px solid rgba(255,255,255,0.1); display:inline-block;'>Centralized artifact helper tracks JSON I/O timing, write-through IR cache activity, size budgets, compact AST companions, and compressed large AST/IR artifacts.</div><h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Artifact Types</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">Type</th><th style="padding:16px;">Count</th><th style="padding:16px;">Total Size</th></tr>
             </thead>
             <tbody>
-<tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+<tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">ast</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">4</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">39.9 KB</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">ir</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">6</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">58.4 KB</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">json</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">50</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">170.2 KB</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">other</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">6</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">6.6 KB</td>
                 </tr>
                     </tbody>
@@ -1319,17 +1319,17 @@ function activateAnalysisHealthMode() {
     <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Largest Artifacts</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">Artifact</th><th style="padding:16px;">Type</th><th style="padding:16px;">Size</th><th style="padding:16px;">Warnings</th></tr>
             </thead>
             <tbody>
-<tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+<tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">analysis/batch_temp/ast/temp_ast.json</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">ast</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">35.1 KB</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">analysis/batch_temp/ir/IR.json</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">ir</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">28.0 KB</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">analysis/batch_temp/ir/IR.compact.json</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">ir</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">26.8 KB</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td>
-                </tr><tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+                </tr><tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">analysis/unified/project_artifact_health_report.json</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">json</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">23.0 KB</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td>
                 </tr>
                     </tbody>
@@ -1338,11 +1338,11 @@ function activateAnalysisHealthMode() {
     <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Slowest JSON I/O Operations</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">Operation</th><th style="padding:16px;">Artifact</th><th style="padding:16px;">Duration</th><th style="padding:16px;">Cache</th><th style="padding:16px;">Warnings</th></tr>
             </thead>
             <tbody>
-<tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+<tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">write_json</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">analysis/batch_temp/ast/temp_ast.json</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">1ms</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">write-through</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td>
                 </tr>
                     </tbody>
@@ -1351,11 +1351,11 @@ function activateAnalysisHealthMode() {
     <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Large I/O Operation Warnings</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">Operation</th><th style="padding:16px;">Artifact</th><th style="padding:16px;">Size</th><th style="padding:16px;">Warnings</th></tr>
             </thead>
             <tbody>
-<tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+<tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">No large read/write operations recorded.</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td>
                 </tr>
                     </tbody>
@@ -1404,11 +1404,11 @@ function activateAnalysisHealthMode() {
     </div><h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Blocker Findings</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">Area</th><th style="padding:16px;">Severity</th><th style="padding:16px;">Program/Ref</th><th style="padding:16px;">Message</th></tr>
             </thead>
             <tbody>
-<tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+<tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">Parse</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">failed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">temp</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">Review parser errors and source context, then add preprocessing or grammar support for the failing construct.</td>
                 </tr>
                     </tbody>
@@ -1417,11 +1417,11 @@ function activateAnalysisHealthMode() {
     <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Skipped Files</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
-            <thead style="background:rgba(255,255,255,0.02); color:var(--text-muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">
+            <thead class="health-table-head">
                 <tr><th style="padding:16px;">File</th><th style="padding:16px;">Type</th><th style="padding:16px;">Disposition</th><th style="padding:16px;">Reason</th></tr>
             </thead>
             <tbody>
-<tr style="border-top:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.02)'" onmouseout="this.style.background='transparent'">
+<tr class="health-table-row">
                     <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">No skipped files found.</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td>
                 </tr>
                     </tbody>

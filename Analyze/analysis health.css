@@ -622,3 +622,29 @@ body::before {
 .nav-child:visited { color: var(--text-muted); }
 
 .nav-child.active:visited, .nav-child:hover:visited { color: var(--text-primary); }
+
+.health-table-row {
+    border-top: 1px solid rgba(255,255,255,0.05);
+    transition: background 0.2s;
+}
+.health-table-row:nth-child(even) {
+    background: transparent;
+}
+.health-table-row:nth-child(odd) {
+    background: #1e232c;
+}
+.health-table-row:hover {
+    background: rgba(255,255,255,0.06) !important;
+}
+
+.health-table-head {
+    background: #141a24;
+    color: var(--text-primary);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+.health-table-head th {
+    border-bottom: 2px solid rgba(0, 0, 0, 0.4);
+}
