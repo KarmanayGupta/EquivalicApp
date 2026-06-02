@@ -138,6 +138,7 @@ var bmsScreenPreview = { mapsets: [], linkage: {} };
 var selectedBmsMapKey = null;
 var selectedBmsFieldKey = null;
 var architectureZoom = 1;
+var baseFitScale = 1.0;
 var activeArchitectureTab = 'diagram';
 var activeArchitectureView = ['java', 'transform'].indexOf(initialArchitectureView) >= 0 ? initialArchitectureView : 'source';
 var selectedArchitectureNodeId = null;
@@ -1062,11 +1063,12 @@ function drawEdges() {
         var el = canvas.querySelector(selector);
         if (!el) return null;
         var rect = el.getBoundingClientRect();
+        var absZoom = architectureZoom * baseFitScale;
         return {
-            x: (rect.left - canvasRect.left) / architectureZoom + rect.width / (2 * architectureZoom),
-            y: (rect.top - canvasRect.top) / architectureZoom + rect.height / (2 * architectureZoom),
-            left: (rect.left - canvasRect.left) / architectureZoom,
-            right: (rect.left - canvasRect.left) / architectureZoom + rect.width / architectureZoom
+            x: (rect.left - canvasRect.left) / absZoom + rect.width / (2 * absZoom),
+            y: (rect.top - canvasRect.top) / absZoom + rect.height / (2 * absZoom),
+            left: (rect.left - canvasRect.left) / absZoom,
+            right: (rect.left - canvasRect.left) / absZoom + rect.width / absZoom
         };
     }
 
@@ -1222,9 +1224,9 @@ function setRawJsonSections() {
 }
 
 function setZoom(value) {
-    architectureZoom = Math.max(0.4, Math.min(2.2, value));
+    architectureZoom = Math.max(0.4, Math.min(2.5, value));
     var canvas = document.getElementById('architecture-diagram-canvas');
-    canvas.style.zoom = architectureZoom;
+    canvas.style.zoom = architectureZoom * baseFitScale;
     canvas.style.transform = 'none';
     document.getElementById('architecture-zoom-label').textContent = Math.round(architectureZoom * 100) + '%';
     setTimeout(drawEdges, 0);
@@ -1242,8 +1244,15 @@ function fitArchitectureToView() {
     var scroll = document.getElementById('architecture-diagram-scroll');
     var canvas = document.getElementById('architecture-diagram-canvas');
     if (!scroll || !canvas) return;
-    var fit = Math.min(1, (scroll.clientWidth - 28) / Math.max(1, canvas.scrollWidth));
-    setZoom(Math.max(0.45, fit));
+    
+    var oldZoom = canvas.style.zoom;
+    canvas.style.zoom = 1;
+    var intrinsicWidth = canvas.scrollWidth;
+    canvas.style.zoom = oldZoom;
+    
+    baseFitScale = Math.min(1, (scroll.clientWidth - 28) / Math.max(1, intrinsicWidth));
+    setZoom(1);
+    
     scroll.scrollLeft = 0;
     scroll.scrollTop = 0;
 }
