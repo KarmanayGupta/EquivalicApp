@@ -22,26 +22,182 @@
 
     <div class="app">
       <div class="continuity" id="appBreadcrumb"></div>
-      <div class="workspace">
-        <div class="left-panel">
-          <div class="sub-nav active" id="leftNavDashboard">Dashboard</div>
-          <div class="sub-nav" id="codeWikiTrigger">Code Wiki</div>
-          <div class="sub-nav">System Diagnostics</div>
-          <div class="sub-nav">Conversion Status</div>
-          <div class="sub-nav">Risk Assessment</div>
-          <div class="sub-nav">Project Summary</div>
-          <div class="sub-nav">Parser Improvement</div>
-          <div class="convert-cta"><span>Convert Code</span></div>
-        </div>
-        <div class="display-panel">
-          <div class="dashboard-tabs">
-            <button class="tab active" data-view="overview">Overview</button>
-            <button class="tab" data-view="anatomy">Anatomy</button>
-            <button class="tab" data-view="graph">Dependency Graph</button>
-            <button class="tab" data-view="risk">Risk Mitigation</button>
-            <div class="tab-indicator"></div>
+      <div class="workspace" style="grid-template-columns: 1fr;">
+        <div class="display-panel fade-transition">
+          <div class="scroll-container architecture-page" style="display:flex;flex-direction:column;gap:20px;padding:0 4px 0px;">
+        <header class="architecture-header">
+            <div>
+                <div id="architecture-kicker" class="architecture-kicker">COBOL source architecture</div>
+                <h1>Preview Architecture</h1>
+                <div id="architecture-subtitle" style="font-size:13px;color:var(--text-muted);">test3 - Batch COBOL application with DB2 data access</div>
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between; gap: 20px;">
+                <div class="architecture-actions">
+                    <button type="button" class="arch-secondary-btn" onclick="reloadArchitecturePreview()">Refresh</button>
+                    <button type="button" class="arch-secondary-btn" onclick="goBackToCodeWiki()">Back to Code Wiki</button>
+                </div>
+                <div id="architecture-generated-time" style="font-size:11px;color:var(--text-muted);font-family:monospace;"></div>
+            </div>
+        </header>
+        <div class="architecture-engine-box">
+
+
+        <section id="architecture-loading" class="architecture-state">
+            <div class="spinner"></div>
+            <p>Loading architecture preview...</p>
+        </section>
+
+        <section id="architecture-error" class="architecture-state error" style="display: none;">
+            <strong>Unable to load architecture preview</strong>
+            <p id="architecture-error-text"></p>
+            <button type="button" class="arch-primary-btn" onclick="reloadArchitecturePreview()">Retry</button>
+        </section>
+
+        <section id="architecture-content" style="display: none;">
+            <div class="architecture-view-switch" role="group" aria-label="Architecture view">
+                <button type="button" class="architecture-view-btn active" data-architecture-view="source" onclick="switchArchitectureView('source')">Source COBOL</button>
+                <button type="button" class="architecture-view-btn" data-architecture-view="java" onclick="switchArchitectureView('java')">Target Java</button>
+                <button type="button" class="architecture-view-btn" data-architecture-view="transform" onclick="switchArchitectureView('transform')">Transformation Map</button>
+            </div>
+
+            <div id="architecture-summary" class="architecture-summary"></div>
+
+            <div class="architecture-tabs" role="tablist" aria-label="Architecture preview tabs">
+                <button type="button" id="arch-tab-diagram" class="architecture-tab active" onclick="switchArchitecturePageTab('diagram')">Diagram View</button>
+                <button type="button" id="arch-tab-table" class="architecture-tab" onclick="switchArchitecturePageTab('table')">Table View</button>
+                <button type="button" id="arch-tab-bms" class="architecture-tab" onclick="switchArchitecturePageTab('bms')">BMS Screens</button>
+                <button type="button" id="arch-tab-target" class="architecture-tab" onclick="switchArchitecturePageTab('target')">Target Java Preview</button>
+                <button type="button" id="arch-tab-transform" class="architecture-tab" onclick="switchArchitecturePageTab('transform')">Map View</button>
+                <button type="button" id="arch-tab-json" class="architecture-tab" onclick="switchArchitecturePageTab('json')">Raw JSON</button>
+            </div>
+
+            <section id="arch-panel-diagram" class="architecture-panel">
+                <div class="architecture-diagram-shell">
+                    <div class="architecture-diagram-toolbar">
+                        <div class="architecture-zoom-group">
+                            <button type="button" class="arch-icon-btn" title="Zoom out" onclick="zoomArchitectureDiagram(-0.1)">-</button>
+                            <span id="architecture-zoom-label">100%</span>
+                            <button type="button" class="arch-icon-btn" title="Zoom in" onclick="zoomArchitectureDiagram(0.1)">+</button>
+                            <button type="button" class="arch-secondary-btn small" onclick="fitArchitectureToView()">Reset</button>
+                        </div>
+                        <div class="architecture-legend" id="architecture-legend"></div>
+                    </div>
+                    <div id="architecture-diagram-scroll" class="architecture-diagram-scroll">
+                        <div id="architecture-diagram-canvas" class="architecture-diagram-canvas">
+                            <svg id="architecture-diagram-edges" class="architecture-diagram-edges" aria-hidden="true"></svg>
+                            <div id="architecture-diagram-layers" class="architecture-diagram-layers"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <aside class="architecture-side-panel">
+                    <section class="architecture-side-card">
+                        <h2>Selected Component</h2>
+                        <div id="architecture-node-detail" class="architecture-node-detail">
+                            Click any component icon or card in the diagram.
+                        </div>
+                    </section>
+                    <section class="architecture-side-card">
+                        <h2>Execution Flows</h2>
+                        <div id="architecture-flows" class="architecture-list"></div>
+                    </section>
+                    <section class="architecture-side-card">
+                        <h2>Insights</h2>
+                        <div id="architecture-insights" class="architecture-list"></div>
+                    </section>
+                </aside>
+            </section>
+
+            <section id="arch-panel-table" class="architecture-panel" style="display: none;">
+                <div id="architecture-table" class="architecture-table"></div>
+            </section>
+
+            <section id="arch-panel-bms" class="architecture-panel" style="display: none;">
+                <div class="architecture-bms-grid">
+                    <section class="architecture-bms-main">
+                        <div id="architecture-bms-summary" class="architecture-bms-summary"></div>
+                        <div id="architecture-bms-selector" class="architecture-bms-selector"></div>
+                        <div id="architecture-bms-screen" class="architecture-bms-screen"></div>
+                    </section>
+                    <aside class="architecture-side-panel">
+                        <section class="architecture-side-card">
+                            <h2>Screen Field</h2>
+                            <div id="architecture-bms-field-detail" class="architecture-node-detail">
+                                Click any screen field to inspect BMS and program mapping.
+                            </div>
+                        </section>
+                        <section class="architecture-side-card">
+                            <h2>CICS Usage</h2>
+                            <div id="architecture-bms-linkage" class="architecture-list"></div>
+                        </section>
+                    </aside>
+                </div>
+            </section>
+
+            <section id="arch-panel-target" class="architecture-panel" style="display: none;">
+                <div class="architecture-target-grid">
+                    <section class="architecture-side-card">
+                        <h2>Projected API Surface</h2>
+                        <div id="architecture-target-endpoints" class="architecture-list"></div>
+                    </section>
+                    <section class="architecture-side-card">
+                        <h2>Target Folder Structure</h2>
+                        <div id="architecture-target-folders" class="architecture-folder-tree"></div>
+                    </section>
+                </div>
+            </section>
+
+            <section id="arch-panel-transform" class="architecture-panel" style="display: none;">
+                <div class="architecture-transform-grid">
+                    <section class="architecture-transform-main">
+                        <div id="architecture-transform-summary" class="architecture-transform-summary"></div>
+                        <div class="architecture-transform-filter" role="group" aria-label="Transformation status filter">
+                            <button type="button" class="transform-filter active" data-transform-filter="all" onclick="setTransformationFilter('all')">All</button>
+                            <button type="button" class="transform-filter" data-transform-filter="mapped" onclick="setTransformationFilter('mapped')">Mapped</button>
+                            <button type="button" class="transform-filter" data-transform-filter="partial" onclick="setTransformationFilter('partial')">Partial</button>
+                            <button type="button" class="transform-filter" data-transform-filter="unmapped" onclick="setTransformationFilter('unmapped')">Unmapped</button>
+                            <button type="button" class="transform-filter" data-transform-filter="generated_new" onclick="setTransformationFilter('generated_new')">Generated New</button>
+                        </div>
+                        <div id="architecture-transform-lanes" class="architecture-transform-lanes"></div>
+                    </section>
+                    <aside class="architecture-side-panel">
+                        <section class="architecture-side-card">
+                            <h2>Mapping Details</h2>
+                            <div id="architecture-transform-detail" class="architecture-node-detail">
+                                Click any mapping to inspect traceability and confidence.
+                            </div>
+                        </section>
+                        <section class="architecture-side-card">
+                            <h2>Transformation Gaps</h2>
+                            <div id="architecture-transform-gaps" class="architecture-list"></div>
+                        </section>
+                    </aside>
+                </div>
+            </section>
+
+            <section id="arch-panel-json" class="architecture-panel" style="display: none;">
+                <div class="architecture-json-grid">
+                    <section id="architecture-source-json-section">
+                        <h2>Source Architecture JSON</h2>
+                        <pre id="architecture-source-json"></pre>
+                    </section>
+                    <section id="architecture-java-json-section">
+                        <h2>Java Architecture JSON</h2>
+                        <pre id="architecture-java-json"></pre>
+                    </section>
+                    <section id="architecture-target-json-section">
+                        <h2>Target Preview JSON</h2>
+                        <pre id="architecture-target-json"></pre>
+                    </section>
+                    <section id="architecture-comparison-json-section">
+                        <h2>Transformation Map JSON</h2>
+                        <pre id="architecture-comparison-json"></pre>
+                                        </section>
+                </div>
+            </section>
+        </section>
+    </div>
           </div>
-          <div id="previewContent" class="scroll-container"></div>
         </div>
       </div>
       <div class="system-bar">
@@ -51,5 +207,6 @@
       </div>
     </div>
     <script src="architectureStudio.js"></script>
+    <div class="toast-container" id="toast-container"></div>
   </body>
 </html>

@@ -258,73 +258,73 @@ function activateAnalysisHealthMode() {
     <div id="health-tab-0" class="health-section" style="display:none; background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:24px; margin-bottom:32px;">
         <h3 style="font-size:16px; font-weight:600; color:#fff; margin-top:0; margin-bottom:20px;">Upload, Discovery, Preprocess & IR Generation</h3>
         <div style="display:flex; flex-wrap:wrap; gap:12px; margin-bottom:24px;"><div style='flex:1; min-width:140px;'>
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Uploaded files</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">1</div>
         
     </div>
     </div><div style='flex:1; min-width:140px;'>
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Parsed programs</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">1</div>
         
     </div>
     </div><div style='flex:1; min-width:140px;'>
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Dependency context</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">0</div>
         
     </div>
     </div><div style='flex:1; min-width:140px;'>
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Unsupported skipped</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">0</div>
         
     </div>
     </div><div style='flex:1; min-width:180px;'>
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Discovery cache</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">hit=0, miss=1</div>
         
     </div>
     </div><div style='flex:1; min-width:180px;'>
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Copybooks</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">reg=0, dup=0</div>
         
     </div>
     </div><div style='flex:1; min-width:180px;'>
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Missing copybooks</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">app=0, sys=0</div>
         
     </div>
     </div><div style='flex:1; min-width:180px;'>
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Copybook policy</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">app=warn</div>
         
     </div>
     </div><div style='flex:1; min-width:180px;'>
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">IR quality</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">pass=0, warn=1, fail=0</div>
         
     </div>
     </div><div style='flex:1; min-width:180px;'>
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">IR certification</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">cert=0, warn=1, block=0</div>
         
     </div>
     </div><div style='flex:1; min-width:180px;'>
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Conversion risk</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">low=1, med=0, high=0</div>
         
     </div>
     </div><div style='flex:1; min-width:140px;'>
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Preprocess warnings</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">1</div>
         
@@ -450,37 +450,37 @@ function activateAnalysisHealthMode() {
     <div id="health-tab-1" class="health-section" style="display:none; background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:24px; margin-bottom:32px;">
         <h3 style="font-size:16px; font-weight:600; color:#fff; margin-top:0; margin-bottom:20px;">Parser & AST</h3>
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:12px; margin-bottom:24px;">
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Programs</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">1</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Success</div>
         <div style="font-size:18px; font-weight:700; color:#fff;"><span style='color:#2ecc71'>0</span></div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Partial</div>
         <div style="font-size:18px; font-weight:700; color:#fff;"><span style='color:#f1c40f'>1</span></div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Failed</div>
         <div style="font-size:18px; font-weight:700; color:#fff;"><span style='color:#e74c3c'>0</span></div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Total parser time</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">233ms</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Failure triage</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">1</div>
         
@@ -530,49 +530,49 @@ function activateAnalysisHealthMode() {
     <div id="health-tab-2" class="health-section" style="display:none; background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:24px; margin-bottom:32px;">
         <h3 style="font-size:16px; font-weight:600; color:#fff; margin-top:0; margin-bottom:20px;">IR Accuracy Lifecycle</h3>
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:12px; margin-bottom:16px;">
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Initial IR score</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">not captured</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Initial chunks</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">pass=0, warn=0, fail=0</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Fix proposals</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">0</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Applicable patches</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">0</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Applied fixes</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">0</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Post-fix IR score</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">not captured</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Post-fix chunks</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">pass=0, warn=0, fail=0</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Conversion readiness</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">not_checked</div>
         
@@ -606,73 +606,73 @@ function activateAnalysisHealthMode() {
     <div id="health-tab-3" class="health-section" style="display:none; background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:24px; margin-bottom:32px;">
         <h3 style="font-size:16px; font-weight:600; color:#fff; margin-top:0; margin-bottom:20px;">Dependency Graph Audit</h3>
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:12px; margin-bottom:16px;">
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Schema</div>
         <div style="font-size:18px; font-weight:700; color:#fff;"><span style='color:#2ecc71'>yes</span></div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Nodes</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">1</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Edges</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">0</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Edge evidence</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">0</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Unresolved refs</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">0</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Missing IR edges</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">0</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Resource nodes</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">0</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">DB2 nodes</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">0</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">CICS map nodes</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">0</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Dataset nodes</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">0</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">DB2 usage</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">0</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">JCL lineage</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">0</div>
         
@@ -735,61 +735,61 @@ function activateAnalysisHealthMode() {
     <div id="health-tab-4" class="health-section" style="display:none; background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:24px; margin-bottom:32px;">
         <h3 style="font-size:16px; font-weight:600; color:#fff; margin-top:0; margin-bottom:20px;">Project-Level Artifact Health</h3>
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:12px; margin-bottom:24px;">
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Status</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">passed_warnings</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Artifacts</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">7</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Validated</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">6</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Validation fails</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">0</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Stamped</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">7</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Manifest warnings</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">0</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Contract findings</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">1</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Preview warnings</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">1</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Artifact graph nodes</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">7</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Artifact graph edges</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">20</div>
         
@@ -891,43 +891,43 @@ function activateAnalysisHealthMode() {
     <div id="health-tab-5" class="health-section" style="display:none; background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:24px; margin-bottom:32px;">
         <h3 style="font-size:16px; font-weight:600; color:#fff; margin-top:0; margin-bottom:20px;">Post-IR Readiness</h3>
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:12px; margin-bottom:24px;">
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Status</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">passed</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">IR programs</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">1</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Graph nodes</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">1</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Manifest programs</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">2</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Manifest services</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">1</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Blocking issues</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">0</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Warnings</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">0</div>
         
@@ -987,61 +987,61 @@ function activateAnalysisHealthMode() {
     <div id="health-tab-6" class="health-section" style="display:none; background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:24px; margin-bottom:32px;">
         <h3 style="font-size:16px; font-weight:600; color:#fff; margin-top:0; margin-bottom:20px;">AI Assistance Health</h3>
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:12px; margin-bottom:16px;">
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Layer</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">AI-generated / optional</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Optional layer</div>
         <div style="font-size:18px; font-weight:700; color:#fff;"><span style='color:#2ecc71'>yes</span></div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Deterministic separate</div>
         <div style="font-size:18px; font-weight:700; color:#fff;"><span style='color:#2ecc71'>yes</span></div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Total calls</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">0</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Cache hits</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">0</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Budget blocks</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">0</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Est. tokens</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">0</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Est. cost</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">$0</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Timeout</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">180s</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Retries</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">5</div>
         
@@ -1091,67 +1091,67 @@ function activateAnalysisHealthMode() {
     <div id="health-tab-7" class="health-section" style="display:none; background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:24px; margin-bottom:32px;">
         <h3 style="font-size:16px; font-weight:600; color:#fff; margin-top:0; margin-bottom:20px;">Run Timeline & Performance</h3>
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:12px; margin-bottom:16px;">
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Status</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">warnings</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Live run</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">COMPLETED</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Current stage</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">analysis</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Timeline stages</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">10</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Artifacts</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">66</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Total artifact size</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">275.1 KB</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Parse time</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">233ms</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Slow I/O ops</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">0</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Failed / partial</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">2</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Skipped files</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">0</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Run comparison</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">no</div>
         
@@ -1238,61 +1238,61 @@ function activateAnalysisHealthMode() {
     <div id="health-tab-8" class="health-section" style="display:none; background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:24px; margin-bottom:32px;">
         <h3 style="font-size:16px; font-weight:600; color:#fff; margin-top:0; margin-bottom:20px;">Persistence & Artifact I/O Health</h3>
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:12px; margin-bottom:16px;">
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Status</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">passed</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Artifacts indexed</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">66</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Total size</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">275.1 KB</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">JSON reads</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">14</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">JSON writes</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">3</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Cache hits</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">13</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Cache misses</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">1</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Slow ops</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">0</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Large warnings</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">0</div>
         
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Compact AST candidates</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">0</div>
         
@@ -1384,19 +1384,19 @@ function activateAnalysisHealthMode() {
         <span style="border:1px solid #3498db; color:#3498db; padding:4px 12px; border-radius:12px; font-size:11px;">Project Artifacts</span>
     </div>
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:12px; margin-bottom:24px;">
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">BLOCKERS</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">1</div>
         <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">Findings that can stop or materially weaken conversion readiness.</div>
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">SKIPPED FILES</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">0</div>
         <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">Uploaded files that were intentionally skipped or rejected.</div>
     </div>
     
-    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+    <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">PROGRAM EVIDENCE</div>
         <div style="font-size:18px; font-weight:700; color:#fff;">4</div>
         <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">Expandable per-program parse, IR, and traceability findings.</div>
