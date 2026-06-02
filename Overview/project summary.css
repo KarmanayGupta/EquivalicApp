@@ -18,7 +18,9 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Inter", sans-serif; }
 
-body { background: var(--bg); color: var(--text-primary); height: 100vh; display: flex; overflow: hidden; }
+html { overflow: hidden; overflow-x: hidden; }
+
+body { background: var(--bg); color: var(--text-primary); height: 100vh; width: 100vw; display: flex; overflow: hidden; overflow-x: hidden; }
 
 body::before {
         content: ""; position: fixed; inset: 0;
@@ -36,6 +38,7 @@ body::before {
 .sidebar {
         width: 260px;
         min-width: 260px;
+        max-width: 260px;
         background: var(--sidebar-bg);
         border-right: 1px solid var(--border);
         display: flex;
@@ -43,25 +46,29 @@ body::before {
         justify-content: space-between;
         padding: 32px 0 28px 0;
         overflow-y: auto;
-        scrollbar-width: thin;
-        scrollbar-color: rgba(108, 92, 231, 0.4) transparent;
+        overflow-x: hidden;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
       }
 
 .sidebar::-webkit-scrollbar {
-        width: 6px;
+        display: none;
       }
 
 .sidebar::-webkit-scrollbar-track {
-        background: transparent;
+        display: none;
       }
 
 .sidebar::-webkit-scrollbar-thumb {
-        background: rgba(108, 92, 231, 0.4);
-        border-radius: 3px;
+        display: none;
       }
 
 .sidebar::-webkit-scrollbar-thumb:hover {
-        background: rgba(108, 92, 231, 0.6);
+        display: none;
+      }
+
+.sidebar::-webkit-scrollbar:horizontal {
+        display: none;
       }
 
 .logo {
@@ -202,7 +209,6 @@ body::before {
         background: rgba(255,255,255,0.05);
         color: var(--text-primary);
         border-left-color: var(--accent-1);
-        transform: translateX(4px);
       }
 
 .sidebar-settings:active { transform: scale(0.97); }

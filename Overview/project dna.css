@@ -202,7 +202,6 @@ body::before {
         background: rgba(255,255,255,0.05);
         color: var(--text-primary);
         border-left-color: var(--accent-1);
-        transform: translateX(4px);
       }
 
 .sidebar-settings:active { transform: scale(0.97); }
