@@ -648,7 +648,6 @@ function attachWikiEvents() {
             <button class="tab active" style="padding-bottom: 12px; font-size: 13px;">Project Structure</button>
             <button class="tab" style="padding-bottom: 12px; font-size: 13px;">Risk</button>
             <button class="tab" style="padding-bottom: 12px; font-size: 13px;">System Diagnostics</button>
-            <button class="tab" style="padding-bottom: 12px; font-size: 13px;">Vulnerability assessment</button>
           </div>
           <button style="background: rgba(0, 212, 255, 0.1); color: #00d4ff; border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 6px; padding: 6px 12px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z" /><path d="M2 12l10 5 10-5" /><path d="M2 17l10 5 10-5" /></svg>
