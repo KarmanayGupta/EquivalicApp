@@ -223,6 +223,10 @@ body::before {
         min-height: 0;
       }
 
+.workspace.workspace-full {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
 .left-panel { 
         background: var(--panel-bg); 
         border-radius: var(--radius); 
@@ -238,6 +242,10 @@ body::before {
         overflow-x: hidden;
         scrollbar-width: thin;
         scrollbar-color: rgba(143, 155, 173, 0.3) transparent;
+      }
+
+.left-panel.is-hidden {
+        display: none;
       }
 
 .left-panel::-webkit-scrollbar {

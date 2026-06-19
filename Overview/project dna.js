@@ -4,11 +4,14 @@
    Contains this page's bootstrap, renderers, handlers, and data only.
 ============================================================ */
 window.EQUIVALIC_INITIAL_PAGE = window.EQUIVALIC_INITIAL_PAGE || 'Project DNA';
+const projectDnaPageName = window.EQUIVALIC_INITIAL_PAGE === 'IR Quality' ? 'IR Quality' : 'Project DNA';
+const projectDnaSectionName = projectDnaPageName === 'IR Quality' ? 'Analyze' : 'Overview';
+const isIRQualityPage = projectDnaPageName === 'IR Quality';
 
 /* ============================================================
    Page bootstrap and shared shell utilities
 ============================================================ */
-const appState = { product: "Product Suite", section: "Overview", page: "Project DNA", view: "Overview" };
+const appState = { product: "Product Suite", section: projectDnaSectionName, page: projectDnaPageName, view: "Overview" };
 function renderHeader() {
   const el = document.getElementById("appBreadcrumb");
   if (el) el.innerHTML = `${appState.section} > ${appState.page}`;
@@ -20,6 +23,7 @@ function destroyCharts() { charts.forEach(c => c.destroy()); charts = []; }
 let isWikiMode = false, isConvertMode = false;
 const leftPanel = document.querySelector(".left-panel");
 const displayPanel = document.querySelector(".display-panel");
+const workspace = document.querySelector(".workspace");
 const originalLeftPanel = leftPanel ? leftPanel.innerHTML : "";
 
 function restoreDashboard() {
@@ -29,20 +33,23 @@ function restoreDashboard() {
 function activateMode(sectionName, pageName, leftHTML, displayHTML, afterFn, instant) {
   isWikiMode = false;
   isConvertMode = false;
-  setState({ section: "Analysis Engine", page: pageName, view: "Overview" });
+  const useFullWidth = !leftHTML;
+  workspace?.classList.toggle("workspace-full", useFullWidth);
+  leftPanel?.classList.toggle("is-hidden", useFullWidth);
+  setState({ section: sectionName, page: pageName, view: "Overview" });
   if (instant) {
-    leftPanel.innerHTML = leftHTML;
+    if (leftPanel) leftPanel.innerHTML = leftHTML || "";
     displayPanel.innerHTML = displayHTML;
     document.getElementById("backToDashboard")?.addEventListener("click", restoreDashboard);
     if (afterFn) afterFn();
     return;
   }
-  leftPanel.classList.add("fade-transition", "fade-out");
+  if (!useFullWidth) leftPanel.classList.add("fade-transition", "fade-out");
   displayPanel.classList.add("fade-transition", "fade-out");
   setTimeout(() => {
-    leftPanel.innerHTML = leftHTML;
+    if (leftPanel) leftPanel.innerHTML = leftHTML || "";
     displayPanel.innerHTML = displayHTML;
-    leftPanel.classList.remove("fade-out");
+    leftPanel?.classList.remove("fade-out");
     displayPanel.classList.remove("fade-out");
     document.getElementById("backToDashboard")?.addEventListener("click", restoreDashboard);
     if (afterFn) afterFn();
@@ -110,7 +117,7 @@ const irChunkData = [
         </tr>`;
       }).join('');
 
-      const leftHTML = `<div style="display:flex;flex-direction:column;gap:20px;max-height:100%;overflow-y:auto;overflow-x:hidden;padding-right:8px;">
+      const leftHTML = isIRQualityPage ? `<div style="display:flex;flex-direction:column;gap:20px;max-height:100%;overflow-y:auto;overflow-x:hidden;padding-right:8px;">
         <div>
           <div class="sub-nav active" style="margin-bottom: 24px; cursor: default; pointer-events: none;">IR QUALITY</div>
           <p style="color:#94a3b8;line-height:1.6;margin-bottom:12px;font-size:13px;padding-right:4px;">Runs only when you click the button. No automatic LLM calls on tab load.</p>
@@ -130,12 +137,12 @@ const irChunkData = [
             <p style="margin:8px 0 0;color:#94a3b8;">Detailed results are in the IR Quality workbench below (use Hide details / Show details). Press Esc to collapse details.</p>
           </div>
         </div>
-      </div>`;
+      </div>` : '';
 
       const displayHTML = `<div style="display:flex;flex-direction:column;height:100%;overflow:hidden;">
         <div style="border-bottom: 1px solid var(--border); padding: 0 4px 12px; margin-bottom: 0; flex-shrink: 0;">
-          <h2 style="font-size: 24px; font-weight: 700; color: #fff; margin: 0 0 4px 0; letter-spacing: 0.05em;">Project  DNA</h2>
-          <p style="font-size: 14px; color: var(--text-muted); margin: 0; font-weight: 500;">Executive Summary & Business Impact Analysis</p>
+          <h2 style="font-size: 24px; font-weight: 700; color: #fff; margin: 0 0 4px 0; letter-spacing: 0.05em;">${projectDnaPageName === 'IR Quality' ? 'IR Quality' : 'Project DNA'}</h2>
+          <p style="font-size: 14px; color: var(--text-muted); margin: 0; font-weight: 500;">${projectDnaPageName === 'IR Quality' ? 'IR Verification Workbench' : 'Executive Summary & Business Impact Analysis'}</p>
         </div>
         <div class="dashboard-tabs" style="flex-shrink: 0; padding: 0 4px; margin-bottom: 0;">
           <button class="tab active" data-view="overview">Overview</button>
@@ -183,7 +190,7 @@ const irChunkData = [
             </div>
           </div>
           
-          <div style="display:flex;gap:12px;margin-top:24px;margin-bottom:20px;">
+          ${isIRQualityPage ? `<div style="display:flex;gap:12px;margin-top:24px;margin-bottom:20px;">
             <button id="showDetailsBtn" disabled style="display:flex;align-items:center;justify-content:center;gap:8px;flex:1;padding:12px 16px;border-radius:20px;font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;text-align:center;cursor:not-allowed;background:#0f141b;border:1px solid transparent;background-image:linear-gradient(#0f141b, #0f141b),linear-gradient(90deg, #6c5ce7, #00d4ff);background-origin:border-box;background-clip:padding-box, border-box;color:var(--accent-2);box-shadow:0 0 16px rgba(0, 212, 255, 0.08);opacity:0.5;transition:all 0.25s ease;">Show details</button>
             
             <button id="improveDraftBtn" disabled style="display:flex;align-items:center;justify-content:center;gap:8px;flex:1;padding:12px 16px;border-radius:20px;font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;text-align:center;cursor:not-allowed;background:#0f141b;border:1px solid transparent;background-image:linear-gradient(#0f141b, #0f141b),linear-gradient(90deg, #6c5ce7, #00d4ff);background-origin:border-box;background-clip:padding-box, border-box;color:var(--accent-2);box-shadow:0 0 16px rgba(0, 212, 255, 0.08);opacity:0.5;transition:all 0.25s ease;">Improve / Update (Draft)</button>
@@ -241,6 +248,7 @@ const irChunkData = [
               </div>
             </div>
           </div>
+          ` : ''}
         </div>
         
         <div id="anatomyContent" style="display:none;">
@@ -289,7 +297,7 @@ const irChunkData = [
         </div>
       </div>`;
 
-      activateMode('Project DNA', 'Project DNA', leftHTML, displayHTML);
+      activateMode(projectDnaSectionName, projectDnaPageName, leftHTML, displayHTML);
       
       // Tab switching for Overview/Anatomy/Dependency - use event delegation
       displayPanel.addEventListener('click', function(e) {
@@ -451,7 +459,7 @@ const irChunkData = [
     }
 
     // ====== Delegated click handler for Check IR Quality button ======
-    leftPanel.addEventListener("click", function(e) {
+    leftPanel?.addEventListener("click", function(e) {
       const btn = e.target.closest("#checkIRQualityBtn");
       if (!btn) return;
       if (btn.dataset.loading === "true") return;

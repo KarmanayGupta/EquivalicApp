@@ -6,14 +6,14 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <title>EquiValic | Project DNA</title>
+    <title>EquiValic | IR Quality</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="project dna.css" />
+    <link rel="stylesheet" href="../Overview/project%20dna.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   </head>
   <body>
     <script>
-      window.EQUIVALIC_INITIAL_PAGE = "Project DNA";
+      window.EQUIVALIC_INITIAL_PAGE = "IR Quality";
     </script>
     <script src="../components/navbar.js"></script>
     <script>
@@ -22,7 +22,17 @@
 
     <div class="app">
       <div class="continuity" id="appBreadcrumb"></div>
-      <div class="workspace workspace-full">
+      <div class="workspace">
+        <div class="left-panel">
+          <div class="sub-nav active" id="leftNavDashboard">Dashboard</div>
+          <div class="sub-nav" id="codeWikiTrigger">Code Wiki</div>
+          <div class="sub-nav">System Diagnostics</div>
+          <div class="sub-nav">Conversion Status</div>
+          <div class="sub-nav">Risk Assessment</div>
+          <div class="sub-nav">Project Summary</div>
+          <div class="sub-nav">Parser Improvement</div>
+          <div class="convert-cta"><span>Convert Code</span></div>
+        </div>
         <div class="display-panel">
           <div class="dashboard-tabs">
             <button class="tab active" data-view="overview">Overview</button>
@@ -40,6 +50,6 @@
         <div class="system-meta">v1.0.0</div>
       </div>
     </div>
-    <script src="project dna.js"></script>
+    <script src="../Overview/project%20dna.js"></script>
   </body>
 </html>
