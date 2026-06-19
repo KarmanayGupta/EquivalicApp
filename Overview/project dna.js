@@ -20,7 +20,7 @@ function setState(newState) { Object.assign(appState, newState); renderHeader();
 
 let charts = [];
 function destroyCharts() { charts.forEach(c => c.destroy()); charts = []; }
-let isWikiMode = false, isConvertMode = false;
+let isWikiMode = false, isConvertMode = false, isLlmReviewed = false;
 const leftPanel = document.querySelector(".left-panel");
 const displayPanel = document.querySelector(".display-panel");
 const workspace = document.querySelector(".workspace");
@@ -117,28 +117,9 @@ const irChunkData = [
         </tr>`;
       }).join('');
 
-      const leftHTML = isIRQualityPage ? `<div style="display:flex;flex-direction:column;gap:20px;max-height:100%;overflow-y:auto;overflow-x:hidden;padding-right:8px;">
-        <div>
-          <div class="sub-nav active" style="margin-bottom: 24px; cursor: default; pointer-events: none;">IR QUALITY</div>
-          <p style="color:#94a3b8;line-height:1.6;margin-bottom:12px;font-size:13px;padding-right:4px;">Runs only when you click the button. No automatic LLM calls on tab load.</p>
-          <div style="background:rgba(59,130,246,0.1);padding:12px;border-radius:8px;border-left:3px solid #3b82f6;margin:12px 0;">
-            <p style="margin:0;color:#60a5fa;line-height:1.6;font-size:13px;">Parser, AST, upload-to-IR, dependency graph audit, and post-IR readiness metrics now live in <a href="#" id="analysisHealthLink" style="color:#60a5fa;text-decoration:underline;">Analysis Health</a>.</p>
-          </div>
-          <p style="color:#94a3b8;line-height:1.8;margin-bottom:14px;font-size:14px;font-family:'Inter',sans-serif;font-weight:500;padding-right:4px;"><strong style="color:#94a3b8;font-weight:600;">Check IR Quality</strong> runs the LLM verifier (per chunk) and writes reports. <strong style="color:#94a3b8;font-weight:600;">Improve / Update (Draft)</strong> aggregates suggestions from those reports. <strong style="color:#94a3b8;font-weight:600;">Apply</strong> is available only when <span style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;font-size:13px;color:#94a3b8;">ir_verification_assisted_apply_enabled</span> is true in server config; it writes <span style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;font-size:13px;color:#94a3b8;">IR.json</span> with a timestamped backup.</p>
-          <p style="color:#94a3b8;line-height:1.8;margin-bottom:16px;font-size:14px;font-family:'Inter',sans-serif;font-weight:500;padding-right:4px;">Label: deterministic pipeline health is authoritative. AI-generated verifier findings are optional advisory enhancements with budget, cache, and usage reporting in Analysis Health.</p>
-          <div style="background:rgba(16,185,129,0.08);padding:12px;border-radius:8px;border-left:3px solid #10b981;margin-bottom:16px;">
-            <p style="margin:0;font-size:13px;color:#6ee7b7;line-height:1.6;">Safe repair mode: safe_repair. Assisted apply is on for validated structured draft patches; advisory findings remain non-mutating.</p>
-          </div>
-          <div id="irQualityStatus" style="margin-top:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:14px 16px;font-size:13px;color:#94a3b8;line-height:1.8;display:none;">
-            <p style="margin:0;color:#94a3b8;font-weight:500;">Status: not_matching | Score: 0 | Programs: 20/20 | Chunks: 105 (pass=0, warn=0, fail=105)</p>
-            <p style="margin:8px 0 0;color:#94a3b8;">105 chunk(s) failed verification</p>
-            <p style="margin:8px 0 0;color:#94a3b8;">Safe repair preflight (safe_repair): 2 repair(s), 5 program(s) updated, remaining SQL/CICS gaps=4, native fallbacks=2.</p>
-            <p style="margin:8px 0 0;color:#94a3b8;">Detailed results are in the IR Quality workbench below (use Hide details / Show details). Press Esc to collapse details.</p>
-          </div>
-        </div>
-      </div>` : '';
+      const leftHTML = '';
 
-      const displayHTML = `<div style="display:flex;flex-direction:column;height:100%;overflow:hidden;">
+      const displayHTML = `<div style="display:flex;flex-direction:column;height:100%;overflow:hidden;min-height:0;">
         <div style="border-bottom: 1px solid var(--border); padding: 0 4px 12px; margin-bottom: 0; flex-shrink: 0;">
           <h2 style="font-size: 24px; font-weight: 700; color: #fff; margin: 0 0 4px 0; letter-spacing: 0.05em;">${projectDnaPageName === 'IR Quality' ? 'IR Quality' : 'Project DNA'}</h2>
           <p style="font-size: 14px; color: var(--text-muted); margin: 0; font-weight: 500;">${projectDnaPageName === 'IR Quality' ? 'IR Verification Workbench' : 'Executive Summary & Business Impact Analysis'}</p>
@@ -149,7 +130,8 @@ const irChunkData = [
           <button class="tab" data-view="dependency">Dependency Graph</button>
         </div>` : ''}
         
-        ${projectDnaPageName !== 'IR Quality' ? '<div class="scroll-container" style="flex: 1; overflow-y: scroll; overflow-x: hidden;">' : ''}
+        ${projectDnaPageName === 'IR Quality' ? '<div class="scroll-container" style="flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; padding: 20px 8px 32px 4px; display: flex; flex-direction: column; gap: 20px;">' : ''}
+        ${projectDnaPageName !== 'IR Quality' ? '<div class="scroll-container" style="flex: 1; min-height: 0; overflow-y: scroll; overflow-x: hidden;">' : ''}
         ${projectDnaPageName !== 'IR Quality' ? '<div id="overviewContent" style="display: block; padding: 20px 4px 32px;">' : ''}
           ${projectDnaPageName !== 'IR Quality' ? '<div class="stats-grid">' : ''}
             ${projectDnaPageName !== 'IR Quality' ? `<div class="stat-card">
@@ -199,7 +181,45 @@ const irChunkData = [
             
             <p style="color:var(--text-muted);line-height:1.8;margin:0;font-size:14px;font-family:'Inter',sans-serif;font-weight:500;"><strong style="color:var(--text-muted);font-weight:600;">Check IR Quality</strong> runs the LLM verifier (per chunk) and writes reports. <strong style="color:var(--text-muted);font-weight:600;">Improve / Update (Draft)</strong> aggregates suggestions from those reports. <strong style="color:var(--text-muted);font-weight:600;">Apply</strong> is available only when <span style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;font-size:13px;color:var(--text-muted);">ir_verification_assisted_apply_enabled</span> is true in server config; it writes <span style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;font-size:13px;color:var(--text-muted);">IR.json</span> with a timestamped backup.</p>
           </div>` : ''}
+
+          ${isIRQualityPage ? `
+          <div style="display:flex;flex-direction:column;gap:12px;width:100%;margin:16px 0;">
+            <!-- Row 1: Primary Action -->
+            <div style="display:flex;width:100%;">
+              <button id="checkIRQualityBtn" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px 16px;border-radius:24px;font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;text-align:center;cursor:pointer;background:#0f141b;border:1px solid transparent;background-image:linear-gradient(#0f141b, #0f141b),linear-gradient(90deg, #6c5ce7, #00d4ff);background-origin:border-box;background-clip:padding-box, border-box;color:var(--accent-2);box-shadow:0 0 16px rgba(0, 212, 255, 0.08);transition:all 0.25s ease;" onmousedown="this.style.background='linear-gradient(90deg, rgba(108, 92, 231, 0.22), rgba(0, 212, 255, 0.18))';this.style.color='#ffffff';this.style.border='1px solid rgba(0, 212, 255, 0.45)'" onmouseup="this.style.background='#0f141b';this.style.border='1px solid transparent';this.style.backgroundImage='linear-gradient(#0f141b, #0f141b),linear-gradient(90deg, #6c5ce7, #00d4ff)';this.style.color='var(--accent-2)'" onmouseleave="this.style.background='#0f141b';this.style.border='1px solid transparent';this.style.backgroundImage='linear-gradient(#0f141b, #0f141b),linear-gradient(90deg, #6c5ce7, #00d4ff)';this.style.color='var(--accent-2)'">Check IR Quality</button>
+            </div>
+            <!-- Row 2: Secondary Actions -->
+            <div style="display:flex;align-items:center;gap:10px;width:100%;flex-wrap:wrap;">
+              <button id="llmReviewBtn" style="display:flex;align-items:center;justify-content:center;gap:6px;flex:1;min-width:120px;padding:10px 14px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;text-align:center;cursor:pointer;background:rgba(30, 41, 59, 0.75);border:1px solid rgba(255,255,255,0.1);color:#cbd5e1;backdrop-filter:blur(4px);transition:all 0.25s ease;" onmouseover="this.style.background='rgba(45, 55, 72, 0.9)';this.style.color='#ffffff';this.style.borderColor='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(30, 41, 59, 0.75)';this.style.color='#cbd5e1';this.style.borderColor='rgba(255,255,255,0.1)'" onmousedown="this.style.background='rgba(26, 32, 44, 0.9)';">LLM Review</button>
+              <button id="applySafeRepairsBtn" style="display:flex;align-items:center;justify-content:center;gap:6px;flex:1;min-width:120px;padding:10px 14px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;text-align:center;cursor:pointer;background:rgba(30, 41, 59, 0.75);border:1px solid rgba(255,255,255,0.1);color:#cbd5e1;backdrop-filter:blur(4px);transition:all 0.25s ease;" onmouseover="this.style.background='rgba(45, 55, 72, 0.9)';this.style.color='#ffffff';this.style.borderColor='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(30, 41, 59, 0.75)';this.style.color='#cbd5e1';this.style.borderColor='rgba(255,255,255,0.1)'" onmousedown="this.style.background='rgba(26, 32, 44, 0.9)';">Apply Safe Repairs</button>
+              <button id="applyReviewedFixesBtn" style="display:flex;align-items:center;justify-content:center;gap:6px;flex:1;min-width:120px;padding:10px 14px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;text-align:center;cursor:pointer;background:rgba(30, 41, 59, 0.75);border:1px solid rgba(255,255,255,0.1);color:#cbd5e1;backdrop-filter:blur(4px);transition:all 0.25s ease;" onmouseover="this.style.background='rgba(45, 55, 72, 0.9)';this.style.color='#ffffff';this.style.borderColor='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(30, 41, 59, 0.75)';this.style.color='#cbd5e1';this.style.borderColor='rgba(255,255,255,0.1)'" onmousedown="this.style.background='rgba(26, 32, 44, 0.9)';">Apply Reviewed Fixes</button>
+              <button id="projectDnaBtn" style="display:flex;align-items:center;justify-content:center;gap:6px;flex:1;min-width:120px;padding:10px 14px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;text-align:center;cursor:pointer;background:rgba(30, 41, 59, 0.75);border:1px solid rgba(255,255,255,0.1);color:#cbd5e1;backdrop-filter:blur(4px);transition:all 0.25s ease;" onmouseover="this.style.background='rgba(45, 55, 72, 0.9)';this.style.color='#ffffff';this.style.borderColor='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(30, 41, 59, 0.75)';this.style.color='#cbd5e1';this.style.borderColor='rgba(255,255,255,0.1)'" onmousedown="this.style.background='rgba(26, 32, 44, 0.9)';"><u>Project DNA</u></button>
+            </div>
+          </div>
           
+          <p style="color:var(--text-muted);line-height:1.8;margin:0;font-size:14px;font-family:'Inter',sans-serif;font-weight:500;padding-right:4px;"><strong style="color:var(--text-muted);font-weight:600;">Label:</strong> deterministic pipeline health is authoritative. AI-generated verifier findings are optional advisory enhancements with budget, cache, and usage reporting in Analysis Health.</p>
+          
+          <div style="background:rgba(16,185,129,0.08);padding:12px;border-radius:8px;border-left:3px solid #10b981;margin:16px 0 0;">
+            <p style="margin:0;font-size:13px;color:#6ee7b7;line-height:1.6;">Safe repair mode: safe_repair. Assisted apply is on for validated structured draft patches; advisory findings remain non-mutating.</p>
+          </div>` : ''}
+          
+          ${isIRQualityPage ? `
+          <div style="display:flex;gap:12px;margin-top:18px;margin-bottom:20px;">
+            <button id="showDetailsBtn" disabled style="display:flex;align-items:center;justify-content:center;gap:8px;flex:1;padding:12px 16px;border-radius:20px;font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;text-align:center;cursor:not-allowed;background:#0f141b;border:1px solid transparent;background-image:linear-gradient(#0f141b, #0f141b),linear-gradient(90deg, #6c5ce7, #00d4ff);background-origin:border-box;background-clip:padding-box, border-box;color:var(--accent-2);box-shadow:0 0 16px rgba(0, 212, 255, 0.08);opacity:0.5;transition:all 0.25s ease;">Show details</button>
+            
+            <button id="improveDraftBtn" disabled style="display:flex;align-items:center;justify-content:center;gap:8px;flex:1;padding:12px 16px;border-radius:20px;font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;text-align:center;cursor:not-allowed;background:#0f141b;border:1px solid transparent;background-image:linear-gradient(#0f141b, #0f141b),linear-gradient(90deg, #6c5ce7, #00d4ff);background-origin:border-box;background-clip:padding-box, border-box;color:var(--accent-2);box-shadow:0 0 16px rgba(0, 212, 255, 0.08);opacity:0.5;transition:all 0.25s ease;">Improve / Update (Draft)</button>
+            
+            <button id="noSelectablePatchesBtn" style="display:flex;align-items:center;justify-content:center;gap:8px;flex:1;padding:12px 16px;border-radius:20px;font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;text-align:center;cursor:pointer;background:linear-gradient(90deg, rgba(108, 92, 231, 0.22), rgba(0, 212, 255, 0.18));color:#ffffff;border:1px solid rgba(0, 212, 255, 0.45);box-shadow:0 0 16px rgba(0, 212, 255, 0.12);transition:all 0.25s ease;">No selectable patches</button>
+          </div>` : ''}
+
+          ${isIRQualityPage ? `
+          <div id="irQualityStatus" style="margin-top:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:14px 16px;font-size:13px;color:#94a3b8;line-height:1.8;display:none;">
+            <p style="margin:0;color:#94a3b8;font-weight:500;">Status: not_matching | Score: 0 | Programs: 20/20 | Chunks: 105 (pass=0, warn=0, fail=105)</p>
+            <p style="margin:8px 0 0;color:#94a3b8;">105 chunk(s) failed verification</p>
+            <p style="margin:8px 0 0;color:#94a3b8;">Safe repair preflight (safe_repair): 2 repair(s), 5 program(s) updated, remaining SQL/CICS gaps=4, native fallbacks=2.</p>
+            <p style="margin:8px 0 0;color:#94a3b8;">Detailed results are in the IR Quality workbench below (use Hide details / Show details). Press Esc to collapse details.</p>
+          </div>` : ''}
+
           ${isIRQualityPage ? `
           <div id="irWorkbench" class="chart-wrapper dark" style="display:none;margin-top:20px;padding:20px;">
             <h4>Detailed chunk results</h4>
@@ -250,24 +270,8 @@ const irChunkData = [
 }</pre>
               </div>
             </div>
-          </div>
-          
-          ${isIRQualityPage ? `<button id="checkIRQualityBtn" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px 16px;border-radius:20px;font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;text-align:center;cursor:pointer;background:#0f141b;border:1px solid transparent;background-image:linear-gradient(#0f141b, #0f141b),linear-gradient(90deg, #6c5ce7, #00d4ff);background-origin:border-box;background-clip:padding-box, border-box;color:var(--accent-2);box-shadow:0 0 16px rgba(0, 212, 255, 0.08);transition:all 0.25s ease;margin:16px 0;" onmousedown="this.style.background='linear-gradient(90deg, rgba(108, 92, 231, 0.22), rgba(0, 212, 255, 0.18))';this.style.color='#ffffff';this.style.border='1px solid rgba(0, 212, 255, 0.45)'" onmouseup="this.style.background='#0f141b';this.style.border='1px solid transparent';this.style.backgroundImage='linear-gradient(#0f141b, #0f141b),linear-gradient(90deg, #6c5ce7, #00d4ff)';this.style.color='var(--accent-2)'" onmouseleave="this.style.background='#0f141b';this.style.border='1px solid transparent';this.style.backgroundImage='linear-gradient(#0f141b, #0f141b),linear-gradient(90deg, #6c5ce7, #00d4ff)';this.style.color='var(--accent-2)'">Check IR Quality</button>
-          
-          <p style="color:var(--text-muted);line-height:1.8;margin:0;font-size:14px;font-family:'Inter',sans-serif;font-weight:500;padding-right:4px;"><strong style="color:var(--text-muted);font-weight:600;">Label:</strong> deterministic pipeline health is authoritative. AI-generated verifier findings are optional advisory enhancements with budget, cache, and usage reporting in Analysis Health.</p>
-          
-          <div style="background:rgba(16,185,129,0.08);padding:12px;border-radius:8px;border-left:3px solid #10b981;margin:16px 0 0;">
-            <p style="margin:0;font-size:13px;color:#6ee7b7;line-height:1.6;">Safe repair mode: safe_repair. Assisted apply is on for validated structured draft patches; advisory findings remain non-mutating.</p>
           </div>` : ''}
-          
-          <div style="display:flex;gap:12px;margin-top:18px;margin-bottom:20px;">
-            <button id="showDetailsBtn" disabled style="display:flex;align-items:center;justify-content:center;gap:8px;flex:1;padding:12px 16px;border-radius:20px;font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;text-align:center;cursor:not-allowed;background:#0f141b;border:1px solid transparent;background-image:linear-gradient(#0f141b, #0f141b),linear-gradient(90deg, #6c5ce7, #00d4ff);background-origin:border-box;background-clip:padding-box, border-box;color:var(--accent-2);box-shadow:0 0 16px rgba(0, 212, 255, 0.08);opacity:0.5;transition:all 0.25s ease;">Show details</button>
-            
-            <button id="improveDraftBtn" disabled style="display:flex;align-items:center;justify-content:center;gap:8px;flex:1;padding:12px 16px;border-radius:20px;font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;text-align:center;cursor:not-allowed;background:#0f141b;border:1px solid transparent;background-image:linear-gradient(#0f141b, #0f141b),linear-gradient(90deg, #6c5ce7, #00d4ff);background-origin:border-box;background-clip:padding-box, border-box;color:var(--accent-2);box-shadow:0 0 16px rgba(0, 212, 255, 0.08);opacity:0.5;transition:all 0.25s ease;">Improve / Update (Draft)</button>
-            
-            <button id="noSelectablePatchesBtn" style="display:flex;align-items:center;justify-content:center;gap:8px;flex:1;padding:12px 16px;border-radius:20px;font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;text-align:center;cursor:pointer;background:linear-gradient(90deg, rgba(108, 92, 231, 0.22), rgba(0, 212, 255, 0.18));color:#ffffff;border:1px solid rgba(0, 212, 255, 0.45);box-shadow:0 0 16px rgba(0, 212, 255, 0.12);transition:all 0.25s ease;">No selectable patches</button>
-          </div>
-          ` : ''}
+        ${isIRQualityPage ? '</div>' : ''}
         ${projectDnaPageName !== 'IR Quality' ? '</div>' : ''}
         ${projectDnaPageName !== 'IR Quality' ? '</div>' : ''}
         
@@ -473,54 +477,359 @@ const irChunkData = [
     }
 
     // ====== Delegated click handler for Check IR Quality button ======
-    leftPanel?.addEventListener("click", function(e) {
-      const btn = e.target.closest("#checkIRQualityBtn");
-      if (!btn) return;
-      if (btn.dataset.loading === "true") return;
-      btn.dataset.loading = "true";
-
+    // ====== Helper function to show/update the status div styling dynamically ======
+    function showStatus(html, isAuditCard = false) {
       const statusDiv = document.getElementById("irQualityStatus");
-      const workbench = document.getElementById("irWorkbench");
+      if (!statusDiv) return;
+      if (isAuditCard) {
+        statusDiv.style.background = "none";
+        statusDiv.style.border = "none";
+        statusDiv.style.padding = "0";
+      } else {
+        statusDiv.style.background = "rgba(255, 255, 255, 0.04)";
+        statusDiv.style.border = "1px solid rgba(255, 255, 255, 0.1)";
+        statusDiv.style.padding = "14px 16px";
+      }
+      statusDiv.innerHTML = html;
+      statusDiv.style.display = "block";
+    }
 
-      btn.textContent = "Checking...";
-      btn.style.cursor = "not-allowed";
-      btn.style.opacity = "0.85";
-      if (statusDiv) statusDiv.style.display = "none";
-      if (workbench) workbench.style.display = "none";
+    // ====== Dummy chunks for LLM Review with OpenAI API key error ======
+    const llmDummyChunks = [
+      { prog: "ACCTINQ", sub: "para_0000-MAIN-PROCESS_1" },
+      { prog: "ACCTINQ", sub: "para_1000-FIRST-TIME-PROCESS_2" },
+      { prog: "ACCTINQ", sub: "para_2000-PROCESS-INPUT_3" },
+      { prog: "ACCTINQ", sub: "para_2100-RECEIVE-MAP_4" },
+      { prog: "ACCTINQ", sub: "para_3000-VALIDATE-INPUT_5" },
+      { prog: "ACCTINQ", sub: "para_3000-EXIT_6" },
+      { prog: "ACCTINQ", sub: "para_4000-READ-DATABASE_7" },
+      { prog: "ACCTINQ", sub: "para_4100-FORMAT-OUTPUT_8" },
+      { prog: "ACCTINQ", sub: "para_4200-CLEAR-OUTPUT_9" },
+      { prog: "ACCTINQ", sub: "para_5000-SEND-MAP_10" },
+      { prog: "ACCTINQ-SCREEN", sub: "para_0000-MAIN-PROCESS_1" },
+      { prog: "ACCTINQ-SCREEN", sub: "para_1000-PROCESS-INQUIRY_2" },
+      { prog: "ACCTINQ-SCREEN", sub: "para_1000-EXIT_3" },
+      { prog: "ACCTINQ-SCREEN", sub: "para_2000-CLEAR-FIELDS_4" },
+      { prog: "ACCTINQ-SCREEN", sub: "para_3000-VALIDATE-INPUT_5" },
+      { prog: "ACCTINQ-SCREEN", sub: "para_3000-EXIT_6" },
+      { prog: "ACCTINQ-SCREEN", sub: "para_4000-READ-ACCOUNT_7" },
+      { prog: "ACCTINQ-SCREEN", sub: "para_4100-FORMAT-OUTPUT_8" },
+      { prog: "ACCTINQ-SCREEN", sub: "para_4200-HANDLE-NOT-FOUND_9" },
+      { prog: "BALQUERY", sub: "para_MAIN-LOGIC_1" },
+      { prog: "BALQUERY", sub: "para_INITIALIZE-PROGRAM_2" },
+      { prog: "BALQUERY", sub: "para_RETRIEVE-ACCOUNT-DATA_3" },
+      { prog: "BALQUERY", sub: "para_PREPARE-RESPONSE_4" },
+      { prog: "BANKING", sub: "para_MAIN-PROGRAM_1" },
+      { prog: "BANKING", sub: "para_INITIALIZATION-SECTION_2" },
+      { prog: "BANKING", sub: "para_MAIN-MENU-SECTION_3" },
+      { prog: "BANKING", sub: "para_VALIDATE-ACCOUNT-NUMBER_4" },
+      { prog: "BANKING", sub: "para_VALIDATE-AMOUNT_5" },
+      { prog: "BANKING", sub: "para_VALIDATE-CUSTOMER-NAME_6" },
+      { prog: "BANKING", sub: "para_SEARCH-ACCOUNT_7" },
+      { prog: "BANKING", sub: "para_SEARCH-ACCOUNT-END_8" },
+      { prog: "BANKING", sub: "para_WRITE-TRANSACTION_9" },
+      { prog: "BANKING", sub: "para_CREATE-ACCOUNT-SECTION_10" },
+      { prog: "BANKING", sub: "para_CREATE-ACCOUNT-END_11" },
+      { prog: "BANKING", sub: "para_DEPOSIT-SECTION_12" },
+      { prog: "BANKING", sub: "para_DEPOSIT-END_13" }
+    ];
 
-      setTimeout(() => {
-        btn.textContent = "Processing...";
-      }, 1600);
+    // ====== Delegated click handlers for top action buttons ======
+    displayPanel?.addEventListener("click", function(e) {
+      // 1. Check IR Quality Button
+      const checkBtn = e.target.closest("#checkIRQualityBtn");
+      if (checkBtn) {
+        if (checkBtn.dataset.loading === "true") return;
+        checkBtn.dataset.loading = "true";
 
-      setTimeout(() => {
-        btn.textContent = "Analysing...";
-      }, 3200);
+        const statusDiv = document.getElementById("irQualityStatus");
+        const workbench = document.getElementById("irWorkbench");
 
-      setTimeout(() => {
-        btn.textContent = "Check IR Quality";
-        btn.style.cursor = "pointer";
-        btn.style.opacity = "1";
-        btn.dataset.loading = "false";
-        if (statusDiv) {
-          statusDiv.style.display = "block";
-        }
-        // Keep workbench hidden until Show details is clicked
-        const showDetailsBtn = document.getElementById("showDetailsBtn");
-        const improveDraftBtn = document.getElementById("improveDraftBtn");
-        
-        // Enable Show details and Improve buttons
-        if (showDetailsBtn) {
-          showDetailsBtn.disabled = false;
-          showDetailsBtn.style.opacity = "1";
-          showDetailsBtn.style.cursor = "pointer";
-          showDetailsBtn.textContent = "Show details";
-        }
-        if (improveDraftBtn) {
-          improveDraftBtn.disabled = false;
-          improveDraftBtn.style.opacity = "1";
-          improveDraftBtn.style.cursor = "pointer";
-        }
-      }, 5200);
+        checkBtn.textContent = "Checking...";
+        checkBtn.style.cursor = "not-allowed";
+        checkBtn.style.opacity = "0.85";
+        if (statusDiv) statusDiv.style.display = "none";
+        if (workbench) workbench.style.display = "none";
+
+        setTimeout(() => {
+          checkBtn.textContent = "Processing...";
+        }, 1600);
+
+        setTimeout(() => {
+          checkBtn.textContent = "Analysing...";
+        }, 3200);
+
+        setTimeout(() => {
+          checkBtn.textContent = "Check IR Quality";
+          checkBtn.style.cursor = "pointer";
+          checkBtn.style.opacity = "1";
+          checkBtn.dataset.loading = "false";
+          isLlmReviewed = false;
+          
+          showStatus(`
+            <p style="margin:0;color:#94a3b8;font-weight:500;">Status: not_matching | Score: 0 | Programs: 20/20 | Chunks: 105 (pass=0, warn=0, fail=105)</p>
+            <p style="margin:8px 0 0;color:#94a3b8;">105 chunk(s) failed verification</p>
+            <p style="margin:8px 0 0;color:#94a3b8;">Safe repair preflight (safe_repair): 2 repair(s), 5 program(s) updated, remaining SQL/CICS gaps=4, native fallbacks=2.</p>
+            <p style="margin:8px 0 0;color:#94a3b8;">Detailed results are in the IR Quality workbench below (use Hide details / Show details). Press Esc to collapse details.</p>
+          `, false);
+          
+          // Reset workbench to original
+          const workbenchSummary = document.querySelector(".ir-wb-summary");
+          if (workbenchSummary) {
+            workbenchSummary.innerHTML = `
+              <div><div class="ir-wb-summary-label">OVERALL</div><div class="ir-wb-summary-value"><span class="ir-status-fail">&#x2715; Not matching</span></div></div>
+              <div><div class="ir-wb-summary-label">QUALITY SCORE</div><div class="ir-wb-summary-value">0</div></div>
+              <div><div class="ir-wb-summary-label">PROGRAMS VERIFIED</div><div class="ir-wb-summary-value">20 / 20</div></div>
+              <div><div class="ir-wb-summary-label">CHUNKS</div><div class="ir-wb-summary-value">105</div></div>
+              <div><div class="ir-wb-summary-label">PASS / WARN / FAIL</div><div class="ir-wb-summary-value">0 / 0 / 105</div></div>
+              <div><div class="ir-wb-summary-label">SAFE REPAIRS</div><div class="ir-wb-summary-value">2 repair(s), 5 program(s) updated</div></div>
+              <div><div class="ir-wb-summary-label">REMAINING EXECUTABLE GAPS</div><div class="ir-wb-summary-value">SQL/CICS 4 · Native 2</div></div>
+            `;
+          }
+          const workbenchNote = document.querySelector(".ir-wb-note");
+          if (workbenchNote) {
+            workbenchNote.textContent = "105 chunk(s) failed verification";
+          }
+          const tableBody = document.querySelector(".ir-wb-table tbody");
+          if (tableBody) {
+            tableBody.innerHTML = irChunkData.map(row => {
+              const statusHtml = row.status === "fail" ? `<span class="ir-wb-status-fail">&#x2715; Not matching</span>` : `<span class="ir-wb-status-pass">&#x2713; Matching</span>`;
+              return `<tr>
+                <td><div class="ir-wb-chunk-name">${row.chunk}</div><div class="ir-wb-chunk-sub">${row.sub}</div></td>
+                <td><div><span class="ir-wb-prog-label">EXPECTED</span><span class="ir-wb-prog-value">${row.expected}</span></div></td>
+                <td>${statusHtml}</td>
+                <td style="color:#94a3b8;">${row.score}</td>
+                <td style="color:#94a3b8;font-size:11px;">${row.reason}</td>
+                <td style="color:#94a3b8;font-size:11px;">${row.suggestion}</td>
+              </tr>`;
+            }).join('');
+          }
+          
+          // Enable Show details and Improve buttons
+          const showDetailsBtn = document.getElementById("showDetailsBtn");
+          const improveDraftBtn = document.getElementById("improveDraftBtn");
+          if (showDetailsBtn) {
+            showDetailsBtn.disabled = false;
+            showDetailsBtn.style.opacity = "1";
+            showDetailsBtn.style.cursor = "pointer";
+            showDetailsBtn.textContent = "Show details";
+          }
+          if (improveDraftBtn) {
+            improveDraftBtn.disabled = false;
+            improveDraftBtn.style.opacity = "1";
+            improveDraftBtn.style.cursor = "pointer";
+          }
+        }, 5200);
+        return;
+      }
+
+      // 2. LLM Review Button
+      const llmBtn = e.target.closest("#llmReviewBtn");
+      if (llmBtn) {
+        if (llmBtn.dataset.loading === "true") return;
+        llmBtn.dataset.loading = "true";
+        const statusDiv = document.getElementById("irQualityStatus");
+        const workbench = document.getElementById("irWorkbench");
+        const oldText = llmBtn.textContent;
+        llmBtn.textContent = "Reviewing...";
+        llmBtn.style.cursor = "not-allowed";
+        llmBtn.style.opacity = "0.85";
+        if (statusDiv) statusDiv.style.display = "none";
+        if (workbench) workbench.style.display = "none";
+
+        setTimeout(() => {
+          llmBtn.textContent = oldText;
+          llmBtn.style.cursor = "pointer";
+          llmBtn.style.opacity = "1";
+          llmBtn.dataset.loading = "false";
+          isLlmReviewed = true;
+          
+          showStatus(`
+            <div style="background: rgba(16, 185, 129, 0.08); border-left: 3px solid #10b981; border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #34d399; line-height: 1.6; font-family: 'Inter', sans-serif; font-weight: 500; text-align: left; width: 100%;">
+              LLM advisory review complete: 20 program(s), 128 chunk(s), pass=0, warn=0, fail=128. Verifier cache: 0/128 chunks reused, 128 fresh chunk verification(s). Provider usage: 256 fresh call(s), 0 provider-cache hit(s). Advisory findings do not change the deterministic score.
+            </div>
+          `, true);
+
+          // Update workbench summary for LLM Review
+          const workbenchSummary = document.querySelector(".ir-wb-summary");
+          if (workbenchSummary) {
+            workbenchSummary.innerHTML = `
+              <div><div class="ir-wb-summary-label">OVERALL</div><div class="ir-wb-summary-value"><span class="ir-status-fail">&#x2715; Not matching</span></div></div>
+              <div><div class="ir-wb-summary-label">QUALITY SCORE</div><div class="ir-wb-summary-value">0</div></div>
+              <div><div class="ir-wb-summary-label">PROGRAMS VERIFIED</div><div class="ir-wb-summary-value">20 / 20</div></div>
+              <div><div class="ir-wb-summary-label">CHUNKS</div><div class="ir-wb-summary-value">128</div></div>
+              <div><div class="ir-wb-summary-label">PASS / WARN / FAIL</div><div class="ir-wb-summary-value">0 / 0 / 128</div></div>
+              <div><div class="ir-wb-summary-label">SAFE REPAIRS</div><div class="ir-wb-summary-value">0 repairs</div></div>
+              <div><div class="ir-wb-summary-label">REMAINING EXECUTABLE GAPS</div><div class="ir-wb-summary-value">128 gaps</div></div>
+            `;
+          }
+          const workbenchNote = document.querySelector(".ir-wb-note");
+          if (workbenchNote) {
+            workbenchNote.textContent = "128 chunk(s) failed verification";
+          }
+          const tableBody = document.querySelector(".ir-wb-table tbody");
+          if (tableBody) {
+            tableBody.innerHTML = llmDummyChunks.map(row => {
+              return `<tr>
+                <td><div class="ir-wb-chunk-name">${row.sub.replace('para_', '')}</div><div class="ir-wb-chunk-sub">${row.sub}</div></td>
+                <td><div><span class="ir-wb-prog-label">EXPECTED</span><span class="ir-wb-prog-value">${row.prog}</span></div></td>
+                <td><span class="ir-wb-status-fail">&#x2715; Not matching</span></td>
+                <td style="color:#94a3b8;">—</td>
+                <td style="color:#f87171;font-size:11px;">Error code: 401 - Incorrect API key provided</td>
+                <td style="color:#94a3b8;font-size:11px;">No structured suggested_patch for this chunk.</td>
+              </tr>`;
+            }).join('');
+          }
+          
+          // Enable Show details and Improve buttons
+          const showDetailsBtn = document.getElementById("showDetailsBtn");
+          const improveDraftBtn = document.getElementById("improveDraftBtn");
+          if (showDetailsBtn) {
+            showDetailsBtn.disabled = false;
+            showDetailsBtn.style.opacity = "1";
+            showDetailsBtn.style.cursor = "pointer";
+            showDetailsBtn.textContent = "Show details";
+          }
+          if (improveDraftBtn) {
+            improveDraftBtn.disabled = false;
+            improveDraftBtn.style.opacity = "1";
+            improveDraftBtn.style.cursor = "pointer";
+          }
+        }, 1500);
+        return;
+      }
+
+      // 3. Apply Safe Repairs Button
+      const safeBtn = e.target.closest("#applySafeRepairsBtn");
+      if (safeBtn) {
+        if (safeBtn.dataset.loading === "true") return;
+        safeBtn.dataset.loading = "true";
+        const statusDiv = document.getElementById("irQualityStatus");
+        const workbench = document.getElementById("irWorkbench");
+        const oldText = safeBtn.textContent;
+        safeBtn.textContent = "Applying...";
+        safeBtn.style.cursor = "not-allowed";
+        safeBtn.style.opacity = "0.85";
+        if (statusDiv) statusDiv.style.display = "none";
+        if (workbench) workbench.style.display = "none";
+
+        setTimeout(() => {
+          safeBtn.textContent = oldText;
+          safeBtn.style.cursor = "pointer";
+          safeBtn.style.opacity = "1";
+          safeBtn.dataset.loading = "false";
+          showStatus(`
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 24px; background: linear-gradient(135deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.6) 100%); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 12px; padding: 20px 24px; font-family: 'Inter', sans-serif; flex-wrap: wrap; width: 100%; box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);">
+              <!-- Left Side: Audit Message -->
+              <div style="flex: 1; min-width: 250px; text-align: left;">
+                <div style="font-size: 11px; font-weight: 700; color: #a78bfa; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px;">POST-FIX AUDIT</div>
+                <div style="font-size: 17px; font-weight: 700; color: #ffffff; margin-bottom: 6px; letter-spacing: -0.02em;">No Score Change</div>
+                <div style="font-size: 13px; color: #8f9bad; line-height: 1.5;">The IR changed or was checked, but the deterministic score stayed the same.</div>
+              </div>
+              
+              <!-- Right Side: Stats Cards -->
+              <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+                <!-- Before -->
+                <div style="background: rgba(13, 18, 26, 0.6); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 8px; padding: 12px 24px; min-width: 120px; text-align: left; box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);">
+                  <div style="font-size: 9px; font-weight: 700; color: #8f9bad; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px;">BEFORE</div>
+                  <div style="font-size: 22px; font-weight: 800; color: #ffffff; font-family: monospace;">78.7</div>
+                </div>
+                <!-- After -->
+                <div style="background: rgba(13, 18, 26, 0.6); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 8px; padding: 12px 24px; min-width: 120px; text-align: left; box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);">
+                  <div style="font-size: 9px; font-weight: 700; color: #8f9bad; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px;">AFTER</div>
+                  <div style="font-size: 22px; font-weight: 800; color: #ffffff; font-family: monospace;">78.7</div>
+                </div>
+                <!-- Delta -->
+                <div style="background: rgba(13, 18, 26, 0.6); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 8px; padding: 12px 24px; min-width: 100px; text-align: left; box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);">
+                  <div style="font-size: 9px; font-weight: 700; color: #8f9bad; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 4px;">DELTA</div>
+                  <div style="font-size: 22px; font-weight: 800; color: #8f9bad; font-family: monospace;">0</div>
+                </div>
+              </div>
+            </div>
+          `, true);
+          // Enable Show details and Improve buttons
+          const showDetailsBtn = document.getElementById("showDetailsBtn");
+          const improveDraftBtn = document.getElementById("improveDraftBtn");
+          if (showDetailsBtn) {
+            showDetailsBtn.disabled = false;
+            showDetailsBtn.style.opacity = "1";
+            showDetailsBtn.style.cursor = "pointer";
+            showDetailsBtn.textContent = "Show details";
+          }
+          if (improveDraftBtn) {
+            improveDraftBtn.disabled = false;
+            improveDraftBtn.style.opacity = "1";
+            improveDraftBtn.style.cursor = "pointer";
+          }
+        }, 1500);
+        return;
+      }
+
+      // 4. Apply Reviewed Fixes Button
+      const fixesBtn = e.target.closest("#applyReviewedFixesBtn");
+      if (fixesBtn) {
+        if (fixesBtn.dataset.loading === "true") return;
+        fixesBtn.dataset.loading = "true";
+        const statusDiv = document.getElementById("irQualityStatus");
+        const workbench = document.getElementById("irWorkbench");
+        const oldText = fixesBtn.textContent;
+        fixesBtn.textContent = "Applying...";
+        fixesBtn.style.cursor = "not-allowed";
+        fixesBtn.style.opacity = "0.85";
+        if (statusDiv) statusDiv.style.display = "none";
+        if (workbench) workbench.style.display = "none";
+
+        setTimeout(() => {
+          fixesBtn.textContent = oldText;
+          fixesBtn.style.cursor = "pointer";
+          fixesBtn.style.opacity = "1";
+          fixesBtn.dataset.loading = "false";
+          showStatus(`
+            <p style="margin:0;color:#34d399;font-weight:600;">✓ Reviewed Fixes Applied Successfully</p>
+            <p style="margin:8px 0 0;color:#cbd5e1;">Status: matching | Score: 100 | Programs: 20/20 | Chunks: 105 (pass=105, warn=0, fail=0)</p>
+            <p style="margin:8px 0 0;color:#94a3b8;">All 105 chunks successfully verified and matching expectations!</p>
+            <p style="margin:8px 0 0;color:#94a3b8;">Detailed results are in the IR Quality workbench below (use Hide details / Show details).</p>
+          `, false);
+          
+          // Update workbench table to show all pass
+          const tableBody = document.querySelector(".ir-wb-table tbody");
+          if (tableBody) {
+            tableBody.innerHTML = irChunkData.map(row => {
+              return `<tr>
+                <td><div class="ir-wb-chunk-name">${row.chunk}</div><div class="ir-wb-chunk-sub">${row.sub}</div></td>
+                <td><div><span class="ir-wb-prog-label">EXPECTED</span><span class="ir-wb-prog-value">${row.expected}</span></div></td>
+                <td><span class="ir-wb-status-pass">&#x2713; Matching</span></td>
+                <td style="color:#34d399;font-weight:600;">100</td>
+                <td style="color:#94a3b8;font-size:11px;">verified successfully</td>
+                <td style="color:#94a3b8;font-size:11px;">none required</td>
+              </tr>`;
+            }).join('');
+          }
+
+          // Enable Show details and Improve buttons
+          const showDetailsBtn = document.getElementById("showDetailsBtn");
+          const improveDraftBtn = document.getElementById("improveDraftBtn");
+          if (showDetailsBtn) {
+            showDetailsBtn.disabled = false;
+            showDetailsBtn.style.opacity = "1";
+            showDetailsBtn.style.cursor = "pointer";
+            showDetailsBtn.textContent = "Show details";
+          }
+          if (improveDraftBtn) {
+            improveDraftBtn.disabled = false;
+            improveDraftBtn.style.opacity = "1";
+            improveDraftBtn.style.cursor = "pointer";
+          }
+        }, 1500);
+        return;
+      }
+
+      // 5. Project DNA Button
+      const dnaBtn = e.target.closest("#projectDnaBtn");
+      if (dnaBtn) {
+        window.location.href = "../Overview/project%20dna.html";
+        return;
+      }
     });
 
     // ====== Show details / Hide details toggle ======

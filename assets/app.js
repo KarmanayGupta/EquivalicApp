@@ -3146,7 +3146,19 @@ function attachWikiEvents() {
             <p style="margin:0;color:#60a5fa;line-height:1.6;font-size:13px;">Parser, AST, upload-to-IR, dependency graph audit, and post-IR readiness metrics now live in <a href="#" id="analysisHealthLink" style="color:#60a5fa;text-decoration:underline;">Analysis Health</a>.</p>
           </div>
           <p style="color:#94a3b8;line-height:1.8;margin-bottom:14px;font-size:14px;font-family:'Inter',sans-serif;font-weight:500;"><strong style="color:#94a3b8;font-weight:600;">Check IR Quality</strong> runs the LLM verifier (per chunk) and writes reports. <strong style="color:#94a3b8;font-weight:600;">Improve / Update (Draft)</strong> aggregates suggestions from those reports. <strong style="color:#94a3b8;font-weight:600;">Apply</strong> is available only when <span style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;font-size:13px;color:#94a3b8;">ir_verification_assisted_apply_enabled</span> is true in server config; it writes <span style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;font-size:13px;color:#94a3b8;">IR.json</span> with a timestamped backup.</p>
-          <button id="checkIRQualityBtn" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px 16px;border-radius:20px;font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;text-align:center;cursor:pointer;background:#0f141b;border:1px solid transparent;background-image:linear-gradient(#0f141b, #0f141b),linear-gradient(90deg, #6c5ce7, #00d4ff);background-origin:border-box;background-clip:padding-box, border-box;color:var(--accent-2);box-shadow:0 0 16px rgba(0, 212, 255, 0.08);transition:all 0.25s ease;margin-bottom:16px;" onmousedown="this.style.background='linear-gradient(90deg, rgba(108, 92, 231, 0.22), rgba(0, 212, 255, 0.18))';this.style.color='#ffffff';this.style.border='1px solid rgba(0, 212, 255, 0.45)'" onmouseup="this.style.background='#0f141b';this.style.border='1px solid transparent';this.style.backgroundImage='linear-gradient(#0f141b, #0f141b),linear-gradient(90deg, #6c5ce7, #00d4ff)';this.style.color='var(--accent-2)'" onmouseleave="this.style.background='#0f141b';this.style.border='1px solid transparent';this.style.backgroundImage='linear-gradient(#0f141b, #0f141b),linear-gradient(90deg, #6c5ce7, #00d4ff)';this.style.color='var(--accent-2)'">Check IR Quality</button>
+          <div style="display:flex;flex-direction:column;gap:12px;width:100%;margin:16px 0;">
+            <!-- Row 1: Primary Action -->
+            <div style="display:flex;width:100%;">
+              <button id="checkIRQualityBtn" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px 16px;border-radius:24px;font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;text-align:center;cursor:pointer;background:#0f141b;border:1px solid transparent;background-image:linear-gradient(#0f141b, #0f141b),linear-gradient(90deg, #6c5ce7, #00d4ff);background-origin:border-box;background-clip:padding-box, border-box;color:var(--accent-2);box-shadow:0 0 16px rgba(0, 212, 255, 0.08);transition:all 0.25s ease;" onmousedown="this.style.background='linear-gradient(90deg, rgba(108, 92, 231, 0.22), rgba(0, 212, 255, 0.18))';this.style.color='#ffffff';this.style.border='1px solid rgba(0, 212, 255, 0.45)'" onmouseup="this.style.background='#0f141b';this.style.border='1px solid transparent';this.style.backgroundImage='linear-gradient(#0f141b, #0f141b),linear-gradient(90deg, #6c5ce7, #00d4ff)';this.style.color='var(--accent-2)'" onmouseleave="this.style.background='#0f141b';this.style.border='1px solid transparent';this.style.backgroundImage='linear-gradient(#0f141b, #0f141b),linear-gradient(90deg, #6c5ce7, #00d4ff)';this.style.color='var(--accent-2)'">Check IR Quality</button>
+            </div>
+            <!-- Row 2: Secondary Actions -->
+            <div style="display:flex;align-items:center;gap:10px;width:100%;flex-wrap:wrap;">
+              <button id="llmReviewBtn" style="display:flex;align-items:center;justify-content:center;gap:6px;flex:1;min-width:120px;padding:10px 14px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;text-align:center;cursor:pointer;background:rgba(30, 41, 59, 0.75);border:1px solid rgba(255,255,255,0.1);color:#cbd5e1;backdrop-filter:blur(4px);transition:all 0.25s ease;" onmouseover="this.style.background='rgba(45, 55, 72, 0.9)';this.style.color='#ffffff';this.style.borderColor='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(30, 41, 59, 0.75)';this.style.color='#cbd5e1';this.style.borderColor='rgba(255,255,255,0.1)'" onmousedown="this.style.background='rgba(26, 32, 44, 0.9)';">LLM Review</button>
+              <button id="applySafeRepairsBtn" style="display:flex;align-items:center;justify-content:center;gap:6px;flex:1;min-width:120px;padding:10px 14px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;text-align:center;cursor:pointer;background:rgba(30, 41, 59, 0.75);border:1px solid rgba(255,255,255,0.1);color:#cbd5e1;backdrop-filter:blur(4px);transition:all 0.25s ease;" onmouseover="this.style.background='rgba(45, 55, 72, 0.9)';this.style.color='#ffffff';this.style.borderColor='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(30, 41, 59, 0.75)';this.style.color='#cbd5e1';this.style.borderColor='rgba(255,255,255,0.1)'" onmousedown="this.style.background='rgba(26, 32, 44, 0.9)';">Apply Safe Repairs</button>
+              <button id="applyReviewedFixesBtn" style="display:flex;align-items:center;justify-content:center;gap:6px;flex:1;min-width:120px;padding:10px 14px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;text-align:center;cursor:pointer;background:rgba(30, 41, 59, 0.75);border:1px solid rgba(255,255,255,0.1);color:#cbd5e1;backdrop-filter:blur(4px);transition:all 0.25s ease;" onmouseover="this.style.background='rgba(45, 55, 72, 0.9)';this.style.color='#ffffff';this.style.borderColor='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(30, 41, 59, 0.75)';this.style.color='#cbd5e1';this.style.borderColor='rgba(255,255,255,0.1)'" onmousedown="this.style.background='rgba(26, 32, 44, 0.9)';">Apply Reviewed Fixes</button>
+              <button id="projectDnaBtn" style="display:flex;align-items:center;justify-content:center;gap:6px;flex:1;min-width:120px;padding:10px 14px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;text-align:center;cursor:pointer;background:rgba(30, 41, 59, 0.75);border:1px solid rgba(255,255,255,0.1);color:#cbd5e1;backdrop-filter:blur(4px);transition:all 0.25s ease;" onmouseover="this.style.background='rgba(45, 55, 72, 0.9)';this.style.color='#ffffff';this.style.borderColor='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(30, 41, 59, 0.75)';this.style.color='#cbd5e1';this.style.borderColor='rgba(255,255,255,0.1)'" onmousedown="this.style.background='rgba(26, 32, 44, 0.9)';"><u>Project DNA</u></button>
+            </div>
+          </div>
           <p style="color:#94a3b8;line-height:1.8;margin-bottom:16px;font-size:14px;font-family:'Inter',sans-serif;font-weight:500;">Label: deterministic pipeline health is authoritative. AI-generated verifier findings are optional advisory enhancements with budget, cache, and usage reporting in Analysis Health.</p>
           <div style="background:rgba(16,185,129,0.08);padding:12px;border-radius:8px;border-left:3px solid #10b981;margin-bottom:16px;">
             <p style="margin:0;font-size:13px;color:#6ee7b7;line-height:1.6;">Safe repair mode: safe_repair. Assisted apply is on for validated structured draft patches; advisory findings remain non-mutating.</p>
@@ -3476,55 +3488,187 @@ function attachWikiEvents() {
       }
     }
 
-    // ====== Delegated click handler for Check IR Quality button ======
+    // ====== Delegated click handlers for IR Quality buttons ======
     leftPanel.addEventListener("click", function(e) {
-      const btn = e.target.closest("#checkIRQualityBtn");
-      if (!btn) return;
-      if (btn.dataset.loading === "true") return;
-      btn.dataset.loading = "true";
+      // 1. Check IR Quality Button
+      const checkBtn = e.target.closest("#checkIRQualityBtn");
+      if (checkBtn) {
+        if (checkBtn.dataset.loading === "true") return;
+        checkBtn.dataset.loading = "true";
 
-      const statusDiv = document.getElementById("irQualityStatus");
-      const workbench = document.getElementById("irWorkbench");
+        const statusDiv = document.getElementById("irQualityStatus");
+        const workbench = document.getElementById("irWorkbench");
 
-      btn.textContent = "Checking...";
-      btn.style.cursor = "not-allowed";
-      btn.style.opacity = "0.85";
-      if (statusDiv) statusDiv.style.display = "none";
-      if (workbench) workbench.style.display = "none";
+        checkBtn.textContent = "Checking...";
+        checkBtn.style.cursor = "not-allowed";
+        checkBtn.style.opacity = "0.85";
+        if (statusDiv) statusDiv.style.display = "none";
+        if (workbench) workbench.style.display = "none";
 
-      setTimeout(() => {
-        btn.textContent = "Processing...";
-      }, 1600);
+        setTimeout(() => {
+          checkBtn.textContent = "Processing...";
+        }, 1600);
 
-      setTimeout(() => {
-        btn.textContent = "Analysing...";
-      }, 3200);
+        setTimeout(() => {
+          checkBtn.textContent = "Analysing...";
+        }, 3200);
 
-      setTimeout(() => {
-        btn.textContent = "Check IR Quality";
-        btn.style.cursor = "pointer";
-        btn.style.opacity = "1";
-        btn.dataset.loading = "false";
-        if (statusDiv) {
-          statusDiv.style.display = "block";
-        }
-        // Keep workbench hidden until Show details is clicked
-        const showDetailsBtn = document.getElementById("showDetailsBtn");
-        const improveDraftBtn = document.getElementById("improveDraftBtn");
-        
-        // Enable Show details and Improve buttons
-        if (showDetailsBtn) {
-          showDetailsBtn.disabled = false;
-          showDetailsBtn.style.opacity = "1";
-          showDetailsBtn.style.cursor = "pointer";
-          showDetailsBtn.textContent = "Show details";
-        }
-        if (improveDraftBtn) {
-          improveDraftBtn.disabled = false;
-          improveDraftBtn.style.opacity = "1";
-          improveDraftBtn.style.cursor = "pointer";
-        }
-      }, 5200);
+        setTimeout(() => {
+          checkBtn.textContent = "Check IR Quality";
+          checkBtn.style.cursor = "pointer";
+          checkBtn.style.opacity = "1";
+          checkBtn.dataset.loading = "false";
+          if (statusDiv) {
+            statusDiv.style.display = "block";
+            statusDiv.innerHTML = `
+              <p style="margin:0;color:#94a3b8;font-weight:500;">Status: not_matching | Score: 0 | Programs: 20/20 | Chunks: 105 (pass=0, warn=0, fail=105)</p>
+              <p style="margin:8px 0 0;color:#94a3b8;">105 chunk(s) failed verification</p>
+              <p style="margin:8px 0 0;color:#94a3b8;">Safe repair preflight (safe_repair): 2 repair(s), 5 program(s) updated, remaining SQL/CICS gaps=4, native fallbacks=2.</p>
+              <p style="margin:8px 0 0;color:#94a3b8;">Detailed results are in the IR Quality workbench below (use Hide details / Show details). Press Esc to collapse details.</p>
+            `;
+            statusDiv.style.border = "1px solid rgba(255,255,255,0.1)";
+            statusDiv.style.background = "rgba(255,255,255,0.04)";
+          }
+          
+          const showDetailsBtn = document.getElementById("showDetailsBtn");
+          const improveDraftBtn = document.getElementById("improveDraftBtn");
+          
+          if (showDetailsBtn) {
+            showDetailsBtn.disabled = false;
+            showDetailsBtn.style.opacity = "1";
+            showDetailsBtn.style.cursor = "pointer";
+            showDetailsBtn.textContent = "Show details";
+          }
+          if (improveDraftBtn) {
+            improveDraftBtn.disabled = false;
+            improveDraftBtn.style.opacity = "1";
+            improveDraftBtn.style.cursor = "pointer";
+          }
+        }, 5200);
+        return;
+      }
+
+      // 2. LLM Review Button
+      const llmBtn = e.target.closest("#llmReviewBtn");
+      if (llmBtn) {
+        if (llmBtn.dataset.loading === "true") return;
+        llmBtn.dataset.loading = "true";
+
+        const originalText = llmBtn.textContent;
+        llmBtn.textContent = "Reviewing...";
+        llmBtn.style.cursor = "not-allowed";
+        llmBtn.style.opacity = "0.7";
+
+        setTimeout(() => {
+          llmBtn.textContent = "Analysing LLM output...";
+        }, 800);
+
+        setTimeout(() => {
+          llmBtn.textContent = originalText;
+          llmBtn.style.cursor = "pointer";
+          llmBtn.style.opacity = "1";
+          llmBtn.dataset.loading = "false";
+
+          const statusDiv = document.getElementById("irQualityStatus");
+          if (statusDiv) {
+            statusDiv.style.display = "block";
+          }
+
+          const showDetailsBtn = document.getElementById("showDetailsBtn");
+          const improveDraftBtn = document.getElementById("improveDraftBtn");
+          if (showDetailsBtn) {
+            showDetailsBtn.disabled = false;
+            showDetailsBtn.style.opacity = "1";
+            showDetailsBtn.style.cursor = "pointer";
+            showDetailsBtn.textContent = "Hide details";
+          }
+          if (improveDraftBtn) {
+            improveDraftBtn.disabled = false;
+            improveDraftBtn.style.opacity = "1";
+            improveDraftBtn.style.cursor = "pointer";
+          }
+
+          const workbench = document.getElementById("irWorkbench");
+          if (workbench) {
+            workbench.style.display = "block";
+            workbench.style.animation = "dnaFadeUp 0.3s ease both";
+          }
+        }, 1800);
+        return;
+      }
+
+      // 3. Apply Safe Repairs Button
+      const safeBtn = e.target.closest("#applySafeRepairsBtn");
+      if (safeBtn) {
+        if (safeBtn.dataset.loading === "true") return;
+        safeBtn.dataset.loading = "true";
+
+        const originalText = safeBtn.textContent;
+        safeBtn.textContent = "Applying Repairs...";
+        safeBtn.style.cursor = "not-allowed";
+        safeBtn.style.opacity = "0.7";
+
+        setTimeout(() => {
+          safeBtn.textContent = originalText;
+          safeBtn.style.cursor = "pointer";
+          safeBtn.style.opacity = "1";
+          safeBtn.dataset.loading = "false";
+
+          const statusDiv = document.getElementById("irQualityStatus");
+          if (statusDiv) {
+            statusDiv.innerHTML = `
+              <p style="margin:0;color:#10b981;font-weight:600;">Status: partially_matching (Safe Repairs Applied) | Score: 45 | Programs: 20/20 | Chunks: 105 (pass=5, warn=0, fail=100)</p>
+              <p style="margin:8px 0 0;color:#cbd5e1;">5 chunk(s) successfully repaired, 100 chunk(s) remaining</p>
+              <p style="margin:8px 0 0;color:#a78bfa;">Safe repairs applied: 2 repair(s), 5 program(s) updated. 4 SQL/CICS gaps and 2 native fallbacks remain.</p>
+              <p style="margin:8px 0 0;color:#cbd5e1;">Detailed results are in the IR Quality workbench below.</p>
+            `;
+            statusDiv.style.display = "block";
+            statusDiv.style.border = "1px solid rgba(16, 185, 129, 0.3)";
+            statusDiv.style.background = "rgba(16, 185, 129, 0.05)";
+          }
+        }, 1200);
+        return;
+      }
+
+      // 4. Apply Reviewed Fixes Button
+      const reviewedBtn = e.target.closest("#applyReviewedFixesBtn");
+      if (reviewedBtn) {
+        if (reviewedBtn.dataset.loading === "true") return;
+        reviewedBtn.dataset.loading = "true";
+
+        const originalText = reviewedBtn.textContent;
+        reviewedBtn.textContent = "Applying Fixes...";
+        reviewedBtn.style.cursor = "not-allowed";
+        reviewedBtn.style.opacity = "0.7";
+
+        setTimeout(() => {
+          reviewedBtn.textContent = originalText;
+          reviewedBtn.style.cursor = "pointer";
+          reviewedBtn.style.opacity = "1";
+          reviewedBtn.dataset.loading = "false";
+
+          const statusDiv = document.getElementById("irQualityStatus");
+          if (statusDiv) {
+            statusDiv.innerHTML = `
+              <p style="margin:0;color:#10b981;font-weight:600;">Status: matching (All Fixes Applied) | Score: 100 | Programs: 20/20 | Chunks: 105 (pass=105, warn=0, fail=0)</p>
+              <p style="margin:8px 0 0;color:#cbd5e1;">All 105 chunk(s) successfully verified and matching!</p>
+              <p style="margin:8px 0 0;color:#a78bfa;">All reviewed fixes applied successfully.</p>
+              <p style="margin:8px 0 0;color:#cbd5e1;">Detailed results are in the IR Quality workbench below.</p>
+            `;
+            statusDiv.style.display = "block";
+            statusDiv.style.border = "1px solid rgba(16, 185, 129, 0.5)";
+            statusDiv.style.background = "rgba(16, 185, 129, 0.08)";
+          }
+        }, 1500);
+        return;
+      }
+
+      // 5. Project DNA Button
+      const dnaBtn = e.target.closest("#projectDnaBtn");
+      if (dnaBtn) {
+        window.location.href = "../Overview/project%20dna.html";
+        return;
+      }
     });
 
     // ====== Show details / Hide details toggle ======
