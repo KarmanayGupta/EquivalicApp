@@ -275,6 +275,24 @@ body::before {
 
 .dashboard-tabs { display: flex; flex-wrap: wrap; gap: 28px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 22px; padding-bottom: 0; }
 
+/* Reduce margin when showing dependency graph */
+#mainTabs:has(+ * #dependencyContent[style*="display:flex"]) {
+  margin-bottom: 8px !important;
+}
+
+/* Remove margin when dependency graph is active */
+#dependencyContent:not([style*="display:none"]) ~ * .dashboard-tabs,
+#dependencyContent[style*="display:flex"] ~ * .dashboard-tabs,
+.dashboard-tabs:has(+ * #dependencyContent[style*="display:flex"]) {
+  margin-bottom: 0;
+}
+
+/* Ensure no extra spacing above dependency content buttons */
+#dependencyContent > div:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
 .tab { background: none; border: none; color: var(--text-muted); font-size: 14px; font-weight: 600; padding: 8px 0; cursor: pointer; position: relative; transition: 0.25s ease; }
 
 .tab:hover { color: var(--text-primary); }
@@ -339,6 +357,11 @@ body::before {
 
 .system-meta { font-size: 12px; color: var(--text-muted); }
 
+/* Hide stats grid completely on IR Quality page */
+.ir-quality-page .stats-grid {
+  display: none !important;
+}
+
 .diag-stat .label { font-size: 14px; color: var(--text-muted); margin-top: 6px; }
 
 .diag-stat.stat-card { padding: 22px; }
@@ -386,6 +409,99 @@ body::before {
 .dep-node { cursor: pointer; transition: all 0.2s ease; }
 
 .dep-link { stroke: rgba(96,165,250,0.15); stroke-width: 1.5; fill: none; }
+
+#dependencyContent {
+  overflow: visible !important;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(108, 92, 231, 0.6) rgba(20, 26, 36, 0.6);
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+#dependencyContent::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+#dependencyContent::-webkit-scrollbar-track {
+  background: rgba(20, 26, 36, 0.6);
+  border-radius: 5px;
+}
+
+#dependencyContent::-webkit-scrollbar-thumb {
+  background: rgba(108, 92, 231, 0.6);
+  border-radius: 5px;
+  border: 2px solid var(--panel-bg-light);
+}
+
+#dependencyContent::-webkit-scrollbar-thumb:hover {
+  background: rgba(108, 92, 231, 0.8);
+}
+
+#dependencyContent::-webkit-scrollbar-corner {
+  background: rgba(20, 26, 36, 0.6);
+}
+
+#graphContainer {
+  overflow: auto !important;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(108, 92, 231, 0.6) rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#graphContainer::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+#graphContainer::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+}
+
+#graphContainer::-webkit-scrollbar-thumb {
+  background: rgba(108, 92, 231, 0.6);
+  border-radius: 5px;
+  border: 2px solid rgba(255, 248, 232, 0.3);
+}
+
+#graphContainer::-webkit-scrollbar-thumb:hover {
+  background: rgba(108, 92, 231, 0.8);
+}
+
+#graphContainer::-webkit-scrollbar-corner {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+#depGraphSvg {
+  transform-origin: center center;
+  transition: transform 0.2s ease-out;
+}
+
+/* Scrollbar styles for anatomy content */
+#anatomyContent::-webkit-scrollbar {
+  width: 10px;
+}
+
+#anatomyContent::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 5px;
+}
+
+#anatomyContent::-webkit-scrollbar-thumb {
+  background: rgba(143, 155, 173, 0.4);
+  border-radius: 5px;
+}
+
+#anatomyContent::-webkit-scrollbar-thumb:hover {
+  background: rgba(143, 155, 173, 0.6);
+}
+
+#anatomyContent::-webkit-scrollbar-corner {
+  background: transparent;
+}
 
 @media (max-width: 1024px) {
         .workspace {

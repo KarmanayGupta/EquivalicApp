@@ -144,18 +144,19 @@ const irChunkData = [
           <h2 style="font-size: 24px; font-weight: 700; color: #fff; margin: 0 0 4px 0; letter-spacing: 0.05em;">${projectDnaPageName === 'IR Quality' ? 'IR Quality' : 'Project DNA'}</h2>
           <p style="font-size: 14px; color: var(--text-muted); margin: 0; font-weight: 500;">${projectDnaPageName === 'IR Quality' ? 'IR Verification Workbench' : 'Executive Summary & Business Impact Analysis'}</p>
         </div>
-        <div class="dashboard-tabs" style="flex-shrink: 0; padding: 0 4px; margin-bottom: 0;">
+        ${projectDnaPageName !== 'IR Quality' ? `<div class="dashboard-tabs" style="flex-shrink: 0; padding: 0 4px; margin-bottom: 22px;" id="mainTabs">
           <button class="tab active" data-view="overview">Overview</button>
           <button class="tab" data-view="anatomy">Anatomy</button>
           <button class="tab" data-view="dependency">Dependency Graph</button>
-        </div>
-        <div class="scroll-container" style="flex: 1; overflow-y: auto; overflow-x: hidden; padding: 20px 4px 32px;">
-        <div id="overviewContent" style="display: block;">
-          <div class="stats-grid">
-            <div class="stat-card">
+        </div>` : ''}
+        
+        ${projectDnaPageName !== 'IR Quality' ? '<div class="scroll-container" style="flex: 1; overflow-y: scroll; overflow-x: hidden;">' : ''}
+        ${projectDnaPageName !== 'IR Quality' ? '<div id="overviewContent" style="display: block; padding: 20px 4px 32px;">' : ''}
+          ${projectDnaPageName !== 'IR Quality' ? '<div class="stats-grid">' : ''}
+            ${projectDnaPageName !== 'IR Quality' ? `<div class="stat-card">
               <div style="font-size: 24px; margin-bottom: 8px; color: var(--accent-2);">⊞</div>
               <div class="stat-value" style="font-size: 36px;">22</div>
-              <div class="stat-label" style="font-size: 13px;">Total Programs</div>
+              <div class="stat-label" style="font-size: 13px;">Analyzed Programs</div>
               <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">21 Batch • 1 CICS • 0 Mixed</div>
             </div>
             <div class="stat-card">
@@ -177,7 +178,7 @@ const irChunkData = [
               <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">7 shared data definitions</div>
             </div>
             <div class="stat-card">
-              <div style="font-size: 24px; margin-bottom: 8px; color: var(--accent-2);">�</div>
+              <div style="font-size: 24px; margin-bottom: 8px; color: var(--accent-2);">🗺</div>
               <div class="stat-value" style="font-size: 36px;">1</div>
               <div class="stat-label" style="font-size: 13px;">BMS Maps</div>
               <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">1 screen layout</div>
@@ -187,8 +188,18 @@ const irChunkData = [
               <div class="stat-value" style="font-size: 36px;">1</div>
               <div class="stat-label" style="font-size: 13px;">JCL Scripts</div>
               <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">1 job definition</div>
+            </div>` : ''}
+          ${projectDnaPageName !== 'IR Quality' ? '</div>' : ''}
+          
+          ${isIRQualityPage ? `<div style="display:flex;flex-direction:column;gap:20px;margin-bottom:24px;">
+            <p style="color:var(--text-muted);line-height:1.6;margin:0;font-size:13px;">Runs only when you click the button. No automatic LLM calls on tab load.</p>
+            
+            <div style="background:rgba(59,130,246,0.1);padding:12px;border-radius:8px;border-left:3px solid #3b82f6;margin:0;">
+              <p style="margin:0;color:#60a5fa;line-height:1.6;font-size:13px;">Parser, AST, upload-to-IR, dependency graph audit, and post-IR readiness metrics now live in <a href="#" id="analysisHealthLink" style="color:#60a5fa;text-decoration:underline;">Analysis Health</a>.</p>
             </div>
-          </div>
+            
+            <p style="color:var(--text-muted);line-height:1.8;margin:0;font-size:14px;font-family:'Inter',sans-serif;font-weight:500;"><strong style="color:var(--text-muted);font-weight:600;">Check IR Quality</strong> runs the LLM verifier (per chunk) and writes reports. <strong style="color:var(--text-muted);font-weight:600;">Improve / Update (Draft)</strong> aggregates suggestions from those reports. <strong style="color:var(--text-muted);font-weight:600;">Apply</strong> is available only when <span style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;font-size:13px;color:var(--text-muted);">ir_verification_assisted_apply_enabled</span> is true in server config; it writes <span style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;font-size:13px;color:var(--text-muted);">IR.json</span> with a timestamped backup.</p>
+          </div>` : ''}
           
           ${isIRQualityPage ? `<div style="display:flex;gap:12px;margin-top:24px;margin-bottom:20px;">
             <button id="showDetailsBtn" disabled style="display:flex;align-items:center;justify-content:center;gap:8px;flex:1;padding:12px 16px;border-radius:20px;font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;text-align:center;cursor:not-allowed;background:#0f141b;border:1px solid transparent;background-image:linear-gradient(#0f141b, #0f141b),linear-gradient(90deg, #6c5ce7, #00d4ff);background-origin:border-box;background-clip:padding-box, border-box;color:var(--accent-2);box-shadow:0 0 16px rgba(0, 212, 255, 0.08);opacity:0.5;transition:all 0.25s ease;">Show details</button>
@@ -248,12 +259,19 @@ const irChunkData = [
               </div>
             </div>
           </div>
+          
+          ${isIRQualityPage ? `<p style="color:var(--text-muted);line-height:1.8;margin:16px 0 0;font-size:14px;font-family:'Inter',sans-serif;font-weight:500;padding-right:4px;"><strong style="color:var(--text-muted);font-weight:600;">Label:</strong> deterministic pipeline health is authoritative. AI-generated verifier findings are optional advisory enhancements with budget, cache, and usage reporting in Analysis Health.</p>
+          
+          <div style="background:rgba(16,185,129,0.08);padding:12px;border-radius:8px;border-left:3px solid #10b981;margin:16px 0 0;">
+            <p style="margin:0;font-size:13px;color:#6ee7b7;line-height:1.6;">Safe repair mode: safe_repair. Assisted apply is on for validated structured draft patches; advisory findings remain non-mutating.</p>
+          </div>` : ''}
           ` : ''}
-        </div>
+        ${projectDnaPageName !== 'IR Quality' ? '</div>' : ''}
+        ${projectDnaPageName !== 'IR Quality' ? '</div>' : ''}
         
-        <div id="anatomyContent" style="display:none;">
+        <div id="anatomyContent" style="display:none; padding: 20px 4px 32px; overflow-y: auto; height: 100%; scrollbar-width: thin; scrollbar-color: rgba(143, 155, 173, 0.4) transparent;">
           <div style="margin-bottom:32px;">
-            <h4 style="color:var(--text-primary);font-weight:700;margin-bottom:16px;font-family:'Inter',sans-serif;text-align:center;font-size:18px;">Files Breakdown</h4>
+            <h4 style="color:var(--text-primary);font-weight:700;margin-bottom:16px;font-family:'Inter',sans-serif;text-align:center;font-size:18px;">All Files Breakdown</h4>
             <div class="chart-wrapper" style="background:rgb(255,248,232);border:1px solid var(--border);border-radius:var(--radius);padding:24px;overflow:hidden;">
               <div class="chart-container" style="position:relative;height:300px;width:100%;max-width:100%;"><canvas id="filesChart"></canvas></div>
             </div>
@@ -274,15 +292,15 @@ const irChunkData = [
           </div>
           
           <div style="margin-bottom:32px;">
-            <h4 style="color:var(--text-primary);font-weight:700;margin-bottom:16px;font-family:'Inter',sans-serif;text-align:center;font-size:18px;">Complexity Trend</h4>
+            <h4 style="color:var(--text-primary);font-weight:700;margin-bottom:16px;font-family:'Inter',sans-serif;text-align:center;font-size:18px;">Data Access Patterns</h4>
             <div class="chart-wrapper" style="background:rgb(255,248,232);border:1px solid var(--border);border-radius:var(--radius);padding:24px;overflow:hidden;">
-              <div class="chart-container" style="position:relative;height:300px;width:100%;max-width:100%;"><canvas id="trendChart"></canvas></div>
+              <div class="chart-container" style="position:relative;height:300px;width:100%;max-width:100%;"><canvas id="dataAccessChart"></canvas></div>
             </div>
           </div>
         </div>
-        
-        <div id="dependencyContent" style="display:none;flex-direction:column;height:100%;overflow:hidden;">
-          <div style="display:flex;justify-content:center;gap:12px;padding:12px 0;flex-wrap:wrap;flex-shrink:0;background:var(--panel-bg);position:sticky;top:0;z-index:10;">
+          
+        <div id="dependencyContent" style="display:none;padding:20px 4px 32px;">
+          <div style="display:flex;justify-content:center;gap:12px;padding:10px 0;flex-wrap:wrap;margin-bottom:16px;">
             <button id="zoomInBtn" style="background:linear-gradient(145deg,rgba(108,92,231,0.12),rgba(0,212,255,0.04));border:1px solid var(--accent-1);color:var(--text-primary);padding:6px 12px;border-radius:10px;font-size:12px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:4px;transition:all 0.2s ease;font-family:'Inter',sans-serif;" onmouseover="this.style.background='linear-gradient(145deg,rgba(108,92,231,0.22),rgba(0,212,255,0.12))';this.style.borderColor='var(--accent-2)'" onmouseout="this.style.background='linear-gradient(145deg,rgba(108,92,231,0.12),rgba(0,212,255,0.04))';this.style.borderColor='var(--accent-1)'">+ Zoom In</button>
             <button id="zoomOutBtn" style="background:linear-gradient(145deg,rgba(108,92,231,0.12),rgba(0,212,255,0.04));border:1px solid var(--accent-1);color:var(--text-primary);padding:6px 12px;border-radius:10px;font-size:12px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:4px;transition:all 0.2s ease;font-family:'Inter',sans-serif;" onmouseover="this.style.background='linear-gradient(145deg,rgba(108,92,231,0.22),rgba(0,212,255,0.12))';this.style.borderColor='var(--accent-2)'" onmouseout="this.style.background='linear-gradient(145deg,rgba(108,92,231,0.12),rgba(0,212,255,0.04))';this.style.borderColor='var(--accent-1)'">- Zoom Out</button>
             <button id="scrollUpBtn" style="background:linear-gradient(145deg,rgba(108,92,231,0.12),rgba(0,212,255,0.04));border:1px solid var(--accent-1);color:var(--text-primary);padding:6px 12px;border-radius:10px;font-size:12px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:4px;transition:all 0.2s ease;font-family:'Inter',sans-serif;" onmouseover="this.style.background='linear-gradient(145deg,rgba(108,92,231,0.22),rgba(0,212,255,0.12))';this.style.borderColor='var(--accent-2)'" onmouseout="this.style.background='linear-gradient(145deg,rgba(108,92,231,0.12),rgba(0,212,255,0.04))';this.style.borderColor='var(--accent-1)'">▲ Scroll Up</button>
@@ -290,11 +308,11 @@ const irChunkData = [
             <button id="resetBtn" style="background:linear-gradient(145deg,rgba(108,92,231,0.12),rgba(0,212,255,0.04));border:1px solid var(--accent-1);color:var(--text-primary);padding:6px 12px;border-radius:10px;font-size:12px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:4px;transition:all 0.2s ease;font-family:'Inter',sans-serif;" onmouseover="this.style.background='linear-gradient(145deg,rgba(108,92,231,0.22),rgba(0,212,255,0.12))';this.style.borderColor='var(--accent-2)'" onmouseout="this.style.background='linear-gradient(145deg,rgba(108,92,231,0.12),rgba(0,212,255,0.04))';this.style.borderColor='var(--accent-1)'">Reset View</button>
           </div>
           
-          <div id="graphContainer" style="flex:1;width:100%;background:rgb(255,248,232);border-radius:var(--radius);border:1px solid var(--border);overflow:auto;position:relative;display:flex;align-items:center;justify-content:center;">
-            <svg id="depGraphSvg" viewBox="0 0 1400 800" style="width:100%;height:100%;min-height:500px;transform-origin:center center;transition:transform 0.2s ease-out;"></svg>
+          <div id="graphContainer" style="width:100%;height:600px;background:rgb(255,248,232);border-radius:8px;border:1px solid var(--border);overflow:auto;position:relative;display:flex;align-items:center;justify-content:center;">
+            <svg id="depGraphSvg" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMid meet" style="width:auto;height:auto;max-width:100%;display:block;"></svg>
           </div>
         </div>
-        </div>
+        ${projectDnaPageName !== 'IR Quality' ? '</div>' : ''}
       </div>`;
 
       activateMode(projectDnaSectionName, projectDnaPageName, leftHTML, displayHTML);
@@ -312,6 +330,7 @@ const irChunkData = [
         const overviewContent = document.getElementById('overviewContent');
         const anatomyContent = document.getElementById('anatomyContent');
         const dependencyContent = document.getElementById('dependencyContent');
+        const mainTabs = document.getElementById('mainTabs');
         
         if (overviewContent) overviewContent.style.display = 'none';
         if (anatomyContent) anatomyContent.style.display = 'none';
@@ -319,12 +338,16 @@ const irChunkData = [
         
         if (view === 'overview' && overviewContent) {
           overviewContent.style.display = 'block';
+          if (mainTabs) mainTabs.style.marginBottom = '22px';
         } else if (view === 'anatomy' && anatomyContent) {
           anatomyContent.style.display = 'block';
+          if (mainTabs) mainTabs.style.marginBottom = '22px';
           setTimeout(() => initAnatomyCharts(), 50);
         } else if (view === 'dependency' && dependencyContent) {
-          dependencyContent.style.display = 'flex';
-          dependencyContent.style.height = '100%';
+          dependencyContent.style.display = 'block';
+          if (mainTabs) {
+            mainTabs.style.marginBottom = '12px';
+          }
           initGraphControls();
         }
       });
@@ -387,6 +410,7 @@ const irChunkData = [
         }));
       }
       
+      
       const complexityCanvas = document.getElementById('complexityDistChart');
       if (complexityCanvas) {
         anatomyCharts.push(new Chart(complexityCanvas, {
@@ -420,37 +444,25 @@ const irChunkData = [
         }));
       }
       
-      const trendCanvas = document.getElementById('trendChart');
-      if (trendCanvas) {
-        anatomyCharts.push(new Chart(trendCanvas, {
-          type: 'line',
+      const dataAccessCanvas = document.getElementById('dataAccessChart');
+      if (dataAccessCanvas) {
+        anatomyCharts.push(new Chart(dataAccessCanvas, {
+          type: 'pie',
           data: {
-            labels: ['1-10', '11-20', '21-30', '31-40', '41-50', '50+'],
+            labels: ['SQL Heavy', 'File Heavy', 'Mixed', 'None'],
             datasets: [{
-              data: [5, 8, 6, 2, 1, 0],
-              borderColor: '#6c5ce7',
-              backgroundColor: 'rgba(108,92,231,0.1)',
-              fill: true,
-              tension: 0.4,
-              pointRadius: 4,
-              pointBackgroundColor: '#6c5ce7'
+              data: [35, 10, 5, 50],
+              backgroundColor: ['#3b82f6', '#8b5cf6', '#f59e0b', '#6b7280'],
+              borderWidth: 0
             }]
           },
           options: {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-              legend: { display: false }
-            },
-            scales: {
-              y: {
-                beginAtZero: true,
-                ticks: { color: '#000', font: { family: 'Inter' } },
-                grid: { color: 'rgba(0,0,0,0.1)' }
-              },
-              x: {
-                ticks: { color: '#000', font: { family: 'Inter' } },
-                grid: { display: false }
+              legend: {
+                position: 'bottom',
+                labels: { color: '#000', font: { size: 14, family: 'Inter' }, padding: 15 }
               }
             }
           }
