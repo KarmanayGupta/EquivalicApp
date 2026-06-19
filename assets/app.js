@@ -3157,6 +3157,13 @@ function attachWikiEvents() {
             <p style="margin:8px 0 0;color:#94a3b8;">Safe repair preflight (safe_repair): 2 repair(s), 5 program(s) updated, remaining SQL/CICS gaps=4, native fallbacks=2.</p>
             <p style="margin:8px 0 0;color:#94a3b8;">Detailed results are in the IR Quality workbench below (use Hide details / Show details). Press Esc to collapse details.</p>
           </div>
+          <div style="display:flex;gap:12px;margin-top:18px;margin-bottom:0;">
+            <button id="showDetailsBtn" disabled style="display:flex;align-items:center;justify-content:center;gap:8px;flex:1;padding:12px 16px;border-radius:20px;font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;text-align:center;cursor:not-allowed;background:#0f141b;border:1px solid transparent;background-image:linear-gradient(#0f141b, #0f141b),linear-gradient(90deg, #6c5ce7, #00d4ff);background-origin:border-box;background-clip:padding-box, border-box;color:var(--accent-2);box-shadow:0 0 16px rgba(0, 212, 255, 0.08);opacity:0.5;transition:all 0.25s ease;">Show details</button>
+            
+            <button id="improveDraftBtn" disabled style="display:flex;align-items:center;justify-content:center;gap:8px;flex:1;padding:12px 16px;border-radius:20px;font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;text-align:center;cursor:not-allowed;background:#0f141b;border:1px solid transparent;background-image:linear-gradient(#0f141b, #0f141b),linear-gradient(90deg, #6c5ce7, #00d4ff);background-origin:border-box;background-clip:padding-box, border-box;color:var(--accent-2);box-shadow:0 0 16px rgba(0, 212, 255, 0.08);opacity:0.5;transition:all 0.25s ease;">Improve / Update (Draft)</button>
+            
+            <button id="noSelectablePatchesBtn" style="display:flex;align-items:center;justify-content:center;gap:8px;flex:1;padding:12px 16px;border-radius:20px;font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;text-align:center;cursor:pointer;background:linear-gradient(90deg, rgba(108, 92, 231, 0.22), rgba(0, 212, 255, 0.18));color:#ffffff;border:1px solid rgba(0, 212, 255, 0.45);box-shadow:0 0 16px rgba(0, 212, 255, 0.12);transition:all 0.25s ease;">No selectable patches</button>
+          </div>
         </div>
       </div>`;
 
@@ -3211,14 +3218,6 @@ function attachWikiEvents() {
             </div>
           </div>
           
-          <div style="display:flex;gap:12px;margin-top:24px;margin-bottom:20px;">
-            <button id="showDetailsBtn" disabled style="display:flex;align-items:center;justify-content:center;gap:8px;flex:1;padding:12px 16px;border-radius:20px;font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;text-align:center;cursor:not-allowed;background:#0f141b;border:1px solid transparent;background-image:linear-gradient(#0f141b, #0f141b),linear-gradient(90deg, #6c5ce7, #00d4ff);background-origin:border-box;background-clip:padding-box, border-box;color:var(--accent-2);box-shadow:0 0 16px rgba(0, 212, 255, 0.08);opacity:0.5;transition:all 0.25s ease;">Show details</button>
-            
-            <button id="improveDraftBtn" disabled style="display:flex;align-items:center;justify-content:center;gap:8px;flex:1;padding:12px 16px;border-radius:20px;font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;text-align:center;cursor:not-allowed;background:#0f141b;border:1px solid transparent;background-image:linear-gradient(#0f141b, #0f141b),linear-gradient(90deg, #6c5ce7, #00d4ff);background-origin:border-box;background-clip:padding-box, border-box;color:var(--accent-2);box-shadow:0 0 16px rgba(0, 212, 255, 0.08);opacity:0.5;transition:all 0.25s ease;">Improve / Update (Draft)</button>
-            
-            <button id="noSelectablePatchesBtn" style="display:flex;align-items:center;justify-content:center;gap:8px;flex:1;padding:12px 16px;border-radius:20px;font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;text-align:center;cursor:pointer;background:linear-gradient(90deg, rgba(108, 92, 231, 0.22), rgba(0, 212, 255, 0.18));color:#ffffff;border:1px solid rgba(0, 212, 255, 0.45);box-shadow:0 0 16px rgba(0, 212, 255, 0.12);transition:all 0.25s ease;">No selectable patches</button>
-          </div>
-          
           <div id="irWorkbench" class="chart-wrapper dark" style="display:none;margin-top:20px;padding:20px;">
             <h4>Detailed chunk results</h4>
             <div class="ir-wb-summary">
@@ -3239,14 +3238,11 @@ function attachWikiEvents() {
             </div>
           </div>
           
-          <div id="irDraftPanel" style="display:none;background:rgba(15,20,28,0.95);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:24px;margin-top:16px;">
+          <div id="irDraftPanel" style="display:none;background:rgba(15,20,28,0.95);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:24px;margin-top:16px;display:flex;flex-direction:column;min-height:100%;">
             <div style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);border-radius:10px;padding:14px 18px;font-size:13px;color:#6ee7b7;margin-bottom:20px;">
               1 draft row(s) have selectable structured patches. Use the checkbox shown on those rows, then Apply selected patches.
             </div>
             <div id="irDraftList" style="display:flex;flex-direction:column;gap:16px;"></div>
-            <div style="padding:12px;display:flex;gap:10px;">
-              <button id="applyPatchesBtn" onclick="applySelectedPatches()" disabled style="flex:1;padding:12px 16px;border-radius:20px;font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;text-align:center;cursor:not-allowed;background:#0f141b;border:1px solid transparent;background-image:linear-gradient(#0f141b, #0f141b),linear-gradient(90deg, #6c5ce7, #00d4ff);background-origin:border-box;background-clip:padding-box, border-box;color:var(--accent-2);box-shadow:0 0 16px rgba(0, 212, 255, 0.08);opacity:0.5;transition:all 0.25s ease;font-family:'Inter',sans-serif;">Apply selected patches</button>
-            </div>
             <div style="background:rgba(20,26,36,0.9);border:1px solid rgba(108,92,231,0.3);border-radius:12px;padding:20px;margin-top:24px;">
               <h4 style="font-size:14px;font-weight:700;color:#8b5cf6;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:14px;">Suggested Patch Structure</h4>
               <div style="background:rgba(13,13,23,0.95);border:1px solid rgba(108,92,231,0.2);border-radius:10px;overflow-x:auto;max-height:350px;overflow-y:auto;">
@@ -3267,6 +3263,9 @@ function attachWikiEvents() {
   }
 }</pre>
               </div>
+            </div>
+            <div style="padding:12px 0 0;display:flex;gap:10px;margin-top:auto;">
+              <button id="applyPatchesBtn" onclick="applySelectedPatches()" disabled style="flex:1;padding:12px 16px;border-radius:20px;font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;text-align:center;cursor:not-allowed;background:#0f141b;border:1px solid transparent;background-image:linear-gradient(#0f141b, #0f141b),linear-gradient(90deg, #6c5ce7, #00d4ff);background-origin:border-box;background-clip:padding-box, border-box;color:var(--accent-2);box-shadow:0 0 16px rgba(0, 212, 255, 0.08);opacity:0.5;transition:all 0.25s ease;font-family:'Inter',sans-serif;">Apply selected patches</button>
             </div>
           </div>
         </div>
