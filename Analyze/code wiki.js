@@ -293,13 +293,7 @@ function attachWikiEvents() {
                                 </ol>
                             </div>
 
-                            <!-- Risk Snapshot -->
-                            <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 20px; border-radius: 8px;">
-                                <div style="font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 12px;">Risk snapshot</div>
-                                <span style="background: rgba(46, 204, 113, 0.15); color: #2ecc71; padding: 4px 12px; border-radius: 20px; font-weight: 700; font-size: 11px; margin-bottom: 12px; display: inline-block;">Good</span>
-                                <div style="font-size: 13px; color: var(--text-muted);">0 unused program(s), 0 call(s) to missing programs.</div>
-                            </div>
-
+                            <!-- Risk Snapshot Removed -->
                             <!-- System Personality -->
                             <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 20px; border-radius: 8px;">
                                 <div style="font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 8px;">System personality</div>
@@ -395,76 +389,6 @@ function attachWikiEvents() {
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 12l10 5 10-5"></path><path d="M2 17l10 5 10-5"></path></svg>
                                     Wave plan
                                 </button>
-                                <button style="background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                                    Vulnerability assessment
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                } else if (tabName === "Risk") {
-                    dummyView.style.padding = '24px';
-                    dummyView.style.display = 'block';
-                    dummyView.style.alignItems = 'stretch';
-                    dummyView.style.justifyContent = 'flex-start';
-                    dummyView.style.overflowY = 'auto';
-
-                    dummyView.innerHTML = `
-                        <!-- Health Banner -->
-                        <div style="display: flex; align-items: center; gap: 16px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 16px 24px; border-radius: 8px; margin-bottom: 24px;">
-                            <span style="background: rgba(46, 204, 113, 0.15); color: #2ecc71; padding: 4px 12px; border-radius: 20px; font-weight: 700; font-size: 13px;">Good</span>
-                            <span style="font-size: 24px; font-weight: 700; color: #fff;">100</span>
-                            <span style="font-size: 14px; color: var(--text-muted); font-weight: 500;">Dependency health</span>
-                        </div>
-
-                        <!-- Cards Grid -->
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px;">
-                            <!-- Card 1 -->
-                            <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 24px; border-radius: 8px;">
-                                <div style="font-size: 32px; font-weight: 700; color: #fff; margin-bottom: 12px;">0</div>
-                                <div style="font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 8px;">Programs not used in this codebase</div>
-                                <div style="font-size: 12px; color: var(--text-muted);">Not called by any program, JCL step, or CICS transaction</div>
-                            </div>
-                            
-                            <!-- Card 2 -->
-                            <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 24px; border-radius: 8px;">
-                                <div style="font-size: 32px; font-weight: 700; color: #fff; margin-bottom: 12px;">0</div>
-                                <div style="font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 8px;">Calls to programs outside this project</div>
-                                <div style="font-size: 12px; color: var(--text-muted);">Caller exists but callee is not in the project</div>
-                            </div>
-                        </div>
-
-                        <!-- Table 1 -->
-                        <div style="margin-bottom: 32px;">
-                            <div style="font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 4px;">Programs not used in this codebase</div>
-                            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">Candidates for review or retirement. Expand "Why?" to see evidence.</div>
-                            
-                            <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; overflow: hidden;">
-                                <div style="display: grid; grid-template-columns: 1fr 100px; padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 12px; font-weight: 600; color: var(--text-muted);">
-                                    <div>Program</div>
-                                    <div>Why?</div>
-                                </div>
-                                <div style="padding: 16px; font-size: 13px; color: var(--text-muted);">
-                                    No unused programs found.
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Table 2 -->
-                        <div style="margin-bottom: 32px;">
-                            <div style="font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 4px;">Calls to programs outside this project</div>
-                            <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">These callers reference a program not in the project. Expand "Why?" for evidence.</div>
-                            
-                            <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; overflow: hidden;">
-                                <div style="display: grid; grid-template-columns: 1fr 1fr 1.5fr 100px; padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 12px; font-weight: 600; color: var(--text-muted);">
-                                    <div>Caller</div>
-                                    <div>Calls</div>
-                                    <div>Note</div>
-                                    <div>Why?</div>
-                                </div>
-                                <div style="padding: 16px; font-size: 13px; color: var(--text-muted);">
-                                    No calls to missing programs.
-                                </div>
                             </div>
                         </div>
                     `;
@@ -623,22 +547,26 @@ function attachWikiEvents() {
         <!-- Header -->
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
           <h1 style="font-size: 16px; font-weight: 700; color: #fff; margin: 0; letter-spacing: 0.5px;">CODE WIKI</h1>
-          <span style="background: rgba(46, 204, 113, 0.1); color: #2ecc71; border: 1px solid rgba(46, 204, 113, 0.2); padding: 4px 12px; border-radius: 4px; font-size: 10px; font-weight: 700; text-transform: uppercase;">Analysis Completed</span>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <span style="background: rgba(59, 130, 246, 0.1); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.3); padding: 6px 14px; border-radius: 16px; font-size: 11px; font-weight: 700; cursor: pointer; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'" onclick="Array.from(document.querySelectorAll('.tab')).find(t => t.textContent.trim() === 'System Diagnostics')?.click()">Mainframe COBOL 66</span>
+            <span style="background: rgba(245, 158, 11, 0.1); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.3); padding: 6px 14px; border-radius: 16px; font-size: 11px; font-weight: 700; cursor: pointer; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'" onclick="Array.from(document.querySelectorAll('.tab')).find(t => t.textContent.trim() === 'System Diagnostics')?.click()">Confidence 98</span>
+            <span style="background: rgba(46, 204, 113, 0.1); color: #2ecc71; border: 1px solid rgba(46, 204, 113, 0.2); padding: 6px 14px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase;">Analysis Completed</span>
+          </div>
         </div>
 
         <!-- Stats Grid -->
         <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; margin-bottom: 24px; overflow: hidden; flex-shrink: 0;">
           <div style="background: var(--panel-bg); padding: 16px; text-align: center;">
             <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; margin-bottom: 8px;">Programs</div>
-            <div style="font-size: 20px; font-weight: 700; color: #fff;">1</div>
+            <div style="font-size: 20px; font-weight: 700; color: #fff;">2</div>
           </div>
           <div style="background: var(--panel-bg); padding: 16px; text-align: center;">
             <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; margin-bottom: 8px;">Dependencies</div>
-            <div style="font-size: 20px; font-weight: 700; color: #fff;">0</div>
+            <div style="font-size: 20px; font-weight: 700; color: #fff;">23</div>
           </div>
           <div style="background: var(--panel-bg); padding: 16px; text-align: center;">
             <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; margin-bottom: 8px;">Entry Points</div>
-            <div style="font-size: 20px; font-weight: 700; color: #fff;">0</div>
+            <div style="font-size: 20px; font-weight: 700; color: #fff;">1</div>
           </div>
         </div>
 
@@ -646,7 +574,6 @@ function attachWikiEvents() {
         <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0px; margin-bottom: 16px; flex-shrink: 0;">
           <div class="dashboard-tabs" style="border-bottom: none; margin-bottom: -1px; gap: 24px;">
             <button class="tab active" style="padding-bottom: 12px; font-size: 13px;">Project Structure</button>
-            <button class="tab" style="padding-bottom: 12px; font-size: 13px;">Risk</button>
             <button class="tab" style="padding-bottom: 12px; font-size: 13px;">System Diagnostics</button>
           </div>
           <button style="background: rgba(0, 212, 255, 0.1); color: #00d4ff; border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 6px; padding: 6px 12px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">

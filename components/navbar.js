@@ -1,4 +1,4 @@
-﻿window.EQUIVALIC_NAV_ITEMS = [
+window.EQUIVALIC_NAV_ITEMS = [
   { key: 'overview', label: 'Overview', pages: [['Project Summary', '../Overview/project%20summary.html'], ['Project DNA', '../Overview/project%20dna.html'], ['Parser Improvement', '../Overview/parser%20improvement.html']]},
   { key: 'analyze', label: 'Analyze', pages: [['Code Wiki', '../Analyze/code%20wiki.html'], ['IR Quality', '../Analyze/ir%20quality.html'], ['Analysis Health', '../Analyze/analysis%20health.html']]},
   { key: 'design', label: 'Design', pages: [['Architecture Studio', '../Design/architectureStudio.html'], ['Data Mapping Review', '../Design/data%20mapping%20review.html'], ['Best Design Practices', '../Design/best%20design%20practices.html']]},

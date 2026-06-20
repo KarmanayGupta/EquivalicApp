@@ -168,6 +168,12 @@ function activateAnalysisHealthMode() {
         <div style="font-size:18px; font-weight:700; color:#fff;">1</div>
         
     </div>
+
+    <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
+        <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">IR blocks</div>
+        <div style="font-size:18px; font-weight:700; color:#fff;">1</div>
+        
+    </div>
     
     <div style="background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
         <div style="font-size:11px; font-weight:600; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px;">Graph Unresolved</div>
@@ -1217,6 +1223,37 @@ function activateAnalysisHealthMode() {
                     </tbody>
         </table>
     </div>
+    <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Performance Profile</h4>
+    <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
+        <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
+            <thead class="health-table-head">
+                <tr><th style="padding:16px;">Stage</th><th style="padding:16px;">Status</th><th style="padding:16px;">Duration</th><th style="padding:16px;">Artifacts</th></tr>
+            </thead>
+            <tbody>
+<tr class="health-table-row">
+                    <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">Analysis Run</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">completed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">8.03s</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">0</td>
+                </tr><tr class="health-table-row">
+                    <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">Upload</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">warnings</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">1</td>
+                </tr><tr class="health-table-row">
+                    <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">Discovery</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">completed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">0</td>
+                </tr><tr class="health-table-row">
+                    <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">Preprocess</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">completed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">4</td>
+                </tr><tr class="health-table-row">
+                    <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">Parse</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">completed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">8.97s</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">7</td>
+                </tr><tr class="health-table-row">
+                    <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">IR</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">completed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">16</td>
+                </tr><tr class="health-table-row">
+                    <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">Dependency</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">completed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">5</td>
+                </tr><tr class="health-table-row">
+                    <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">Manifest</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">completed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">8</td>
+                </tr><tr class="health-table-row">
+                    <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">Program Contract</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">completed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">1</td>
+                </tr><tr class="health-table-row">
+                    <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">Previews</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">completed</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">-</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">3</td>
+                </tr>
+                    </tbody>
+        </table>
+    </div>
     <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Failed / Partial Program Dashboard</h4>
     <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
         <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
@@ -1225,9 +1262,66 @@ function activateAnalysisHealthMode() {
             </thead>
             <tbody>
 <tr class="health-table-row">
-                    <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">temp</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">parse</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">failed_or_partial</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">unknown_parser_failure</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">Review parser errors...</td>
+                    <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">No failed or partial programs recorded.</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td><td style="padding:16px; vertical-align:top; color:#cbd5e1;"></td>
+                </tr>
+                    </tbody>
+        </table>
+    </div>
+    <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Skipped Uploads</h4>
+    <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
+        <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
+            <thead class="health-table-head">
+                <tr><th style="padding:16px;">File</th><th style="padding:16px;">Type</th><th style="padding:16px;">Disposition</th><th style="padding:16px;">Reason</th></tr>
+            </thead>
+            <tbody>
+<tr class="health-table-row">
+                    <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">test3/.DS_Store</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">unknown</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">unsupported_skipped</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">extensionless_unrecognized</td>
                 </tr><tr class="health-table-row">
-                    <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">temp</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">ir</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">passed_warnings</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">ir_quality</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">AST was produced from a partial parse...</td>
+                    <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">test3/README.md</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">unknown</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">unsupported_skipped</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">unsupported_extension</td>
+                </tr>
+                    </tbody>
+        </table>
+    </div>
+    <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Artifact Browser By Stage</h4>
+    <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
+        <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
+            <thead class="health-table-head">
+                <tr><th style="padding:16px;">Stage</th><th style="padding:16px;">Artifacts</th><th style="padding:16px;">Total Size</th></tr>
+            </thead>
+            <tbody>
+<tr class="health-table-row">
+                    <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">Upload</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">1</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">9.0 KB</td>
+                </tr><tr class="health-table-row">
+                    <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">Discovery</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">0</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">0 B</td>
+                </tr><tr class="health-table-row">
+                    <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">Preprocess</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">4</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">18.3 KB</td>
+                </tr><tr class="health-table-row">
+                    <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">Parse</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">7</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">428.4 KB</td>
+                </tr><tr class="health-table-row">
+                    <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">IR</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">16</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">2.98 MB</td>
+                </tr><tr class="health-table-row">
+                    <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">Dependency</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">5</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">78.0 KB</td>
+                </tr><tr class="health-table-row">
+                    <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">Manifest</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">8</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">1.51 MB</td>
+                </tr><tr class="health-table-row">
+                    <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">Program Contract</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">1</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">870 B</td>
+                </tr><tr class="health-table-row">
+                    <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">Previews</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">3</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">55.9 KB</td>
+                </tr><tr class="health-table-row">
+                    <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;">Other</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">49</td><td style="padding:16px; vertical-align:top; color:#cbd5e1;">237.5 KB</td>
+                </tr>
+                    </tbody>
+        </table>
+    </div>
+    <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Previous vs Current Run</h4>
+    <div class="custom-scrollbar" style="overflow-x:auto; margin-bottom:24px; background:rgba(0,0,0,0.15); border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
+        <table class="health-table" style="width:100%; border-collapse:collapse; font-size:13px; text-align:left;">
+            <thead class="health-table-head">
+                <tr><th style="padding:16px;">Metric</th><th style="padding:16px;">Value</th><th style="padding:16px;">Detail</th></tr>
+            </thead>
+            <tbody>
+<tr class="health-table-row">
+                    <td style="padding:16px; vertical-align:top; font-weight:700; color:#fff;" colspan="3">Need at least two persisted analysis runs for comparison.</td>
                 </tr>
                     </tbody>
         </table>
@@ -1367,12 +1461,12 @@ function activateAnalysisHealthMode() {
     <div id="health-tab-9" class="health-section" style="display:none; background:var(--panel-bg); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:24px; margin-bottom:32px;">
         <h3 style="font-size:16px; font-weight:600; color:#fff; margin-top:0; margin-bottom:20px;">Review Queue & Downloads</h3>
         
-    <div style="display:flex; justify-content:space-between; margin-bottom:16px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
         <div style="font-size:13px; color:var(--text-muted);">Filter the evidence a reviewer needs first, then download the exact report behind it.</div>
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
-            <button class="graph-btn" style="justify-content:center;">All evidence</button>
-            <button class="graph-btn" style="justify-content:center;">Only blockers</button>
-            <button class="graph-btn" style="grid-column: span 2; justify-content:center;">Only skipped files</button>
+        <div style="display:flex; gap:8px;">
+            <button style="background:#111827; border:1px solid #1f2937; color:#fff; padding:6px 16px; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer;">All evidence</button>
+            <button style="background:transparent; border:1px solid rgba(255,255,255,0.2); color:var(--text-primary); padding:6px 16px; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer;">Only blockers</button>
+            <button style="background:transparent; border:1px solid rgba(255,255,255,0.2); color:var(--text-primary); padding:6px 16px; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer;">Only skipped files</button>
         </div>
     </div>
     <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:24px;">
@@ -1382,6 +1476,10 @@ function activateAnalysisHealthMode() {
         <span style="border:1px solid #3498db; color:#3498db; padding:4px 12px; border-radius:12px; font-size:11px;">IR Accuracy Lifecycle</span>
         <span style="border:1px solid #3498db; color:#3498db; padding:4px 12px; border-radius:12px; font-size:11px;">Dependency Graph</span>
         <span style="border:1px solid #3498db; color:#3498db; padding:4px 12px; border-radius:12px; font-size:11px;">Project Artifacts</span>
+        <span style="border:1px solid #3498db; color:#3498db; padding:4px 12px; border-radius:12px; font-size:11px;">Artifact I/O</span>
+        <span style="border:1px solid #3498db; color:#3498db; padding:4px 12px; border-radius:12px; font-size:11px;">LLM Usage</span>
+        <span style="border:1px solid #3498db; color:#3498db; padding:4px 12px; border-radius:12px; font-size:11px;">Post-IR</span>
+        <span style="border:1px solid #3498db; color:#3498db; padding:4px 12px; border-radius:12px; font-size:11px;">All Loaded Reports</span>
     </div>
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:12px; margin-bottom:24px;">
     <div style="background:#212733; border:1px solid rgba(255,255,255,0.05); border-radius:8px; padding:16px;">
@@ -1428,28 +1526,124 @@ function activateAnalysisHealthMode() {
         </table>
     </div>
     <h4 style='font-size:14px; font-weight:600; margin-bottom:12px; color:#fff;'>Expandable Program Evidence</h4>
-        <div style="background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.05); padding:12px 16px; border-radius:6px; margin-bottom:8px; display:flex; align-items:center;">
-            <div style="background:#e67e22; color:#fff; font-size:10px; font-weight:700; padding:2px 6px; border-radius:4px; margin-right:12px;">WARNING</div>
-            <div style="font-size:13px; font-weight:600; color:#fff; width:300px;">Parser evidence: temp</div>
-            <div style="font-size:13px; color:var(--text-muted);">unknown_parser_failure</div>
+        <div style="background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.05); border-radius:6px; margin-bottom:8px; display:flex; flex-direction:column; cursor:pointer;" onclick="const b = this.querySelector('.evidence-code-block'); b.style.display = b.style.display === 'none' ? 'block' : 'none';">
+            <div style="padding:12px 16px; display:flex; align-items:center;">
+                <div style="background:#e67e22; color:#fff; font-size:10px; font-weight:700; padding:2px 6px; border-radius:4px; margin-right:12px;">WARNING</div>
+                <div style="font-size:13px; font-weight:600; color:#fff; width:300px;">IR certification: ORDINV</div>
+                <div style="font-size:13px; color:var(--text-muted);">status=certified_with_warnings, risk=LOW</div>
+            </div>
+            <div class="evidence-code-block" style="padding:0 16px 16px 16px; display:block;">
+                <pre class="custom-scrollbar" style="background:#0f172a; padding:16px; border-radius:6px; color:#9cdcfe; font-size:11px; margin:0; overflow-x:auto;"><code>{
+  <span style="color:#ce9178;">"program"</span>: <span style="color:#ce9178;">"ORDINV"</span>,
+  <span style="color:#ce9178;">"conversion_id"</span>: <span style="color:#569cd6;">null</span>,
+  <span style="color:#ce9178;">"generated_at"</span>: <span style="color:#ce9178;">"2026-06-19T07:26:13.739186Z"</span>,
+  <span style="color:#ce9178;">"status"</span>: <span style="color:#ce9178;">"certified_with_warnings"</span>,
+  <span style="color:#ce9178;">"overall_score"</span>: <span style="color:#b5cea8;">99</span>,
+  <span style="color:#ce9178;">"category_scores"</span>: {
+    <span style="color:#ce9178;">"data_division"</span>: <span style="color:#b5cea8;">100</span>,
+    <span style="color:#ce9178;">"procedure_division"</span>: <span style="color:#b5cea8;">100</span>,
+    <span style="color:#ce9178;">"calls"</span>: <span style="color:#b5cea8;">100</span>,
+    <span style="color:#ce9178;">"files"</span>: <span style="color:#b5cea8;">90</span>,
+    <span style="color:#ce9178;">"sql"</span>: <span style="color:#b5cea8;">100</span>,
+    <span style="color:#ce9178;">"cics"</span>: <span style="color:#b5cea8;">100</span>,
+    <span style="color:#ce9178;">"linkage"</span>: <span style="color:#b5cea8;">100</span>,
+    <span style="color:#ce9178;">"error_handling"</span>: <span style="color:#b5cea8;">100</span>,
+    <span style="color:#ce9178;">"native_cobol"</span>: <span style="color:#b5cea8;">100</span>
+  }
+}</code></pre>
+            </div>
+        </div>
+
+        <div style="background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.05); border-radius:6px; margin-bottom:8px; display:flex; flex-direction:column; cursor:pointer;" onclick="const b = this.querySelector('.evidence-code-block'); b.style.display = b.style.display === 'none' ? 'block' : 'none';">
+            <div style="padding:12px 16px; display:flex; align-items:center;">
+                <div style="background:#e67e22; color:#fff; font-size:10px; font-weight:700; padding:2px 6px; border-radius:4px; margin-right:12px;">WARNING</div>
+                <div style="font-size:13px; font-weight:600; color:#fff; width:300px;">IR certification: ORDVAL</div>
+                <div style="font-size:13px; color:var(--text-muted);">status=certified_with_warnings, risk=LOW</div>
+            </div>
+            <div class="evidence-code-block" style="padding:0 16px 16px 16px; display:block;">
+                <pre class="custom-scrollbar" style="background:#0f172a; padding:16px; border-radius:6px; color:#9cdcfe; font-size:11px; margin:0; overflow-x:auto;"><code>{
+  <span style="color:#ce9178;">"program"</span>: <span style="color:#ce9178;">"ORDVAL"</span>,
+  <span style="color:#ce9178;">"conversion_id"</span>: <span style="color:#569cd6;">null</span>,
+  <span style="color:#ce9178;">"generated_at"</span>: <span style="color:#ce9178;">"2026-06-19T07:26:13.248596Z"</span>,
+  <span style="color:#ce9178;">"status"</span>: <span style="color:#ce9178;">"certified_with_warnings"</span>,
+  <span style="color:#ce9178;">"overall_score"</span>: <span style="color:#b5cea8;">99</span>,
+  <span style="color:#ce9178;">"category_scores"</span>: {
+    <span style="color:#ce9178;">"data_division"</span>: <span style="color:#b5cea8;">100</span>,
+    <span style="color:#ce9178;">"procedure_division"</span>: <span style="color:#b5cea8;">100</span>,
+    <span style="color:#ce9178;">"calls"</span>: <span style="color:#b5cea8;">100</span>,
+    <span style="color:#ce9178;">"files"</span>: <span style="color:#b5cea8;">90</span>,
+    <span style="color:#ce9178;">"sql"</span>: <span style="color:#b5cea8;">100</span>,
+    <span style="color:#ce9178;">"cics"</span>: <span style="color:#b5cea8;">100</span>,
+    <span style="color:#ce9178;">"linkage"</span>: <span style="color:#b5cea8;">100</span>,
+    <span style="color:#ce9178;">"error_handling"</span>: <span style="color:#b5cea8;">100</span>,
+    <span style="color:#ce9178;">"native_cobol"</span>: <span style="color:#b5cea8;">100</span>
+  }
+}</code></pre>
+            </div>
         </div>
         
-        <div style="background:rgba(18, 12, 12, 0.2); border:1px solid rgba(255,255,255,0.05); padding:12px 16px; border-radius:6px; margin-bottom:8px; display:flex; align-items:center;">
-            <div style="background:#e67e22; color:#fff; font-size:10px; font-weight:700; padding:2px 6px; border-radius:4px; margin-right:12px;">WARNING</div>
-            <div style="font-size:13px; font-weight:600; color:#fff; width:300px;">IR quality: temp</div>
-            <div style="font-size:13px; color:var(--text-muted);">score : 72 ; issues : 3</div>
+        <div style="background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.05); border-radius:6px; margin-bottom:8px; display:flex; flex-direction:column; cursor:pointer;" onclick="const b = this.querySelector('.evidence-code-block'); b.style.display = b.style.display === 'none' ? 'block' : 'none';">
+            <div style="padding:12px 16px; display:flex; align-items:center;">
+                <div style="background:#3b82f6; color:#fff; font-size:10px; font-weight:700; padding:2px 6px; border-radius:4px; margin-right:12px;">INFO</div>
+                <div style="font-size:13px; font-weight:600; color:#fff; width:300px;">Skipped file: test3/.DS_Store</div>
+                <div style="font-size:13px; color:var(--text-muted);">unsupported_skipped / extensionless_unrecognized</div>
+            </div>
+            <div class="evidence-code-block" style="padding:0 16px 16px 16px; display:block;">
+                <pre class="custom-scrollbar" style="background:#0f172a; padding:16px; border-radius:6px; color:#9cdcfe; font-size:11px; margin:0; overflow-x:auto;"><code>{
+  <span style="color:#ce9178;">"file"</span>: <span style="color:#ce9178;">"test3/.DS_Store"</span>,
+  <span style="color:#ce9178;">"type"</span>: <span style="color:#ce9178;">"unknown"</span>,
+  <span style="color:#ce9178;">"disposition"</span>: <span style="color:#ce9178;">"unsupported_skipped"</span>,
+  <span style="color:#ce9178;">"reason"</span>: <span style="color:#ce9178;">"extensionless_unrecognized"</span>
+}</code></pre>
+            </div>
         </div>
         
-        <div style="background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.05); padding:12px 16px; border-radius:6px; margin-bottom:8px; display:flex; align-items:center;">
-            <div style="background:#e67e22; color:#fff; font-size:10px; font-weight:700; padding:2px 6px; border-radius:4px; margin-right:12px;">WARNING</div>
-            <div style="font-size:13px; font-weight:600; color:#fff; width:300px;">IR certification: temp</div>
-            <div style="font-size:13px; color:var(--text-muted);">status : certified_with_warnings, risk : LOW</div>
+        <div style="background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.05); border-radius:6px; margin-bottom:8px; display:flex; flex-direction:column; cursor:pointer;" onclick="const b = this.querySelector('.evidence-code-block'); b.style.display = b.style.display === 'none' ? 'block' : 'none';">
+            <div style="padding:12px 16px; display:flex; align-items:center;">
+                <div style="background:#3b82f6; color:#fff; font-size:10px; font-weight:700; padding:2px 6px; border-radius:4px; margin-right:12px;">INFO</div>
+                <div style="font-size:13px; font-weight:600; color:#fff; width:300px;">Skipped file: test3/README.md</div>
+                <div style="font-size:13px; color:var(--text-muted);">unsupported_skipped / unsupported_extension</div>
+            </div>
+            <div class="evidence-code-block" style="padding:0 16px 16px 16px; display:none;">
+                <pre class="custom-scrollbar" style="background:#0f172a; padding:16px; border-radius:6px; color:#9cdcfe; font-size:11px; margin:0; overflow-x:auto;"><code>{
+  <span style="color:#ce9178;">"file"</span>: <span style="color:#ce9178;">"test3/README.md"</span>,
+  <span style="color:#ce9178;">"type"</span>: <span style="color:#ce9178;">"unknown"</span>,
+  <span style="color:#ce9178;">"disposition"</span>: <span style="color:#ce9178;">"unsupported_skipped"</span>,
+  <span style="color:#ce9178;">"reason"</span>: <span style="color:#ce9178;">"unsupported_extension"</span>
+}</code></pre>
+            </div>
         </div>
         
-        <div style="background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.05); padding:12px 16px; border-radius:6px; margin-bottom:8px; display:flex; align-items:center;">
-            <div style="background:#e67e22; color:#fff; font-size:10px; font-weight:700; padding:2px 6px; border-radius:4px; margin-right:12px;">WARNING</div>
-            <div style="font-size:13px; font-weight:600; color:#fff; width:300px;">Traceability: READ_FILE_EXAMPLE</div>
-            <div style="font-size:13px; color:var(--text-muted);">graph:yes, manifest:yes, blueprint:no</div>
+        <div style="background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.05); border-radius:6px; margin-bottom:8px; display:flex; flex-direction:column; cursor:pointer;" onclick="const b = this.querySelector('.evidence-code-block'); b.style.display = b.style.display === 'none' ? 'block' : 'none';">
+            <div style="padding:12px 16px; display:flex; align-items:center;">
+                <div style="background:#e67e22; color:#fff; font-size:10px; font-weight:700; padding:2px 6px; border-radius:4px; margin-right:12px;">WARNING</div>
+                <div style="font-size:13px; font-weight:600; color:#fff; width:300px;">Traceability: ORDINV</div>
+                <div style="font-size:13px; color:var(--text-muted);">graph=yes, manifest=yes, blueprint=no</div>
+            </div>
+            <div class="evidence-code-block" style="padding:0 16px 16px 16px; display:none;">
+                <pre class="custom-scrollbar" style="background:#0f172a; padding:16px; border-radius:6px; color:#9cdcfe; font-size:11px; margin:0; overflow-x:auto;"><code>{
+  <span style="color:#ce9178;">"program"</span>: <span style="color:#ce9178;">"ORDINV"</span>,
+  <span style="color:#ce9178;">"graph"</span>: <span style="color:#569cd6;">true</span>,
+  <span style="color:#ce9178;">"manifest"</span>: <span style="color:#569cd6;">true</span>,
+  <span style="color:#ce9178;">"blueprint"</span>: <span style="color:#569cd6;">false</span>
+}</code></pre>
+            </div>
+        </div>
+        
+        <div style="background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.05); border-radius:6px; margin-bottom:8px; display:flex; flex-direction:column; cursor:pointer;" onclick="const b = this.querySelector('.evidence-code-block'); b.style.display = b.style.display === 'none' ? 'block' : 'none';">
+            <div style="padding:12px 16px; display:flex; align-items:center;">
+                <div style="background:#e67e22; color:#fff; font-size:10px; font-weight:700; padding:2px 6px; border-radius:4px; margin-right:12px;">WARNING</div>
+                <div style="font-size:13px; font-weight:600; color:#fff; width:300px;">Traceability: ORDVAL</div>
+                <div style="font-size:13px; color:var(--text-muted);">graph=yes, manifest=yes, blueprint=no</div>
+            </div>
+            <div class="evidence-code-block" style="padding:0 16px 16px 16px; display:none;">
+                <pre class="custom-scrollbar" style="background:#0f172a; padding:16px; border-radius:6px; color:#9cdcfe; font-size:11px; margin:0; overflow-x:auto;"><code>{
+  <span style="color:#ce9178;">"program"</span>: <span style="color:#ce9178;">"ORDVAL"</span>,
+  <span style="color:#ce9178;">"graph"</span>: <span style="color:#569cd6;">true</span>,
+  <span style="color:#ce9178;">"manifest"</span>: <span style="color:#569cd6;">true</span>,
+  <span style="color:#ce9178;">"blueprint"</span>: <span style="color:#569cd6;">false</span>
+}</code></pre>
+            </div>
         </div>
         
     </div>
