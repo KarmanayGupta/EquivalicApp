@@ -644,9 +644,28 @@ const irChunkData = [
           llmBtn.dataset.loading = "false";
           isLlmReviewed = true;
           
+          const llmChunkRows = llmDummyChunks.map(row => `
+            <div style="background: rgba(239,68,68,0.05); border: 1px solid rgba(239,68,68,0.18); border-radius: 8px; padding: 12px 14px; margin-bottom: 8px;">
+              <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
+                <span style="font-size:13px;font-weight:700;color:#f1f3f8;font-family:'Inter',sans-serif;">${row.prog}</span>
+                <span style="color:#94a3b8;font-size:12px;">/</span>
+                <span style="font-size:12px;color:#f87171;font-family:'Inter',sans-serif;">${row.sub}</span>
+                <span style="background:rgba(239,68,68,0.15);color:#f87171;padding:2px 7px;border-radius:5px;font-size:10px;font-weight:700;">status=fail</span>
+                <span style="font-size:11px;color:#64748b;">category=unknown · confidence=—</span>
+              </div>
+              <div style="font-size:10px;font-weight:700;color:#f87171;text-transform:uppercase;letter-spacing:0.7px;margin-bottom:4px;">Verifier issues</div>
+              <div style="font-size:11px;color:#fca5a5;line-height:1.55;font-family:'Inter',sans-serif;word-break:break-all;">[medium] verifier_exception: Error code: 401 - {'error': {'message': 'Incorrect API key provided: sk-proj-********************************************************************************************************************************************************MDUA. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'code': 'invalid_api_key', 'param': None}, 'status': 401}</div>
+              <div style="font-size:11px;color:#94a3b8;font-style:italic;margin-top:5px;">No structured suggested_patch for this chunk. The verifier still flagged problems; fixing them usually means parser/rules updates or refining the patch format.</div>
+            </div>
+          `).join('');
           showStatus(`
-            <div style="background: rgba(16, 185, 129, 0.08); border-left: 3px solid #10b981; border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #34d399; line-height: 1.6; font-family: 'Inter', sans-serif; font-weight: 500; text-align: left; width: 100%;">
-              LLM advisory review complete: 20 program(s), 128 chunk(s), pass=0, warn=0, fail=128. Verifier cache: 0/128 chunks reused, 128 fresh chunk verification(s). Provider usage: 256 fresh call(s), 0 provider-cache hit(s). Advisory findings do not change the deterministic score.
+            <div style="background: rgba(239,68,68,0.07); border-left: 3px solid #ef4444; border-radius: 8px; padding: 12px 16px; width: 100%; box-sizing: border-box;">
+              <div style="font-size: 13px; color: #f87171; line-height: 1.6; font-family: 'Inter', sans-serif; font-weight: 600; margin-bottom: 10px;">
+                LLM advisory review complete — 20 program(s), 128 chunk(s), pass=0, warn=0, fail=128. Verifier returned 401 Unauthorized (invalid API key) for all 128 chunks.
+              </div>
+              <div style="max-height: 320px; overflow-y: auto; padding-right: 4px;">
+                ${llmChunkRows}
+              </div>
             </div>
           `, true);
 
@@ -703,6 +722,8 @@ const irChunkData = [
       const safeBtn = e.target.closest("#applySafeRepairsBtn");
       if (safeBtn) {
         if (safeBtn.dataset.loading === "true") return;
+        const confirmed = confirm("Apply deterministic safe repairs to IR.json?\nEach write must produce ledgered JSON Pointer changes.");
+        if (!confirmed) return;
         safeBtn.dataset.loading = "true";
         const statusDiv = document.getElementById("irQualityStatus");
         const workbench = document.getElementById("irWorkbench");
