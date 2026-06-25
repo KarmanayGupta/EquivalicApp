@@ -324,14 +324,50 @@
             </section>
 
             <section id="arch-panel-target" class="architecture-panel" style="display: none;">
+                <div class="enterprise-readiness-gate">
+                    <div class="gate-header">
+                        <h2>Enterprise Readiness Gate</h2>
+                        <span class="gate-score-badge">100</span>
+                    </div>
+                    <div class="gate-stats-grid">
+                        <div style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: var(--radius-small, 8px); border: 1px solid var(--border);">
+                            <div class="gate-stat-label">Go</div>
+                            <div class="gate-stat-value">10</div>
+                        </div>
+                        <div style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: var(--radius-small, 8px); border: 1px solid var(--border);">
+                            <div class="gate-stat-label">Ready</div>
+                            <div class="gate-stat-value">10</div>
+                        </div>
+                        <div style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: var(--radius-small, 8px); border: 1px solid var(--border);">
+                            <div class="gate-stat-label">Review</div>
+                            <div class="gate-stat-value">10</div>
+                        </div>
+                        <div style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: var(--radius-small, 8px); border: 1px solid var(--border);">
+                            <div class="gate-stat-label">Endpoints</div>
+                            <div class="gate-stat-value">10</div>
+                        </div>
+                    </div>
+                    <ul>
+                        <li>| Proceed to conversion with endpoint contract tests and OpenAPI generation enabled.</li>
+                        <li>| Use source evidence and field trace panels during stakeholder review.</li>
+                    </ul>
+                </div>
+                <div class="architecture-summary" style="margin-bottom: 20px;">
+                    <h2 style="font-size: 20px; font-weight: 600; margin-bottom: 10px;">Proposed Endpoints</h2>
+                    <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5;">Proceed to conversion with endpoint contract tests and OpenAPI generation enabled.<br>Use source evidence and field trace panels during stakeholder review.</p>
+                </div>
                 <div class="architecture-target-grid">
-                    <section class="architecture-side-card">
-                        <h2>Projected API Surface</h2>
-                        <div id="architecture-target-endpoints" class="architecture-list"></div>
-                    </section>
-                    <section class="architecture-side-card">
-                        <h2>Target Folder Structure</h2>
-                        <div id="architecture-target-folders" class="architecture-folder-tree"></div>
+                    <div class="architecture-left-column">
+                        <section class="architecture-side-card">
+                            <h2>Projected API Surface</h2>
+                            <div id="architecture-target-endpoints" class="architecture-list"></div>
+                        </section>
+                    </div>
+                    <section class="architecture-side-card architecture-right-column">
+                        <h2>Endpoint Contract</h2>
+                        <div id="architecture-endpoint-contract">
+                            Click an endpoint to view its contract details.
+                        </div>
                     </section>
                 </div>
             </section>

@@ -1227,10 +1227,192 @@ function renderInsights(preview) {
     }).join('') : '<div class="architecture-list-row">No insights available.</div>';
 }
 
+function escapeHtml(str) {
+    return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
 function renderTargetPreview(preview) {
-    // Cleared — awaiting new proposed endpoint data.
-    document.getElementById('architecture-target-endpoints').innerHTML = '';
-    document.getElementById('architecture-target-folders').innerHTML = '';
+    const mockPreview = {
+        endpoints: [
+            {
+                method: 'POST',
+                status: 'READY 100',
+                path: '/api/cics/acct',
+                description: 'CICS | BMS screen payload | Program ACCTINQ | Transaction ACCT',
+                requestDto: 'AcctscrMapDto',
+                responseDto: 'AcctscrMapDto',
+                contract: {
+                    type: 'CICS',
+                    payloadContract: 'BMS screen payload mapped from the legacy entry point evidence.',
+                    requestFormat: {
+                        dto: 'AcctscrMapDto',
+                        submittedFields: ['ACCTNOI']
+                    },
+                    legacyEntry: {
+                        map: 'ACCTMAP',
+                        scr: 'ACCTSCR',
+                        receivesInput: 'ACCTSCR'
+                    },
+                    payloadPreview: {
+                        endpoint: "POST /api/cics/acct",
+                        legacyTransaction: "ACCT",
+                        cobolProgram: "ACCTINQ",
+                        payloadStyle: "BMS screen payload",
+                        actionSignal: "DFHENTER",
+                        branch: {
+                            condition: "EIBAID - DFHENTER",
+                            target: "inline logic"
+                        },
+                        request: {
+                            type: "AcctscrMapDto",
+                            bmsInputStructure: "ACCTSCR",
+                            fields: {
+                                ACCTNOI: "<entered value>"
+                            }
+                        },
+                        response: {
+                            type: "AcctscrMapDto",
+                            bmsOutputStructure: "ACCTSCRO",
+                            fields: {
+                                LITERL001: "<value>",
+                                LITERL002: "<value>",
+                                LITERL003: "<value>",
+                                LITERL004: "<value>"
+                            }
+                        }
+                    },
+                    fieldTrace: [
+                        { payload: 'REQUEST', endpointField: 'ACCTNOI', legacyContextField: 'ACCTNOI | record ACCTSCRi | PIC X (10)', match: 'bms_symbol_input', confidence: 'high' },
+                        { payload: 'RESPONSE', endpointField: 'LITERAL_001', legacyContextField: 'LITERAL-0010 | record ACCTSCRO | PIC X (30)', match: 'bms_symbol_output', confidence: 'high' },
+                        { payload: 'RESPONSE', endpointField: 'LITERAL_002', legacyContextField: 'LITERAL-0020 | record ACCTSCRO | PIC X (15)', match: 'bms_symbol_output', confidence: 'high' },
+                        { payload: 'RESPONSE', endpointField: 'LITERAL_004', legacyContextField: 'LITERAL-0040 | record ACCTSCRO | PIC X (15)', match: 'bms_symbol_output', confidence: 'high' }
+                    ]
+                }
+            },
+            {
+                method: 'POST',
+                status: 'READY 100',
+                path: '/api/acctinq/execute',
+                description: 'ONLINE | BMS screen payload | Program ACCTINQ',
+                support: 'Supporting program endpoint; primary route is /api/cics/acct',
+                requestDto: 'AcctscrMapDto',
+                responseDto: 'AcctscrMapDto'
+            },
+            {
+                method: 'POST',
+                status: 'READY 100',
+                path: '/api/acctinq/health',
+                description: 'ONLINE | BMS screen payload | Program ACCTINQ',
+                support: 'Supporting program endpoint; primary route is /api/cics/acct',
+                requestDto: 'AcctscrMapDto',
+                responseDto: 'AcctscrMapDto'
+            },
+            {
+                method: 'DOC',
+                status: 'READY 100',
+                path: 'Runner/component execution',
+                description: 'BATCH | Batch job contract | Program Test_200 | Job STUDENT-PROCESS - Documented only',
+                requestDto: '-',
+                responseDto: '-'
+            }
+        ],
+        folderStructure: {
+            root: 'project_converted',
+            modules: [] // Not detailed in the image, keeping it empty for now
+        }
+    };
+
+    const endpointsHtml = mockPreview.endpoints.map(ep => {
+        let supportHtml = ep.support ? `<div class="architecture-list-text" style="color: var(--accent-1);">${escapeHtml(ep.support)}</div>` : '';
+        const methodClass = ep.method === 'DOC' ? 'doc' : 'post';
+        return `
+            <div class="architecture-list-row">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                    <span class="architecture-pill ${methodClass}">${escapeHtml(ep.method)}</span>
+                    <span class="architecture-pill ready">${escapeHtml(ep.status)}</span>
+                </div>
+                <div class="architecture-list-title">${escapeHtml(ep.path)}</div>
+                <div class="architecture-list-text">${escapeHtml(ep.description)}</div>
+                ${supportHtml}
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px;">
+                    <div style="background: rgba(0,0,0,0.2); padding: 8px; border-radius: 4px; border: 1px solid var(--border);">
+                        <div style="color: var(--text-muted); font-size: 9px; text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px;">Request</div>
+                        <div style="font-size: 11px; font-weight: 500;">${escapeHtml(ep.requestDto)}</div>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.2); padding: 8px; border-radius: 4px; border: 1px solid var(--border);">
+                        <div style="color: var(--text-muted); font-size: 9px; text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px;">Response</div>
+                        <div style="font-size: 11px; font-weight: 500;">${escapeHtml(ep.responseDto)}</div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    document.getElementById('architecture-target-endpoints').innerHTML = endpointsHtml;
+
+    // The Target Folder Structure block has been removed, so this section is no longer needed.
+    // document.getElementById('architecture-target-folders').innerHTML = `
+    //     <ul>
+    //         <li><strong>${escapeHtml(mockPreview.folderStructure.root || 'project_converted')}</strong>
+    //             <ul>
+    //                 <li>(Folder structure details not available in image)</li>
+    //             </ul>
+    //         </li>
+    //     </ul>
+    // `;
+    
+    // Render the Endpoint Contract section on the right based on the first endpoint
+    const firstEndpointContract = mockPreview.endpoints[0].contract;
+    if (firstEndpointContract) {
+        document.getElementById('architecture-endpoint-contract').innerHTML = `
+            <div style="font-weight: 600;">${escapeHtml(firstEndpointContract.type)} | ${escapeHtml(mockPreview.endpoints[0].method)} ${escapeHtml(mockPreview.endpoints[0].path)}</div>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">${escapeHtml(firstEndpointContract.payloadContract)}</p>
+
+            <h3 style="margin-top: 20px;">Request Format</h3>
+            <div style="background: rgba(0,0,0,0.2); padding: 8px; border-radius: 4px; border: 1px solid var(--border);">
+                <div style="font-size: 11px; font-weight: 500;">${escapeHtml(firstEndpointContract.requestFormat.dto)}</div>
+                <div style="color: var(--text-muted); font-size: 9px; margin-top: 4px;">Submitted fields: ${escapeHtml(firstEndpointContract.requestFormat.submittedFields.join(', '))}</div>
+            </div>
+
+            <h3 style="margin-top: 20px;">Legacy Entry</h3>
+            <div style="background: rgba(0,0,0,0.2); padding: 8px; border-radius: 4px; border: 1px solid var(--border);">
+                <div style="font-size: 11px; font-weight: 500;">${escapeHtml(firstEndpointContract.legacyEntry.map)} / ${escapeHtml(firstEndpointContract.legacyEntry.scr)}</div>
+                <div style="color: var(--text-muted); font-size: 9px; margin-top: 4px;">Receives input via ${escapeHtml(firstEndpointContract.legacyEntry.receivesInput)}</div>
+            </div>
+
+            <h3 style="margin-top: 20px;">Request / response payload preview</h3>
+            <pre style="background: #1e1e1e; padding: 10px; border-radius: 4px; overflow-x: auto; color: #d4d4d4; font-size: 12px;"><code>${escapeHtml(JSON.stringify(firstEndpointContract.payloadPreview, null, 2))}</code></pre>
+
+            <h3 style="margin-top: 20px;">Payload field trace to COBOL/BMS context</h3>
+            <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                <thead>
+                    <tr style="background: rgba(0,0,0,0.2);">
+                        <th style="padding: 8px; border: 1px solid var(--border); text-align: left; font-size: 10px; text-transform: uppercase;">Payload</th>
+                        <th style="padding: 8px; border: 1px solid var(--border); text-align: left; font-size: 10px; text-transform: uppercase;">Endpoint Field</th>
+                        <th style="padding: 8px; border: 1px solid var(--border); text-align: left; font-size: 10px; text-transform: uppercase;">Legacy Context Field</th>
+                        <th style="padding: 8px; border: 1px solid var(--border); text-align: left; font-size: 10px; text-transform: uppercase;">Match</th>
+                        <th style="padding: 8px; border: 1px solid var(--border); text-align: left; font-size: 10px; text-transform: uppercase;">Confidence</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${firstEndpointContract.fieldTrace.map(row => `
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid var(--border); font-size: 12px;">${escapeHtml(row.payload)}</td>
+                            <td style="padding: 8px; border: 1px solid var(--border); font-size: 12px;">${escapeHtml(row.endpointField)}</td>
+                            <td style="padding: 8px; border: 1px solid var(--border); font-size: 12px;">${escapeHtml(row.legacyContextField)}</td>
+                            <td style="padding: 8px; border: 1px solid var(--border); font-size: 12px;">${escapeHtml(row.match)}</td>
+                            <td style="padding: 8px; border: 1px solid var(--border); font-size: 12px;">${escapeHtml(row.confidence)}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+    }
 }
 
 function renderRawJson() {

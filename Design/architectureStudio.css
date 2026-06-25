@@ -1257,650 +1257,177 @@ body::before {
 }
 
 .architecture-pill {
-    display: inline-block;
-    border-radius: 999px;
-    background: #dbeafe;
-    color: #1e40af;
-    font-size: 0.67rem;
-    font-weight: 900;
-    padding: 0.14rem 0.42rem;
-    margin-bottom: 0.35rem;
-}
-
-.architecture-table {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 0.75rem;
-    padding: 0.85rem;
-}
-
-.architecture-table-layer {
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    background: transparent;
-    padding: 0.75rem;
-}
-
-.architecture-table-layer-title {
-    color: var(--text-primary);
-    font-size: 0.75rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    margin-bottom: 0.6rem;
-}
-
-.architecture-table-node {
-    border: 1px solid var(--border);
-    border-left-width: 5px;
-    border-radius: 8px;
-    background: var(--panel-bg);
-    padding: 0.55rem;
-    margin-bottom: 0.5rem;
-}
-
-.architecture-table-node-head {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    margin-bottom: 0.25rem;
-}
-
-.architecture-table-icon {
     display: inline-flex;
-    width: 1.6rem;
-    height: 1.6rem;
     align-items: center;
     justify-content: center;
-    border-radius: 8px;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
 }
 
-.architecture-target-grid,
-.architecture-transform-grid,
-.architecture-bms-grid {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.85rem;
+.architecture-pill.post {
+    background: rgba(108, 92, 231, 0.15);
+    color: var(--accent-1);
 }
 
-.architecture-transform-grid,
-.architecture-bms-grid {
-    grid-template-columns: minmax(0, 1fr) 360px;
+.architecture-pill.doc {
+    background: rgba(0, 212, 255, 0.15);
+    color: var(--accent-2);
 }
 
-.architecture-transform-main,
-.architecture-bms-main {
-    min-width: 0;
+.architecture-pill.ready {
+    background: rgba(0, 255, 0, 0.1);
+    color: #0f0;
 }
 
-.architecture-transform-summary,
-.architecture-bms-summary {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-    gap: 0.65rem;
-    margin-bottom: 0.75rem;
+.architecture-list-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
 }
 
-.architecture-transform-stat {
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    background: var(--panel-bg);
-    padding: 0.65rem;
-}
-
-.architecture-transform-stat span {
-    display: block;
+.architecture-list-text {
+    font-size: 12px;
     color: var(--text-muted);
-    font-size: 0.68rem;
-    font-weight: 900;
-    text-transform: uppercase;
+    line-height: 1.4;
 }
 
-.architecture-transform-stat strong {
-    display: block;
-    color: var(--text-primary);
-    font-size: 1.08rem;
-    margin-top: 0.18rem;
-}
-
-.architecture-bms-selector {
-    display: flex;
-    gap: 0.45rem;
-    flex-wrap: wrap;
-    margin-bottom: 0.75rem;
-}
-
-.architecture-bms-map-btn {
+.architecture-side-card {
+    background: var(--panel-bg-light);
     border: 1px solid var(--border);
-    border-radius: 8px;
-    background: var(--panel-bg);
-    color: var(--text-primary);
-    padding: 0.45rem 0.65rem;
-    font-weight: 800;
-    cursor: pointer;
-}
-
-.architecture-bms-map-btn.active {
-    background: #831843;
-    border-color: #831843;
-    color: #ffffff;
-}
-
-.architecture-bms-screen {
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    background: #0f172a;
-    padding: 0.8rem;
-    overflow: auto;
-}
-
-.bms-terminal {
-    min-width: 980px;
-    color: #dbeafe;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-}
-
-.bms-terminal-head {
-    display: flex;
-    justify-content: space-between;
-    color: #93c5fd;
-    border-bottom: 1px solid rgba(147, 197, 253, 0.28);
-    padding-bottom: 0.45rem;
-    margin-bottom: 0.65rem;
-    font-size: 0.78rem;
-    font-weight: 900;
-    text-transform: uppercase;
-}
-
-.bms-terminal-grid {
-    display: grid;
-    grid-template-columns: repeat(80, 1ch);
-    grid-template-rows: repeat(var(--bms-row-count, 18), 1.45rem);
-    gap: 0;
-    min-height: 360px;
-    
-}
-
-.bms-field {
-    height: 1.22rem;
-    min-width: 0;
-    border: 1px solid rgba(147, 197, 253, 0.5);
-    border-radius: 3px;
-    background: rgba(30, 64, 175, 0.22);
-    color: #bfdbfe;
-    font: inherit;
-    font-size: 0.72rem;
-    line-height: 1;
-    text-align: left;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    cursor: pointer;
-}
-
-.bms-field.mapped {
-    border-color: rgba(45, 212, 191, 0.72);
-    color: #ccfbf1;
-    background: rgba(13, 148, 136, 0.28);
-}
-
-.bms-field.unmapped {
-    border-color: rgba(251, 191, 36, 0.58);
-    color: #fef3c7;
-    background: rgba(161, 98, 7, 0.22);
-}
-
-.bms-field.selected {
-    outline: 2px solid #f9a8d4;
-    outline-offset: 1px;
-}
-
-.architecture-transform-filter {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.45rem;
-    margin-bottom: 0.75rem;
-}
-
-.transform-filter {
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    background: var(--panel-bg);
-    color: var(--text-primary);
-    cursor: pointer;
-    font-size: 0.76rem;
-    font-weight: 900;
-    padding: 0.38rem 0.58rem;
-}
-
-.transform-filter.active {
-    background: linear-gradient(145deg, rgba(108,92,231,0.3), rgba(0,212,255,0.2));
-    border-color: var(--accent-1);
-    color: #ffffff;
-}
-
-.architecture-transform-lanes {
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
+    height: fit-content; /* Ensure card wraps its content */
 }
 
-.architecture-transform-lane {
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    background: var(--panel-bg);
-    padding: 0.75rem;
-}
-
-.architecture-transform-lane-title {
+.architecture-side-card h2 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 15px;
     color: var(--text-primary);
-    font-size: 0.76rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    margin-bottom: 0.65rem;
 }
 
-.architecture-transform-card {
-    position: relative;
-    display: grid;
-    grid-template-columns: minmax(190px, 0.95fr) minmax(150px, 0.7fr) minmax(220px, 1.1fr);
-    align-items: stretch;
-    gap: 0.7rem;
+.architecture-side-card h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 15px;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+}
+
+.architecture-side-card table {
     width: 100%;
+    border-collapse: collapse;
+}
+
+.architecture-side-card th,
+.architecture-side-card td {
+    padding: 8px;
     border: 1px solid var(--border);
-    border-left-width: 5px;
-    border-radius: 8px;
-    background: transparent;
-    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
-    margin-bottom: 0.58rem;
-    padding: 0.65rem;
     text-align: left;
-    cursor: pointer;
-    font: inherit;
-}
-
-.architecture-transform-card:hover,
-.architecture-transform-card:focus-visible,
-.architecture-transform-card.selected {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.13), 0 12px 28px rgba(15, 23, 42, 0.12);
-}
-
-.architecture-transform-side {
-    display: grid;
-    grid-template-columns: 34px minmax(0, 1fr);
-    align-items: center;
-    gap: 0.55rem;
-    min-width: 0;
-}
-
-.architecture-transform-side strong {
-    display: block;
-    color: var(--text-primary);
-    font-size: 0.82rem;
-    line-height: 1.25;
-    overflow-wrap: anywhere;
-}
-
-.architecture-transform-side small {
-    display: block;
+    font-size: 12px;
     color: var(--text-muted);
-    font-size: 0.72rem;
-    line-height: 1.25;
-    margin-top: 0.12rem;
-    overflow-wrap: anywhere;
 }
 
-.architecture-transform-eyebrow {
-    display: block;
-    color: var(--text-muted);
-    font-size: 0.62rem;
-    font-weight: 900;
+.architecture-side-card th {
+    background-color: rgba(255,255,255,0.05);
+    font-weight: 700;
     text-transform: uppercase;
+    font-size: 10px;
 }
 
-.architecture-transform-arrow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.architecture-side-card pre {
+    background: #1e1e1e;
+    padding: 10px;
+    border-radius: var(--radius-small, 8px);
+    overflow-x: auto;
+    color: #d4d4d4;
+    font-size: 12px;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+/* Adjustments for the main architecture-page container if needed */
+.architecture-page {
+    padding: 0px 0px 0px 0px !important; /* Remove padding from main container if wrapper adds it */
+}
+
+.architecture-panel {
+    padding: 20px 48px;
+    box-sizing: border-box;
+}
+
+.architecture-summary {
+    padding: 0 48px;
+    margin-bottom: 20px; /* Ensure space below the summary */
+}
+
+.enterprise-readiness-gate {
+    background: var(--panel-bg-light);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.enterprise-readiness-gate h2 {
+    font-size: 16px;
+    font-weight: 700;
     color: var(--text-primary);
-    font-size: 0.73rem;
-    font-weight: 900;
-    line-height: 1.25;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+
+.enterprise-readiness-gate .gate-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.enterprise-readiness-gate .gate-score-badge {
+    background: #0f0;
+    color: var(--bg);
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.enterprise-readiness-gate .gate-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
     text-align: center;
 }
 
-.architecture-transform-arrow::before,
-.architecture-transform-arrow::after {
-    content: "";
-    flex: 1;
-    min-width: 18px;
-    border-top: 2px dashed #94a3b8;
-}
-
-.architecture-transform-arrow span {
-    padding: 0 0.45rem;
-}
-
-.architecture-status-pill {
-    position: absolute;
-    top: 0.45rem;
-    right: 0.45rem;
-    border-radius: 999px;
-    font-size: 0.62rem;
-    font-weight: 900;
-    padding: 0.14rem 0.42rem;
-}
-
-.status-mapped {
-    border-left-color: #16a34a;
-}
-.architecture-status-pill.status-mapped {
-    background: #dcfce7;
-    color: #166534;
-}
-.status-partial {
-    border-left-color: #d97706;
-}
-.architecture-status-pill.status-partial {
-    background: #fef3c7;
-    color: #92400e;
-}
-.status-unmapped {
-    border-left-color: #dc2626;
-}
-.architecture-status-pill.status-unmapped {
-    background: #fee2e2;
-    color: var(--danger);
-}
-.status-generated-new {
-    border-left-color: var(--accent-2);
-}
-.architecture-status-pill.status-generated-new {
-    background: #dbeafe;
-    color: #1e40af;
-}
-
-.severity-high {
-    border-color: #fecaca;
-    background: rgba(255, 77, 79, 0.1);
-}
-
-.severity-medium {
-    border-color: #fde68a;
-    background: #fffbeb;
-}
-
-.architecture-folder-tree {
-    max-height: 620px;
-    overflow: auto;
-    color: var(--text-primary);
-    font-size: 0.82rem;
-}
-
-.architecture-folder-tree ul {
-    list-style: none;
-    margin: 0;
-    padding-left: 1rem;
-}
-
-.architecture-folder-tree li {
-    margin: 0.25rem 0;
-}
-
-.architecture-json-grid pre {
-    max-height: 70vh;
-    overflow: auto;
-    margin: 0;
-    background: #0f172a;
-    color: #e2e8f0;
-    border-radius: 8px;
-    padding: 0.85rem;
-    font-size: 0.78rem;
-}
-
-.kind-jcl {
-    border-left-color: var(--accent-2);
-}
-.kind-jcl .architecture-node-icon,
-.kind-jcl .architecture-table-icon,
-.kind-jcl .architecture-legend-dot {
-    color: #1d4ed8;
-    background: #dbeafe;
-}
-.kind-program {
-    border-left-color: #16a34a;
-}
-.kind-program .architecture-node-icon,
-.kind-program .architecture-table-icon,
-.kind-program .architecture-legend-dot {
-    color: #15803d;
-    background: #dcfce7;
-}
-.kind-copybook {
-    border-left-color: #d97706;
-}
-.kind-copybook .architecture-node-icon,
-.kind-copybook .architecture-table-icon,
-.kind-copybook .architecture-legend-dot {
-    color: #b45309;
-    background: #fef3c7;
-}
-.kind-database {
-    border-left-color: #7c3aed;
-}
-.kind-database .architecture-node-icon,
-.kind-database .architecture-table-icon,
-.kind-database .architecture-legend-dot {
-    color: #6d28d9;
-    background: #ede9fe;
-}
-.kind-cics {
-    border-left-color: #0891b2;
-}
-.kind-cics .architecture-node-icon,
-.kind-cics .architecture-table-icon,
-.kind-cics .architecture-legend-dot {
-    color: #0e7490;
-    background: #cffafe;
-}
-.kind-unbound {
-    border-left-color: #ca8a04;
-}
-.kind-unbound .architecture-node-icon,
-.kind-unbound .architecture-table-icon,
-.kind-unbound .architecture-legend-dot {
-    color: #a16207;
-    background: #fef9c3;
-}
-.kind-bms {
-    border-left-color: #db2777;
-}
-.kind-bms .architecture-node-icon,
-.kind-bms .architecture-table-icon,
-.kind-bms .architecture-legend-dot {
-    color: #be185d;
-    background: #fce7f3;
-}
-.kind-file {
-    border-left-color: #0d9488;
-}
-.kind-file .architecture-node-icon,
-.kind-file .architecture-table-icon,
-.kind-file .architecture-legend-dot {
-    color: #0f766e;
-    background: #ccfbf1;
-}
-.kind-external {
-    border-left-color: var(--text-muted);
-}
-.kind-external .architecture-node-icon,
-.kind-external .architecture-table-icon,
-.kind-external .architecture-legend-dot {
+.enterprise-readiness-gate .gate-stat-label {
+    font-size: 11px;
     color: var(--text-muted);
-    background: #e2e8f0;
+    text-transform: uppercase;
+    margin-bottom: 5px;
 }
-.kind-spring {
-    border-left-color: #16a34a;
-}
-.kind-spring .architecture-node-icon,
-.kind-spring .architecture-table-icon,
-.kind-spring .architecture-legend-dot {
-    color: #15803d;
-    background: #dcfce7;
-}
-.kind-maven,
-.kind-module {
-    border-left-color: #ea580c;
-}
-.kind-maven .architecture-node-icon,
-.kind-maven .architecture-table-icon,
-.kind-maven .architecture-legend-dot,
-.kind-module .architecture-node-icon,
-.kind-module .architecture-table-icon,
-.kind-module .architecture-legend-dot {
-    color: #c2410c;
-    background: #ffedd5;
-}
-.kind-controller {
-    border-left-color: var(--accent-2);
-}
-.kind-controller .architecture-node-icon,
-.kind-controller .architecture-table-icon,
-.kind-controller .architecture-legend-dot {
-    color: #1d4ed8;
-    background: #dbeafe;
-}
-.kind-runner {
-    border-left-color: #0891b2;
-}
-.kind-runner .architecture-node-icon,
-.kind-runner .architecture-table-icon,
-.kind-runner .architecture-legend-dot {
-    color: #0e7490;
-    background: #cffafe;
-}
-.kind-service {
-    border-left-color: #9333ea;
-}
-.kind-service .architecture-node-icon,
-.kind-service .architecture-table-icon,
-.kind-service .architecture-legend-dot {
-    color: #7e22ce;
-    background: #f3e8ff;
-}
-.kind-context,
-.kind-dto,
-.kind-entity {
-    border-left-color: #0d9488;
-}
-.kind-context .architecture-node-icon,
-.kind-context .architecture-table-icon,
-.kind-context .architecture-legend-dot,
-.kind-dto .architecture-node-icon,
-.kind-dto .architecture-table-icon,
-.kind-dto .architecture-legend-dot,
-.kind-entity .architecture-node-icon,
-.kind-entity .architecture-table-icon,
-.kind-entity .architecture-legend-dot {
-    color: #0f766e;
-    background: #ccfbf1;
-}
-.kind-repository {
-    border-left-color: var(--text-muted);
-}
-.kind-repository .architecture-node-icon,
-.kind-repository .architecture-table-icon,
-.kind-repository .architecture-legend-dot {
+
+.enterprise-readiness-gate .gate-stat-value {
+    font-size: 18px;
+    font-weight: 600;
     color: var(--text-primary);
-    background: #e2e8f0;
-}
-.kind-config {
-    border-left-color: #be123c;
-}
-.kind-config .architecture-node-icon,
-.kind-config .architecture-table-icon,
-.kind-config .architecture-legend-dot {
-    color: #be123c;
-    background: #ffe4e6;
 }
 
-@media (max-width: 1100px) {
-    .architecture-panel,
-    .architecture-target-grid,
-    .architecture-json-grid,
-    .architecture-transform-grid,
-    .architecture-bms-grid {
-        grid-template-columns: 1fr;
-    }
-    .architecture-list {
-        max-height: 280px;
-    }
+.enterprise-readiness-gate ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 20px;
+    font-size: 12px;
+    color: var(--text-muted);
 }
 
-@media (max-width: 920px) {
-    .architecture-transform-card {
-        grid-template-columns: 1fr;
-    }
-    .architecture-transform-arrow {
-        justify-content: flex-start;
-        text-align: left;
-    }
-}
-
-@media (max-width: 720px) {
-    .architecture-page {
-        padding: 1rem;
-    }
-    .architecture-header {
-        flex-direction: column;
-    }
-    .architecture-diagram-scroll {
-        min-height: 460px;
-    }
-}
-
-
-/* Added hover states */
-.arch-primary-btn:hover,
-.arch-secondary-btn:hover,
-.arch-icon-btn:hover,
-.architecture-tab:hover,
-.architecture-view-btn:hover {
-    background: linear-gradient(145deg, rgba(108,92,231,0.22), rgba(0,212,255,0.12));
-    border-color: var(--accent-2);
-}
-
-/* Engine Box Styling */
-.architecture-engine-box {
-    background: var(--panel-bg);
-    border-radius: 12px;
-    padding: 22px;
-    border: 1px solid var(--border);
-    border-top: 2px solid #6c5ce7;
-    box-shadow: 0 0 60px rgba(0, 0, 0, 0.25);
-    display: flex;
-    flex-direction: column;
-    
-    
-    
-    flex-shrink: 0;
-}
-
-
-.architecture-side-card:last-child {
-    flex: 1;
-}
-
-.architecture-json-grid section {
-    padding: 1.25rem;
-}
-
-.architecture-json-grid {
-    grid-column: 1 / -1;
-    display: flex;
-    flex-direction: column;
-    gap: 0.85rem;
+.enterprise-readiness-gate ul li {
+    margin-bottom: 5px;
 }
