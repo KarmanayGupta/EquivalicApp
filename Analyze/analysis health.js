@@ -87,16 +87,19 @@ function activateAnalysisHealthMode() {
       const leftHTML = `
       <style>
       .health-sidebar {
-        display: flex; flex-direction: column; gap: 4px;
+        display: flex; flex-direction: column; gap: 2px;
       }
       .health-sidebar .tab {
-        text-align: left; padding: 14px 16px 14px 13px; border-left: 3px solid transparent; border-radius: 10px; background: transparent; color: var(--text-muted); cursor: pointer; transition: all 0.2s ease; font-family: "Inter", sans-serif; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; border-top: none; border-right: none; border-bottom: none;
+        text-align: left; padding: 14px 16px 14px 13px; border-left: 3px solid transparent; border-radius: 0; background: transparent; color: var(--text-muted); cursor: pointer; transition: all 0.2s ease; font-family: "Inter", sans-serif; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; border-top: none; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.04);
+      }
+      .health-sidebar .tab:last-child {
+        border-bottom: none;
       }
       .health-sidebar .tab:hover {
-        background: rgba(255,255,255,0.05); color: var(--text-primary); border-left-color: var(--accent-1); transform: translateX(4px);
+        background: rgba(255,255,255,0.03); color: var(--text-primary); border-left-color: var(--accent-1); transform: translateX(4px);
       }
       .health-sidebar .tab.active {
-        background: linear-gradient(90deg, rgba(108,92,231,0.18), transparent);
+        background: linear-gradient(90deg, rgba(108,92,231,0.12), transparent);
         color: var(--accent-2);
         border-left-color: var(--accent-1);
       }

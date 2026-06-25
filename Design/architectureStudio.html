@@ -66,6 +66,7 @@
                 <button type="button" id="arch-tab-diagram" class="architecture-tab active" onclick="switchArchitecturePageTab('diagram')">Diagram View</button>
                 <button type="button" id="arch-tab-table" class="architecture-tab" onclick="switchArchitecturePageTab('table')">Table View</button>
                 <button type="button" id="arch-tab-bms" class="architecture-tab" onclick="switchArchitecturePageTab('bms')">BMS Screens</button>
+                <button type="button" id="arch-tab-legacy" class="architecture-tab" onclick="switchArchitecturePageTab('legacy')">Legacy Entry Points</button>
                 <button type="button" id="arch-tab-target" class="architecture-tab" onclick="switchArchitecturePageTab('target')">Target Java Preview</button>
                 <button type="button" id="arch-tab-transform" class="architecture-tab" onclick="switchArchitecturePageTab('transform')">Map View</button>
                 <button type="button" id="arch-tab-json" class="architecture-tab" onclick="switchArchitecturePageTab('json')">Raw JSON</button>
@@ -127,8 +128,196 @@
                             </div>
                         </section>
                         <section class="architecture-side-card">
+                            <h2>Interaction Flow</h2>
+                            <div id="architecture-bms-interaction-flow" class="architecture-node-detail">
+                                Click Enter or a PF key in the screen preview to inspect the inferred flow.
+                            </div>
+                        </section>
+                        <section class="architecture-side-card">
                             <h2>CICS Usage</h2>
                             <div id="architecture-bms-linkage" class="architecture-list"></div>
+                        </section>
+                    </aside>
+                </div>
+            </section>
+
+            <section id="arch-panel-legacy" class="architecture-panel" style="display: none;">
+                <div class="architecture-bms-grid">
+                    <section class="architecture-side-card">
+                        <h2>Legacy Entry Points</h2>
+                        
+                        <div class="architecture-list" style="max-height: none; overflow: visible;">
+                            <div class="architecture-list-row" id="legacy-item-EXECUTE" onclick="renderLegacyDetail('EXECUTE')" style="border-left: 4px solid var(--accent-1); margin-bottom: 8px; cursor: pointer;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                    <span class="architecture-pill" style="background: rgba(255,255,255,0.1); padding: 4px 8px; font-size: 11px; font-weight: 600; color: var(--accent-1);">Batch Job</span>
+                                    <span style="font-size: 11px; color: var(--text-muted);">source</span>
+                                </div>
+                                <div class="architecture-list-title" style="font-size: 13px; margin-bottom: 4px;">EXECUTE</div>
+                                <div class="architecture-list-text" style="font-size: 12px; margin-bottom: 12px; margin-top: 0;">Job: EXECUTE</div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                                    <div style="background: rgba(0,0,0,0.2); padding: 8px; border-radius: 4px; border: 1px solid var(--border);">
+                                        <div style="color: var(--text-muted); font-size: 9px; text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px;">Legacy Request</div>
+                                        <div style="font-size: 11px; font-weight: 500;">JCL datasets / parameters</div>
+                                    </div>
+                                    <div style="background: rgba(0,0,0,0.2); padding: 8px; border-radius: 4px; border: 1px solid var(--border);">
+                                        <div style="color: var(--text-muted); font-size: 9px; text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px;">Legacy Response</div>
+                                        <div style="font-size: 11px; font-weight: 500;">Batch datasets / reports</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="architecture-list-row" id="legacy-item-ORDINV" onclick="renderLegacyDetail('ORDINV')" style="border-left: 4px solid var(--accent-1); margin-bottom: 8px; cursor: pointer;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                    <span class="architecture-pill" style="background: rgba(255,255,255,0.1); padding: 4px 8px; font-size: 11px; font-weight: 600; color: var(--accent-1);">Batch Job</span>
+                                    <span style="font-size: 11px; color: var(--text-muted);">high</span>
+                                </div>
+                                <div class="architecture-list-title" style="font-size: 13px; margin-bottom: 4px;">ORDINV</div>
+                                <div class="architecture-list-text" style="font-size: 12px; margin-bottom: 12px; margin-top: 0;">Program: ORDINV</div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                                    <div style="background: rgba(0,0,0,0.2); padding: 8px; border-radius: 4px; border: 1px solid var(--border);">
+                                        <div style="color: var(--text-muted); font-size: 9px; text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px;">Legacy Request</div>
+                                        <div style="font-size: 11px; font-weight: 500;">JCL datasets / parameters</div>
+                                    </div>
+                                    <div style="background: rgba(0,0,0,0.2); padding: 8px; border-radius: 4px; border: 1px solid var(--border);">
+                                        <div style="color: var(--text-muted); font-size: 9px; text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px;">Legacy Response</div>
+                                        <div style="font-size: 11px; font-weight: 500;">Batch datasets / reports</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="architecture-list-row" id="legacy-item-ORDVAL" onclick="renderLegacyDetail('ORDVAL')" style="border-left: 4px solid var(--accent-1); cursor: pointer;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                    <span class="architecture-pill" style="background: rgba(255,255,255,0.1); padding: 4px 8px; font-size: 11px; font-weight: 600; color: var(--accent-1);">Batch Job</span>
+                                    <span style="font-size: 11px; color: var(--text-muted);">high</span>
+                                </div>
+                                <div class="architecture-list-title" style="font-size: 13px; margin-bottom: 4px;">ORDVAL</div>
+                                <div class="architecture-list-text" style="font-size: 12px; margin-bottom: 12px; margin-top: 0;">Program: ORDVAL</div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                                    <div style="background: rgba(0,0,0,0.2); padding: 8px; border-radius: 4px; border: 1px solid var(--border);">
+                                        <div style="color: var(--text-muted); font-size: 9px; text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px;">Legacy Request</div>
+                                        <div style="font-size: 11px; font-weight: 500;">JCL datasets / parameters</div>
+                                    </div>
+                                    <div style="background: rgba(0,0,0,0.2); padding: 8px; border-radius: 4px; border: 1px solid var(--border);">
+                                        <div style="color: var(--text-muted); font-size: 9px; text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px;">Legacy Response</div>
+                                        <div style="font-size: 11px; font-weight: 500;">Batch datasets / reports</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+                    <aside class="architecture-side-panel">
+                        <section class="architecture-side-card">
+                            <h2>Modernization Mapping</h2>
+                            
+                            <div style="border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 16px;">
+                                <div style="padding: 12px; background: rgba(0,0,0,0.2); border-bottom: 1px solid var(--border); border-left: 4px solid var(--accent-2);">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                        <span class="architecture-pill" style="background: rgba(255,255,255,0.05); padding: 2px 6px; font-size: 10px; font-weight: 600; color: var(--accent-1);">Batch Job</span>
+                                    </div>
+                                    <div id="legacy-detail-title" style="font-weight: 600; font-size: 12px;">EXECUTE</div>
+                                </div>
+                                
+                                <div style="padding: 12px;">
+                                    <div style="font-size: 12px; font-weight: 600; margin-bottom: 4px;">Legacy contract and operation flow</div>
+                                    <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">Shows what the existing COBOL entry receives, how it routes, and what response comes back before mapping it to Java.</div>
+                                    
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
+                                        <div style="background: rgba(0,0,0,0.2); padding: 8px; border-radius: 4px; border: 1px solid var(--border);">
+                                            <div style="color: var(--text-muted); font-size: 9px; text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px;">Existing Source Entry</div>
+                                            <div id="legacy-detail-source-entry" style="font-size: 11px; font-weight: 500; margin-bottom: 2px;">Batch Job</div>
+                                            <div style="font-size: 10px; color: var(--text-muted);">Scheduled or submitted batch execution.</div>
+                                        </div>
+                                        <div style="background: rgba(0,0,0,0.2); padding: 8px; border-radius: 4px; border: 1px solid var(--border);">
+                                            <div style="color: var(--text-muted); font-size: 9px; text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px;">Legacy Request Payload</div>
+                                            <div style="font-size: 11px; font-weight: 500; margin-bottom: 2px;">JCL datasets / parameters</div>
+                                            <div style="font-size: 10px; color: var(--text-muted);">JCL datasets / parameters</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px;">
+                                        <div style="background: rgba(0,0,0,0.2); padding: 8px; border-radius: 4px; border: 1px solid var(--border);">
+                                            <div style="color: var(--text-muted); font-size: 9px; text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px;">Legacy Response Payload</div>
+                                            <div style="font-size: 11px; font-weight: 500; margin-bottom: 2px;">Batch datasets / reports</div>
+                                            <div style="font-size: 10px; color: var(--text-muted);">Batch datasets / reports</div>
+                                        </div>
+                                        <div style="background: rgba(0,0,0,0.2); padding: 8px; border-radius: 4px; border: 1px solid var(--border);">
+                                            <div style="color: var(--text-muted); font-size: 9px; text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px;">Data/Resources</div>
+                                            <div id="legacy-detail-data-resources" style="font-size: 11px; font-weight: 500; margin-bottom: 2px;">No DB2/VSAM resource linked</div>
+                                            <div style="font-size: 10px; color: var(--text-muted);">Resolved from COBOL and linked service relationships.</div>
+                                        </div>
+                                    </div>
+
+                                    <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;">
+                                        <div style="display: flex; align-items: center; gap: 12px; font-size: 11px; border: 1px solid var(--border); background: rgba(0,0,0,0.1); padding: 8px; border-radius: 4px;">
+                                            <div style="width: 20px; height: 20px; border-radius: 50%; background: var(--accent-1); color: white; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; flex-shrink: 0;">1</div>
+                                            <span id="legacy-detail-step-1">Batch Job EXECUTE</span>
+                                        </div>
+                                        <div style="display: flex; align-items: center; gap: 12px; font-size: 11px; border: 1px solid var(--border); background: rgba(0,0,0,0.1); padding: 8px; border-radius: 4px;">
+                                            <div style="width: 20px; height: 20px; border-radius: 50%; background: var(--accent-1); color: white; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; flex-shrink: 0;">2</div>
+                                            <span>No BMS screen was linked to this entry point</span>
+                                        </div>
+                                        <div style="display: flex; align-items: center; gap: 12px; font-size: 11px; border: 1px solid var(--border); background: rgba(0,0,0,0.1); padding: 8px; border-radius: 4px;">
+                                            <div style="width: 20px; height: 20px; border-radius: 50%; background: var(--accent-1); color: white; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; flex-shrink: 0;">3</div>
+                                            <span>Action branch is inferred from the entry point</span>
+                                        </div>
+                                        <div style="display: flex; align-items: center; gap: 12px; font-size: 11px; border: 1px solid var(--border); background: rgba(0,0,0,0.1); padding: 8px; border-radius: 4px;">
+                                            <div style="width: 20px; height: 20px; border-radius: 50%; background: var(--accent-1); color: white; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; flex-shrink: 0;">4</div>
+                                            <span id="legacy-detail-step-4">No DB2/VSAM resource was linked</span>
+                                        </div>
+                                        <div style="display: flex; align-items: center; gap: 12px; font-size: 11px; border: 1px solid var(--border); background: rgba(0,0,0,0.1); padding: 8px; border-radius: 4px;">
+                                            <div style="width: 20px; height: 20px; border-radius: 50%; background: var(--accent-1); color: white; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; flex-shrink: 0;">5</div>
+                                            <span>Response shape is represented by the program context</span>
+                                        </div>
+                                    </div>
+
+                                    <div style="background: rgba(0,0,0,0.1); border: 1px solid var(--border); border-radius: 4px; overflow: hidden;">
+                                        <div style="background: rgba(0,0,0,0.2); padding: 6px 12px; font-size: 10px; font-weight: 600; border-bottom: 1px solid var(--border);">▼ Legacy payload / Java proposal preview</div>
+                                        <pre id="legacy-detail-json" style="margin: 0; padding: 12px; font-size: 10px; color: var(--accent-3); background: #1a1a2e; overflow-x: auto;">{
+  "endpoint": "undefined undefined",
+  "legacyTransaction": null,
+  "cobolProgram": null,
+  "payloadStyle": "Program execution payload",
+  "actionSignal": "HTTP request / inferred action",
+  "branch": null,
+  "request": {
+    "type": null,
+    "bmsInputStructure": null,
+    "fields": {}
+  },
+  "response": {
+    "type": null,
+    "bmsOutputStructure": null
+  }</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-bottom: 16px;">
+                                <div style="font-size: 10px; font-weight: 600; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; letter-spacing: 0.5px;">Action Routes</div>
+                                <div style="font-size: 11px; color: var(--text-primary);">No EIBAID action routes captured.</div>
+                            </div>
+
+                            <div style="margin-bottom: 16px;">
+                                <div style="font-size: 10px; font-weight: 600; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; letter-spacing: 0.5px;">Legacy Operations</div>
+                                <div style="font-size: 11px; color: var(--text-muted); border: 1px solid var(--border); padding: 12px; border-radius: 4px; background: rgba(0,0,0,0.2);">No SEND/RECEIVE operations captured for this entry point.</div>
+                            </div>
+
+                            <div style="margin-bottom: 16px;">
+                                <div style="font-size: 10px; font-weight: 600; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; letter-spacing: 0.5px;">Proposed Java Endpoint</div>
+                                <div style="font-size: 11px; color: var(--text-primary);">No direct REST endpoint projected</div>
+                            </div>
+
+                            <div style="margin-bottom: 16px;">
+                                <div style="font-size: 10px; font-weight: 600; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; letter-spacing: 0.5px;">Java Request / Response</div>
+                                <div style="font-size: 11px; color: var(--text-primary);">- -> -</div>
+                            </div>
+
+                            <div>
+                                <div style="font-size: 10px; font-weight: 600; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; letter-spacing: 0.5px;">Evidence</div>
+                                <div style="font-size: 11px; color: var(--text-primary);">analysis/project_dependency_graph.json: nodes</div>
+                            </div>
+
                         </section>
                     </aside>
                 </div>
