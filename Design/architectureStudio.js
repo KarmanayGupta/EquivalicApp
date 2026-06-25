@@ -782,12 +782,45 @@ function renderBmsScreens() {
     if (!summaryEl || !selectorEl || !screenEl || !linkageEl) return;
 
     if (!maps.length) {
-        summaryEl.innerHTML = '<div class="architecture-list-row">No BMS maps were found for this analysis.</div>';
-        selectorEl.innerHTML = '';
-        screenEl.innerHTML = '';
-        linkageEl.innerHTML = '<div class="architecture-list-row">No CICS screen usage captured.</div>';
-        renderBmsFieldDetail(null);
-        return;
+        bmsScreenPreview = {
+            mapsets: [
+                {
+                    mapset: "ACCTMAP",
+                    maps: [
+                        {
+                            name: "ACCTSCR",
+                            programs: ["ORDINV"],
+                            fields: [
+                                { name: "ACCOUNT INQUIRY SYSTEM", row: 2, col: 20 },
+                                { name: "ACCOUNT NUMBER:", row: 4, col: 2 },
+                                { name: "ACCTNOI", row: 4, col: 20, match_confidence: 1, length: 8 },
+                                { name: "LITE...", row: 4, col: 30 },
+                                { name: "ACCOUNT NAME :", row: 6, col: 2 },
+                                { name: "ACCTNAMEO", row: 6, col: 20, length: 20 },
+                                { name: "ACCOUNT TYPE :", row: 8, col: 2 },
+                                { name: "ACCTTYPEO", row: 8, col: 20, length: 15 },
+                                { name: "BALANCE :", row: 10, col: 2 },
+                                { name: "BALANCEO", row: 10, col: 20, length: 15 },
+                                { name: "STATUS :", row: 12, col: 2 },
+                                { name: "STATUSO", row: 12, col: 20, length: 10 },
+                                { name: "ERRMSGO", row: 16, col: 2, length: 20 },
+                                { name: "ENTER=PROCESS CLEAR=EXIT PF3=EXIT", row: 18, col: 2 }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            linkage: {
+                "ACCTMAP": {
+                    "ACCTSCR": {
+                        operations: [
+                            { program: "ORDINV", operation: "SEND MAP" }
+                        ]
+                    }
+                }
+            }
+        };
+        maps = bmsMaps();
     }
 
     if (!selectedBmsMapKey || !maps.some(function(item) { return item.key === selectedBmsMapKey; })) {
@@ -824,9 +857,14 @@ function renderBmsScreens() {
     });
     var maxRow = Math.max(12, fieldRows.reduce(function(max, item) { return Math.max(max, item.row + 1); }, 0));
     screenEl.innerHTML =
-        '<div class="bms-terminal">' +
-        '<div class="bms-terminal-head"><span>' + escapeHtml(mapsetName + ' / ' + mapName) + '</span><span>3270 Preview</span></div>' +
-        '<div class="bms-terminal-grid" style="--bms-row-count:' + maxRow + '">' +
+        '<div style="font-size: 10px; margin-bottom: 8px; display: flex; gap: 12px; color: #cbd5e1; font-family: sans-serif;">' +
+        '<span style="display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;background:#2ecc71;border-radius:2px;"></span>Filled screen data</span>' +
+        '<span style="display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;background:#3b82f6;border-radius:2px;"></span>Labels / response fields</span>' +
+        '<span style="display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;background:#8b5cf6;border-radius:2px;"></span>Action keys sent as EIBAID</span>' +
+        '</div>' +
+        '<div class="bms-terminal" style="display:flex;flex-direction:column;min-height:400px;">' +
+        '<div class="bms-terminal-head"><span>' + escapeHtml(mapsetName + ' / ' + mapName) + '</span><span>3270 PREVIEW</span></div>' +
+        '<div class="bms-terminal-grid" style="--bms-row-count:' + maxRow + '; flex: 1;">' +
         fieldRows.map(function(item) {
             var field = item.field;
             var fieldKey = selectedBmsMapKey + '::' + item.index;
@@ -835,7 +873,26 @@ function renderBmsScreens() {
             var matched = Number(field.match_confidence || 0) > 0;
             return '<button type="button" class="bms-field ' + (matched ? 'mapped' : 'unmapped') + (selectedBmsFieldKey === fieldKey ? ' selected' : '') + '" data-bms-field-key="' + escapeHtml(fieldKey) + '" style="grid-row:' + item.row + ';grid-column:' + item.col + ' / span ' + width + '" title="' + escapeHtml(label) + '">' + escapeHtml(label) + '</button>';
         }).join('') +
-        '</div></div>';
+        '</div>' +
+        '<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-top: auto; padding-top: 16px;">' +
+        '<div style="background: rgba(46, 204, 113, 0.15); border: 1px solid #2ecc71; padding: 8px 12px; border-radius: 4px; color: #fff;">' +
+        '<div style="font-size: 12px; font-weight: 700; margin-bottom: 4px; font-family: sans-serif;">Enter</div>' +
+        '<div style="font-size: 10px; color: #94a3b8; font-family: sans-serif;">submit screen</div>' +
+        '</div>' +
+        '<div style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); padding: 8px 12px; border-radius: 4px; color: #fff;">' +
+        '<div style="font-size: 12px; font-weight: 700; margin-bottom: 4px; font-family: sans-serif;">PF3</div>' +
+        '<div style="font-size: 10px; color: #94a3b8; font-family: sans-serif;">exit/back</div>' +
+        '</div>' +
+        '<div style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); padding: 8px 12px; border-radius: 4px; color: #fff;">' +
+        '<div style="font-size: 12px; font-weight: 700; margin-bottom: 4px; font-family: sans-serif;">PF5</div>' +
+        '<div style="font-size: 10px; color: #94a3b8; font-family: sans-serif;">clear/refresh</div>' +
+        '</div>' +
+        '<div style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); padding: 8px 12px; border-radius: 4px; color: #fff;">' +
+        '<div style="font-size: 12px; font-weight: 700; margin-bottom: 4px; font-family: sans-serif;">PF12</div>' +
+        '<div style="font-size: 10px; color: #94a3b8; font-family: sans-serif;">cancel</div>' +
+        '</div>' +
+        '</div>' +
+        '</div>';
 
     linkageEl.innerHTML = linkage.length ? linkage.map(function(op) {
         return '<div class="architecture-list-row">' +
@@ -1260,17 +1317,17 @@ function fitArchitectureToView() {
 function allowedArchitectureTabs() {
     if (activeArchitectureView === 'transform') return ['transform', 'json'];
     if (activeArchitectureView === 'java') return ['diagram', 'table', 'target', 'json'];
-    return ['diagram', 'table', 'bms', 'json'];
+    return ['diagram', 'table', 'bms', 'legacy', 'json'];
 }
 
 function switchArchitecturePageTab(tab) {
     var allowed = allowedArchitectureTabs();
     activeArchitectureTab = allowed.indexOf(tab || '') >= 0 ? tab : allowed[0];
-    ['diagram', 'table', 'bms', 'target', 'transform', 'json'].forEach(function(name) {
+    ['diagram', 'table', 'bms', 'legacy', 'target', 'transform', 'json'].forEach(function(name) {
         var panel = document.getElementById('arch-panel-' + name);
         var button = document.getElementById('arch-tab-' + name);
         var isAllowed = allowed.indexOf(name) >= 0;
-        if (panel) panel.style.display = name === activeArchitectureTab ? (name === 'diagram' || name === 'bms' ? 'grid' : 'block') : 'none';
+        if (panel) panel.style.display = name === activeArchitectureTab ? (name === 'diagram' || name === 'bms' || name === 'legacy' ? 'grid' : 'block') : 'none';
         if (button) {
             button.style.display = isAllowed ? 'inline-flex' : 'none';
             button.classList.toggle('active', name === activeArchitectureTab);
@@ -1743,6 +1800,60 @@ function goBackToCodeWiki() {
     } else {
         window.location.href = '/static/index.html';
     }
+}
+
+var legacyEntryData = {
+    'EXECUTE': {
+        title: 'EXECUTE',
+        sourceEntry: 'JCL -> EXECUTE',
+        dataResources: 'No DB2/VSAM resource linked',
+        step1: 'Batch Job EXECUTE starts COBOL program EXECUTE',
+        step4: 'No DB2/VSAM resource was linked',
+        json: '{\n  "endpoint": "BATCH_JOB_EXECUTE",\n  "legacyJob": "EXECUTE",\n  "cobolProgram": "EXECUTE",\n  "payloadStyle": "Batch job trigger/status contract",\n  "request": {\n    "type": "Job launch parameters",\n    "expectedInputs": [\n      "job name",\n      "run parameters",\n      "dataset or file references when discovered"\n    ],\n    "driverParagraphs": [\n      "0000-MAIN-PROCESS"\n    ]\n  }\n}'
+    },
+    'ORDINV': {
+        title: 'ORDINV',
+        sourceEntry: 'JCL -> ORDINV',
+        dataResources: 'INVENTORY, OF, ORDER_STATUS',
+        step1: 'Batch Job ORDINV starts COBOL program ORDINV',
+        step4: 'COBOL reaches data/resources INVENTORY, OF, ORDER_STATUS',
+        json: '{\n  "endpoint": "BATCH_JOB_ORDINV",\n  "legacyJob": "ORDINV",\n  "cobolProgram": "ORDINV",\n  "payloadStyle": "Batch job trigger/status contract",\n  "request": {\n    "type": "Job launch parameters",\n    "expectedInputs": [\n      "job name",\n      "run parameters",\n      "dataset or file references when discovered"\n    ],\n    "driverParagraphs": [\n      "0000-MAIN-PROCESS"\n    ]\n  }\n}'
+    },
+    'ORDVAL': {
+        title: 'ORDVAL',
+        sourceEntry: 'JCL -> ORDVAL',
+        dataResources: 'CUSTOMER, ERROR-ORDER-FILE, ORDER-FILE',
+        step1: 'Batch Job ORDVAL starts COBOL program ORDVAL',
+        step4: 'COBOL reaches data/resources CUSTOMER, ERROR-ORDER-FILE, ORDER-FILE',
+        json: '{\n  "endpoint": "BATCH_JOB_ORDVAL",\n  "legacyJob": "ORDVAL",\n  "cobolProgram": "ORDVAL",\n  "payloadStyle": "Batch job trigger/status contract",\n  "request": {\n    "type": "Job launch parameters",\n    "expectedInputs": [\n      "job name",\n      "run parameters",\n      "dataset or file references when discovered"\n    ],\n    "driverParagraphs": [\n      "0000-MAIN-PROCESS"\n    ]\n  }\n}'
+    }
+};
+
+function renderLegacyDetail(key) {
+    var data = legacyEntryData[key];
+    if (!data) return;
+    
+    var titleEl = document.getElementById('legacy-detail-title');
+    var sourceEntryEl = document.getElementById('legacy-detail-source-entry');
+    var dataResourcesEl = document.getElementById('legacy-detail-data-resources');
+    var step1El = document.getElementById('legacy-detail-step-1');
+    var step4El = document.getElementById('legacy-detail-step-4');
+    var jsonEl = document.getElementById('legacy-detail-json');
+    
+    if (titleEl) titleEl.innerText = data.title;
+    if (sourceEntryEl) sourceEntryEl.innerText = data.sourceEntry;
+    if (dataResourcesEl) dataResourcesEl.innerText = data.dataResources;
+    if (step1El) step1El.innerText = data.step1;
+    if (step4El) step4El.innerText = data.step4;
+    if (jsonEl) jsonEl.innerText = data.json;
+    
+    document.querySelectorAll('[id^="legacy-item-"]').forEach(function(el) {
+        if (el.id === 'legacy-item-' + key) {
+            el.style.background = 'rgba(255,255,255,0.05)';
+        } else {
+            el.style.background = 'transparent';
+        }
+    });
 }
 
 window.addEventListener('resize', function() {

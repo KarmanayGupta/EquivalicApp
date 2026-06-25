@@ -921,8 +921,8 @@ function activateCodeWiki() {
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
           <h1 style="font-size: 16px; font-weight: 700; color: #fff; margin: 0; letter-spacing: 0.5px;">CODE WIKI</h1>
           <div style="display: flex; gap: 12px; align-items: center;">
-            <span style="background: rgba(59, 130, 246, 0.1); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.3); padding: 6px 14px; border-radius: 16px; font-size: 11px; font-weight: 700; cursor: pointer; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'" onclick="Array.from(document.querySelectorAll('.tab')).find(t => t.textContent.trim() === 'System Diagnostics')?.click()">Mainframe COBOL 66</span>
-            <span style="background: rgba(245, 158, 11, 0.1); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.3); padding: 6px 14px; border-radius: 16px; font-size: 11px; font-weight: 700; cursor: pointer; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'" onclick="Array.from(document.querySelectorAll('.tab')).find(t => t.textContent.trim() === 'System Diagnostics')?.click()">Confidence 98</span>
+            <span style="background: rgba(59, 130, 246, 0.1); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.3); padding: 6px 14px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase;">Mainframe COBOL 66</span>
+            <span style="background: rgba(245, 158, 11, 0.1); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.3); padding: 6px 14px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase;">Confidence 98</span>
             <span style="background: rgba(46, 204, 113, 0.1); color: #2ecc71; border: 1px solid rgba(46, 204, 113, 0.2); padding: 6px 14px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase;">Analysis Completed</span>
           </div>
         </div>
