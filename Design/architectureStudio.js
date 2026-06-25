@@ -1228,28 +1228,9 @@ function renderInsights(preview) {
 }
 
 function renderTargetPreview(preview) {
-    var endpoints = Array.isArray(preview.endpoints) ? preview.endpoints : [];
-    document.getElementById('architecture-target-endpoints').innerHTML = endpoints.length ? endpoints.map(function(ep) {
-        var method = ep && ep.http ? ep.http.method : 'DOC';
-        var path = ep && ep.http ? ep.http.path : 'Runner/component execution';
-        return '<div class="architecture-list-row">' +
-            '<span class="architecture-pill">' + escapeHtml(method) + '</span>' +
-            '<div class="architecture-list-title">' + escapeHtml(path) + '</div>' +
-            '<div class="architecture-list-text">' + escapeHtml(ep.category || '') + (ep.enabled === false ? ' - documented only' : '') + '</div>' +
-            '</div>';
-    }).join('') : '<div class="architecture-list-row">No endpoints projected.</div>';
-
-    var folder = preview.folderStructure || {};
-    var modules = folder.modules || [];
-    document.getElementById('architecture-target-folders').innerHTML =
-        '<ul><li><strong>' + escapeHtml(folder.root || 'project_converted') + '</strong><ul>' +
-        modules.map(function(m) {
-            return '<li><strong>' + escapeHtml(m.name || '') + '</strong> <span>(' + escapeHtml(m.type || '') + ')</span><ul>' +
-                '<li>' + escapeHtml((m.paths && m.paths.pom) || '') + '</li>' +
-                '<li>' + escapeHtml((m.paths && m.paths.srcMainJava) || '') + '</li>' +
-                '</ul></li>';
-        }).join('') +
-        '</ul></li></ul>';
+    // Cleared — awaiting new proposed endpoint data.
+    document.getElementById('architecture-target-endpoints').innerHTML = '';
+    document.getElementById('architecture-target-folders').innerHTML = '';
 }
 
 function renderRawJson() {
