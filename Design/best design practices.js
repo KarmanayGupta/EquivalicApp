@@ -222,8 +222,10 @@ async function loadBestPractices() {
         
 
         renderBestPractices(data);
-        if (loading) loading.style.display = 'none';
-        if (content) content.style.display = 'block';
+        setTimeout(() => {
+            if (loading) loading.style.display = 'none';
+            if (content) content.style.display = 'block';
+        }, 1500);
     } catch (err) {
         showError(err.message || String(err));
     }

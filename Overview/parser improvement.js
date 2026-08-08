@@ -281,7 +281,89 @@ function activateParserImprovementMode() {
       </div>
         </div>
       </div>`;
-      activateMode('Parser Improvement', 'Parser Improvement', leftHTML, displayHTML);
+      const skeletonHTML = `<div class="scroll-container" style="display:flex;flex-direction:column;gap:20px;padding:0 4px 32px;">
+        <style>
+          @keyframes skeleton-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .4; }
+          }
+          .skeleton {
+            animation: skeleton-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+          }
+        </style>
+        
+        <div style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:12px;padding:22px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:14px;border:1px solid rgba(255,255,255,0.05);">
+          <div>
+            <div class="skeleton" style="height: 26px; width: 280px; margin-bottom: 8px;"></div>
+            <div class="skeleton" style="height: 15px; width: 450px;"></div>
+          </div>
+          <div class="skeleton" style="height: 13px; width: 180px;"></div>
+        </div>
+
+        <div class="chart-wrapper dark" style="margin-bottom:0;padding:22px;border-top:2px solid rgba(255,255,255,0.05);">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+            <div>
+              <div class="skeleton" style="height: 20px; width: 250px; margin-bottom: 6px;"></div>
+              <div class="skeleton" style="height: 14px; width: 480px;"></div>
+            </div>
+            <div style="display:flex;gap:10px;">
+              <div class="skeleton" style="height: 32px; width: 140px; border-radius: 6px;"></div>
+              <div class="skeleton" style="height: 32px; width: 120px; border-radius: 6px;"></div>
+            </div>
+          </div>
+          
+          <div class="skeleton" style="height: 40px; width: 100%; border-radius: 4px; margin-bottom: 20px;"></div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-bottom: 24px;">
+            <div class="skeleton" style="height: 70px; border-radius: 8px;"></div>
+            <div class="skeleton" style="height: 70px; border-radius: 8px;"></div>
+            <div class="skeleton" style="height: 70px; border-radius: 8px;"></div>
+            <div class="skeleton" style="height: 70px; border-radius: 8px;"></div>
+          </div>
+
+          <div style="display: flex; gap: 12px; margin-bottom: 32px;">
+            <div class="skeleton" style="height: 22px; width: 50px; border-radius: 4px;"></div>
+            <div class="skeleton" style="height: 22px; width: 110px; border-radius: 4px;"></div>
+            <div class="skeleton" style="height: 22px; width: 190px; border-radius: 4px;"></div>
+            <div class="skeleton" style="height: 22px; width: 150px; border-radius: 4px;"></div>
+          </div>
+
+          <div class="skeleton" style="height: 20px; width: 280px; margin-bottom: 12px;"></div>
+          
+          <div style="background: rgba(0,0,0,0.15); border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); padding: 16px;">
+            <div style="display: flex; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 12px; margin-bottom: 16px; gap: 16px;">
+              <div class="skeleton" style="height: 16px; flex: 1;"></div>
+              <div class="skeleton" style="height: 16px; flex: 1;"></div>
+              <div class="skeleton" style="height: 16px; flex: 1;"></div>
+            </div>
+            <div style="display: flex; margin-bottom: 16px; gap: 16px;">
+              <div class="skeleton" style="height: 60px; flex: 1;"></div>
+              <div class="skeleton" style="height: 60px; flex: 1;"></div>
+              <div class="skeleton" style="height: 60px; flex: 1;"></div>
+            </div>
+            <div style="display: flex; gap: 16px;">
+              <div class="skeleton" style="height: 60px; flex: 1;"></div>
+              <div class="skeleton" style="height: 60px; flex: 1;"></div>
+              <div class="skeleton" style="height: 60px; flex: 1;"></div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+
+      activateMode('Parser Improvement', 'Parser Improvement', leftHTML, skeletonHTML);
+
+      setTimeout(() => {
+        const dp = document.querySelector('.display-panel');
+        if (dp) {
+          dp.classList.add("fade-out");
+          setTimeout(() => {
+            dp.innerHTML = displayHTML;
+            dp.classList.remove("fade-out");
+          }, 200);
+        }
+      }, 1500);
     }
 
     

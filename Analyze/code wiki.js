@@ -908,7 +908,7 @@ function activateCodeWiki() {
     let topHeader = document.getElementById('codeWikiTopHeader');
     if (topHeader) topHeader.remove();
 
-    displayPanel.innerHTML = `
+    const displayHTML = `
       <div style="padding-right: 16px; height: 100%; display: flex; flex-direction: column;">
         
         <!-- Project Info -->
@@ -1110,10 +1110,63 @@ function activateCodeWiki() {
       </div>
     `;
 
+    const skeletonHTML = `<div class="scroll-container" style="display:flex;flex-direction:column;gap:20px;padding:0 4px 32px; height: 100%;">
+      <style>
+        @keyframes skeleton-pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: .4; }
+        }
+        .skeleton {
+          animation: skeleton-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+          background: rgba(255,255,255,0.05);
+          border-radius: 4px;
+        }
+      </style>
+      <div style="padding-right: 16px; height: 100%; display: flex; flex-direction: column;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+          <div class="skeleton" style="height: 18px; width: 150px;"></div>
+          <div class="skeleton" style="height: 28px; width: 140px; border-radius: 6px;"></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <div class="skeleton" style="height: 24px; width: 120px;"></div>
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <div class="skeleton" style="height: 26px; width: 140px; border-radius: 4px;"></div>
+            <div class="skeleton" style="height: 26px; width: 120px; border-radius: 4px;"></div>
+            <div class="skeleton" style="height: 26px; width: 140px; border-radius: 4px;"></div>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,0.05); border-radius: 8px; margin-bottom: 24px; overflow: hidden;">
+          <div class="skeleton" style="height: 80px; border-radius: 0;"></div>
+          <div class="skeleton" style="height: 80px; border-radius: 0;"></div>
+          <div class="skeleton" style="height: 80px; border-radius: 0;"></div>
+        </div>
+        <div style="display: flex; gap: 24px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 24px;">
+          <div class="skeleton" style="height: 20px; width: 120px; margin-bottom: 12px;"></div>
+          <div class="skeleton" style="height: 20px; width: 140px; margin-bottom: 12px;"></div>
+        </div>
+        <div style="flex: 1; background: rgba(255,255,255,0.02); border-radius: 12px; padding: 24px; border: 1px solid rgba(255,255,255,0.05);">
+          <div class="skeleton" style="height: 24px; width: 250px; margin-bottom: 16px;"></div>
+          <div class="skeleton" style="height: 60px; width: 100%; margin-bottom: 16px;"></div>
+          <div class="skeleton" style="height: 60px; width: 100%; margin-bottom: 16px;"></div>
+          <div class="skeleton" style="height: 60px; width: 100%;"></div>
+        </div>
+      </div>
+    </div>`;
+
+    displayPanel.innerHTML = skeletonHTML;
+
     leftPanel.classList.remove("fade-out");
     displayPanel.classList.remove("fade-out");
 
-    attachWikiEvents();
+    setTimeout(() => {
+      displayPanel.classList.add("fade-out");
+      setTimeout(() => {
+        displayPanel.innerHTML = displayHTML;
+        displayPanel.classList.remove("fade-out");
+        attachWikiEvents();
+      }, 200);
+    }, 1500);
+
   }, 200);
 }
 
